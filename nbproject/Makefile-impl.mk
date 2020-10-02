@@ -24,7 +24,7 @@ CLEAN_SUBPROJECTS=${CLEAN_SUBPROJECTS_${SUBPROJECTS}}
 
 
 # Project Name
-PROJECTNAME=DC_machine_control.X
+PROJECTNAME=DC_machine_control
 
 # Active Configuration
 DEFAULTCONF=XC_16_dsPIC30F4011

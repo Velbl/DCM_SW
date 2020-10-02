@@ -40,6 +40,6 @@ int16_t main(void)
 
     while(1)
     {
-
+      //Nenad je bio ovde.
     }
 }
