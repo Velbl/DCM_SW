@@ -1,13 +1,13 @@
 <Application Description for Project Goes Here>
 
-Project Owner(s):
-Author(s):
-Hardware Platform:
-Debuggers Used:
-Programmers Used:
-MPLAB Version:
-C Compiler Version:
-Final Checksum:
+Project Owner(s):   Stefan Velbl
+Author(s):          Stefan Velbl
+Hardware Platform:  dsPIC30F4011
+Debuggers Used:     None
+Programmers Used:   ICD3
+MPLAB Version:      v5.40
+C Compiler Version: XC16
+Final Checksum:     0x590F
 
 FILES INCLUDED IN THE PROJECT TREE:
 

@@ -15,7 +15,6 @@
 #include <stdbool.h>         /* For true/false definition                     */
 
 #include "system.h"          /* variables/params used by system.c             */
-
 /******************************************************************************/
 /* System Level Functions                                                     */
 /*                                                                            */

@@ -75,3 +75,10 @@
 /******************************************************************************/
 
 /* TODO Add interrupt routine code here.                                      */
+/*Create interrupt according to XC Compiler and Asembly Linker user's guide.
+void __attribute__((interrupt(no_auto_pav))) _T1Interrupt(void)
+{
+ LATBbits.LATB5 ^= 1; //toggle light
+ IFS0bits.T1IF   = 1;    //set the flag
+}
+*/

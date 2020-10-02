@@ -27,9 +27,8 @@
 /* Main Program                                                               */
 /******************************************************************************/
 
-int16_t main(void)
+void main(void)
 {
-
     /* Configure the oscillator for the device */
     ConfigureOscillator();
 
@@ -37,9 +36,12 @@ int16_t main(void)
     InitApp();
 
     /* TODO <INSERT USER APPLICATION CODE HERE> */
-
+    IFS0bits.T1IF   = 0;    //clear the flag
+    IEC0bits.T1IE   = 1;    //enable the interrupt
+    T1CONbits.TON   = 1;    //timer 1 off
     while(1)
     {
 
-    }
-}
+    }//main loop
+    
+}//main

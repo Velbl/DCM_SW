@@ -27,7 +27,13 @@
 void InitApp(void)
 {
     /* Setup analog functionality and port direction */
-
+    TRISBbits.TRISB5 = 0;   //RB5 output
+    
     /* Initialize peripherals */
+    //Timer 1 configuration
+    T1CONbits.TON   = 0;    //timer 1 off 
+    T1CONbits.TCS   = 0;    //internal clock FF
+    T1CONbits.TCKPS = 0b10; //prescaler 1:64
+    PR1 = 3000;             //prescaler for about half a second
 }
 

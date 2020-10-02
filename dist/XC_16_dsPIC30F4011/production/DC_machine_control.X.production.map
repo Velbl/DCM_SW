@@ -59,6 +59,26 @@ c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt_
                               (__crt_start_mode_normal)
 
 
+Selected CodeGuard Options:
+  FGS:GWRP:GWRP_OFF
+  FGS:GCP:CODE_PROT_OFF
+
+CodeGuard FLASH Memory:
+  boot    (none)
+  secure  (none)
+  general 0x100 to 0x7ffe
+
+CodeGuard RAM Memory:
+  general 0x800 to 0xfff
+  secure  (none)
+  boot    (none)
+
+CodeGuard EEPROM Memory:
+  general 0x7ffc00 to 0x7fffff
+  secure  (none)
+  boot    (none)
+
+
 xc16-ld 1.60 (B)
 
 Default Code Model: Small
@@ -70,9 +90,9 @@ Default Scalar Model: Small
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
 .text                        0x100                0xfe           0x17d  (381)
-.text                        0x1fe                0x14            0x1e  (30)
+.text                        0x1fe                0x2e            0x45  (69)
 
-                 Total "program" memory used (bytes):          0x19b  (411) <1%
+                 Total "program" memory used (bytes):          0x1c2  (450) <1%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x800]
@@ -110,20 +130,22 @@ External Symbols in Program Memory (by address):
                   0x0001ec                  __AltStackError
                   0x0001f2                  __AltMathError
                   0x0001f8                  __DefaultInterrupt
-                  0x0001fe                  _main
-                  0x000206                  _ConfigureOscillator
-                  0x00020c                  _InitApp
+                  0x0001fe                  _InitApp
+                  0x000218                  _main
+                  0x000226                  _ConfigureOscillator
+                  0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x000206                  _ConfigureOscillator
-                  0x00020c                  _InitApp
+                  0x000226                  _ConfigureOscillator
+                  0x0001fe                  _InitApp
                   0x0001ce                  __AddressError
                   0x0001e6                  __AltAddressError
                   0x0001f2                  __AltMathError
                   0x0001e0                  __AltOscillatorFail
                   0x0001ec                  __AltStackError
                   0x0001f8                  __DefaultInterrupt
+                  0xf8000a                  __FGS.sec
                   0x0001da                  __MathError
                   0x0001c8                  __OscillatorFail
                   0x0001d4                  __StackError
@@ -131,7 +153,7 @@ External Symbols in Program Memory (by name):
                   0x000152                  __data_init_standard
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x0001fe                  _main
+                  0x000218                  _main
 
 Memory Configuration
 
@@ -254,8 +276,10 @@ __RESERVED1
 __RESERVED2
  *(__RESERVED2.sec*)
 
-__FGS
+__FGS             0xf8000a          0x2
  *(__FGS.sec*)
+ __FGS.sec        0xf8000a          0x2 /CW/_FGS@¨µ
+                  0xf8000a                  __FGS.sec
 
 __FICD
  *(__FICD.sec*)
@@ -269,33 +293,33 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000        0x94d
+.debug_info       0x000000        0xfc4
  *(.debug_info)
  .debug_info      0x000000        0x12e build/XC_16_dsPIC30F4011/production/configuration_bits.o
  .debug_info      0x00012e        0x126 build/XC_16_dsPIC30F4011/production/interrupts.o
- .debug_info      0x000254        0x147 build/XC_16_dsPIC30F4011/production/main.o
- .debug_info      0x00039b        0x145 build/XC_16_dsPIC30F4011/production/system.o
- .debug_info      0x0004e0        0x336 build/XC_16_dsPIC30F4011/production/traps.o
- .debug_info      0x000816        0x137 build/XC_16_dsPIC30F4011/production/user.o
+ .debug_info      0x000254        0x56e build/XC_16_dsPIC30F4011/production/main.o
+ .debug_info      0x0007c2        0x145 build/XC_16_dsPIC30F4011/production/system.o
+ .debug_info      0x000907        0x336 build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_info      0x000c3d        0x387 build/XC_16_dsPIC30F4011/production/user.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x173
+.debug_abbrev     0x000000        0x275
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0x1f build/XC_16_dsPIC30F4011/production/configuration_bits.o
  .debug_abbrev    0x00001f         0x1f build/XC_16_dsPIC30F4011/production/interrupts.o
- .debug_abbrev    0x00003e         0x43 build/XC_16_dsPIC30F4011/production/main.o
- .debug_abbrev    0x000081         0x34 build/XC_16_dsPIC30F4011/production/system.o
- .debug_abbrev    0x0000b5         0x8a build/XC_16_dsPIC30F4011/production/traps.o
- .debug_abbrev    0x00013f         0x34 build/XC_16_dsPIC30F4011/production/user.o
+ .debug_abbrev    0x00003e         0xb4 build/XC_16_dsPIC30F4011/production/main.o
+ .debug_abbrev    0x0000f2         0x34 build/XC_16_dsPIC30F4011/production/system.o
+ .debug_abbrev    0x000126         0x8a build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_abbrev    0x0001b0         0xc5 build/XC_16_dsPIC30F4011/production/user.o
 
-.debug_line       0x000000        0x242
+.debug_line       0x000000        0x397
  *(.debug_line)
  .debug_line      0x000000         0x1a build/XC_16_dsPIC30F4011/production/configuration_bits.o
  .debug_line      0x00001a         0x1a build/XC_16_dsPIC30F4011/production/interrupts.o
- .debug_line      0x000034         0x85 build/XC_16_dsPIC30F4011/production/main.o
- .debug_line      0x0000b9         0x38 build/XC_16_dsPIC30F4011/production/system.o
- .debug_line      0x0000f1        0x11d build/XC_16_dsPIC30F4011/production/traps.o
- .debug_line      0x00020e         0x34 build/XC_16_dsPIC30F4011/production/user.o
+ .debug_line      0x000034        0x107 build/XC_16_dsPIC30F4011/production/main.o
+ .debug_line      0x00013b         0x38 build/XC_16_dsPIC30F4011/production/system.o
+ .debug_line      0x000173        0x11d build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_line      0x000290        0x107 build/XC_16_dsPIC30F4011/production/user.o
 
 .debug_frame      0x000000        0x188
  *(.debug_frame)
@@ -304,9 +328,11 @@ userdata
  .debug_frame     0x00005c         0xfe build/XC_16_dsPIC30F4011/production/traps.o
  .debug_frame     0x00015a         0x2e build/XC_16_dsPIC30F4011/production/user.o
 
-.debug_str        0x000000          0xc
+.debug_str        0x000000         0x3c
  *(.debug_str)
- .debug_str       0x000000          0xc build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_str       0x000000         0x1c build/XC_16_dsPIC30F4011/production/main.o
+ .debug_str       0x00001c          0xc build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_str       0x000028         0x14 build/XC_16_dsPIC30F4011/production/user.o
 
 .debug_loc
  *(.debug_loc)
@@ -1047,40 +1073,55 @@ LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/XC_16_dsPIC30F4011/production/DC_machine_control.X.production.elf elf32-pic30)
+LOAD /CW/_FGS@¨µ
 
 .debug_pubtypes
-                  0x000060         0xa8
+                  0x000060        0x14d
  .debug_pubtypes
                   0x000060         0x12 build/XC_16_dsPIC30F4011/production/configuration_bits.o
  .debug_pubtypes
                   0x000072         0x12 build/XC_16_dsPIC30F4011/production/interrupts.o
  .debug_pubtypes
-                  0x000084         0x1e build/XC_16_dsPIC30F4011/production/main.o
+                  0x000084         0x78 build/XC_16_dsPIC30F4011/production/main.o
  .debug_pubtypes
-                  0x0000a2         0x12 build/XC_16_dsPIC30F4011/production/system.o
+                  0x0000fc         0x12 build/XC_16_dsPIC30F4011/production/system.o
  .debug_pubtypes
-                  0x0000b4         0x42 build/XC_16_dsPIC30F4011/production/traps.o
+                  0x00010e         0x42 build/XC_16_dsPIC30F4011/production/traps.o
  .debug_pubtypes
-                  0x0000f6         0x12 build/XC_16_dsPIC30F4011/production/user.o
+                  0x000150         0x5d build/XC_16_dsPIC30F4011/production/user.o
 
 __c30_signature
-                  0x000108         0x30
+                  0x0001ad         0x30
  __c30_signature
-                  0x000108          0x6 build/XC_16_dsPIC30F4011/production/configuration_bits.o
+                  0x0001ad          0x6 build/XC_16_dsPIC30F4011/production/configuration_bits.o
  __c30_signature
-                  0x00010e          0x6 build/XC_16_dsPIC30F4011/production/interrupts.o
+                  0x0001b3          0x6 build/XC_16_dsPIC30F4011/production/interrupts.o
  __c30_signature
-                  0x000114          0x6 build/XC_16_dsPIC30F4011/production/main.o
+                  0x0001b9          0x6 build/XC_16_dsPIC30F4011/production/main.o
  __c30_signature
-                  0x00011a          0x6 build/XC_16_dsPIC30F4011/production/system.o
+                  0x0001bf          0x6 build/XC_16_dsPIC30F4011/production/system.o
  __c30_signature
-                  0x000120          0x6 build/XC_16_dsPIC30F4011/production/traps.o
+                  0x0001c5          0x6 build/XC_16_dsPIC30F4011/production/traps.o
  __c30_signature
-                  0x000126          0x6 build/XC_16_dsPIC30F4011/production/user.o
+                  0x0001cb          0x6 build/XC_16_dsPIC30F4011/production/user.o
  __c30_signature
-                  0x00012c          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x0001d1          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x000132          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x0001d7          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+
+.config_ICS       0xf8000c          0x2
+ .config_ICS      0xf8000c          0x2 build/XC_16_dsPIC30F4011/production/configuration_bits.o
+
+.config_MCLRE     0xf80004          0x2
+ .config_MCLRE    0xf80004          0x2 build/XC_16_dsPIC30F4011/production/configuration_bits.o
+
+.config_WDT       0xf80002          0x2
+ .config_WDT      0xf80002          0x2 build/XC_16_dsPIC30F4011/production/configuration_bits.o
+
+.config_FCKSMEN
+                  0xf80000          0x2
+ .config_FCKSMEN
+                  0xf80000          0x2 build/XC_16_dsPIC30F4011/production/configuration_bits.o
 
 .ivt._OscillatorFail
                   0x000006          0x2
@@ -1122,10 +1163,10 @@ __c30_signature
  .aivt._AltMathError
                   0x00008c          0x2 build/XC_16_dsPIC30F4011/production/traps.o
 
-.text             0x0001fe         0x14
- .text            0x0001fe          0x8 build/XC_16_dsPIC30F4011/production/main.o
-                  0x0001fe                  _main
- .text            0x000206          0x6 build/XC_16_dsPIC30F4011/production/system.o
-                  0x000206                  _ConfigureOscillator
- .text            0x00020c          0x6 build/XC_16_dsPIC30F4011/production/user.o
-                  0x00020c                  _InitApp
+.text             0x0001fe         0x2e
+ .text            0x0001fe         0x1a build/XC_16_dsPIC30F4011/production/user.o
+                  0x0001fe                  _InitApp
+ .text            0x000218          0xe build/XC_16_dsPIC30F4011/production/main.o
+                  0x000218                  _main
+ .text            0x000226          0x6 build/XC_16_dsPIC30F4011/production/system.o
+                  0x000226                  _ConfigureOscillator
