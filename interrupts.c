@@ -69,16 +69,32 @@
 /* release. For XC16, refer to the MPLAB XC16 ASSEMBLER, LINKER AND UTILITIES */
 /* User's Guide within the <XC16 compiler instal directory>/doc folder.  The  */
 /* chapter to refer is entitled "INTERRUPT VECTOR TABLES"                     */
-/*                                                                            */
+
+/******************************************************************************/
+/* Sharing Memory problems solution.                                         */
+/******************************************************************************/
+ /* Not interruptible by level 1-7 interrupt requests and safe at any 
+ * optimization level.
+  * Save last IPL, set current IPL to level 7, execute instruction, return saved IPL.
+ */  
+#define INTERRUPT_PROTECT(x)                                                   \
+{                                                                              \
+    char saved_ipl;                                                            \
+    SET_AND_SAVE_CPU_IPL(saved_ipl,7);                                         \
+    x;                                                                         \
+    RESTORE_CPU_IPL(saved_ipl);\                                               \
+}(void) 0;                                                                     
+ 
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
 
 /* TODO Add interrupt routine code here.                                      */
-/*Create interrupt according to XC Compiler and Asembly Linker user's guide.
-void __attribute__((interrupt(no_auto_pav))) _T1Interrupt(void)
+
+void __attribute__((interrupt)) MyIRQ(void)
 {
- LATBbits.LATB5 ^= 1; //toggle light
- IFS0bits.T1IF   = 1;    //set the flag
+  LATBbits.LATB5 ^= 1;    //Toggle light
+  IFS0bits.T1IF   = 1;    //Set the flag
 }
-*/
+
+//INFO: XC16 Compiler User's Guide - Interrupts Section 14.

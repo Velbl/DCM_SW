@@ -2,7 +2,11 @@
 /* Files to Include                                                           */
 /******************************************************************************/
 
-/* Device header file */
+/** Device header file 
+ * The MPLAB X IDE generates a Makefile which controls the build process.
+ * The C compiler will generate a pre-defined macro __XC16__ and also
+  __dsPIC30F4011__. 
+ */
 #if defined(__XC16__)
     #include <xc.h>
 #elif defined(__C30__)

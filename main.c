@@ -26,8 +26,7 @@
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
-
-void main(void)
+int main(void)
 {
     /* Configure the oscillator for the device */
     ConfigureOscillator();
@@ -37,10 +36,15 @@ void main(void)
 
     /* TODO <INSERT USER APPLICATION CODE HERE> */
     IFS0bits.T1IF   = 0;    //clear the flag
-    IEC0bits.T1IE   = 1;    //enable the interrupt
+    //IEC0bits.T1IE   = 1;    //enable the interrupt (unknown needed number of cycles)
+    __write_to_IEC(IEC0bits.T1IE = 1);// proper way of enabling/disabling the wanted interrupt
     T1CONbits.TON   = 1;    //timer 1 off
+    
+    __builtin_disi(0x3FFF);//disable all interrupts
+    //protected code
+    __builtin_disi(0x0000);//enable all interrupts or using DISICNT = 0x0000;
     while(1)
     {
-
+      
     }//while loop
 }//main loop
