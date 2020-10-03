@@ -32,7 +32,6 @@
 /* then paste into this project.                                              */
 /******************************************************************************/
 
-/* TODO Fill in your configuration bits from the config bits generator here.  */
 
 // DSPIC30F4011 Configuration Bit Settings
 
@@ -54,7 +53,7 @@
 #pragma config BOREN = PBOR_ON          // PBOR Enable (Enabled)
 #pragma config LPOL = PWMxL_ACT_HI      // Low-side PWM Output Polarity (Active High)
 #pragma config HPOL = PWMxH_ACT_HI      // High-side PWM Output Polarity (Active High)
-#pragma config PWMPIN = RST_IOPIN       // PWM Output Pin Reset (Control with PORT/TRIS regs)
+#pragma config PWMPIN = RST_PWMPIN      // PWM Output Pin Reset (Control with HPOL/LPOL bits)
 #pragma config MCLRE = MCLR_EN          // Master Clear Enable (Enabled)
 
 // FGS
@@ -66,5 +65,4 @@
 
 // #pragma config statements should precede project file includes.
 // Use project enums instead of #define for ON and OFF.
-
-#include <xc.h>
+//INFO: dsPIC30F FRM Section 24. Device Configuration

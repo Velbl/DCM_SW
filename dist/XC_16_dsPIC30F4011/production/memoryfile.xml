@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project>
-  <executable name="dist/XC_16_dsPIC30F4011/production/DC_machine_control.production.elf">
+  <executable name="dist/XC_16_dsPIC30F4011/production/DC_machine_control.X.production.elf">
     <memory name="data">
       <units>bytes</units>
       <length>2048</length>

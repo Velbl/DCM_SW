@@ -41,13 +41,6 @@ void main(void)
     T1CONbits.TON   = 1;    //timer 1 off
     while(1)
     {
-<<<<<<< HEAD
 
-    }//main loop
-    
-}//main
-=======
-      //Nenad je bio ovde.
-    }
-}
->>>>>>> 84cb72dab6bed8cca5abaf933ed485ccebefe46f
+    }//while loop
+}//main loop

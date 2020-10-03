@@ -278,7 +278,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGS@®µ
+ __FGS.sec        0xf8000a          0x2 /CW/_FGSpÿµ
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -1073,7 +1073,7 @@ LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/XC_16_dsPIC30F4011/production/DC_machine_control.X.production.elf elf32-pic30)
-LOAD /CW/_FGS@®µ
+LOAD /CW/_FGSpÿµ
 
 .debug_pubtypes
                   0x000060        0x14d
