@@ -74,8 +74,7 @@
 /******************************************************************************/
 /* Sharing Memory problems solution.                                         */
 /******************************************************************************/
- /* Not interruptible by level 1-7 interrupt requests and safe at any 
- * optimization level.
+ /**Work flow:
   * Save last SRbits.IPL, set current SRbits.IPL to level 7 which means that
   * CPU will not be interrupted by any interrupt (source) with any programmed 
   * priority level, even with priority 7 interrupts.
@@ -93,7 +92,6 @@
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
-uint8_t u_Counter = 0;
 /* TODO Add interrupt routine code here.                                      */
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
