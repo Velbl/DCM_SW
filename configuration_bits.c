@@ -38,14 +38,14 @@
 // 'C' source line config statements
 
 // FOSC
-#pragma config FPR = XTL                // Primary Oscillator Mode (XTL)
-#pragma config FOS = FRC                // Oscillator Source (Internal Fast RC)
+#pragma config FPR = XT                 // Primary Oscillator Mode (XT)
+#pragma config FOS = PRI                // Oscillator Source (Primary Oscillator)
 #pragma config FCKSMEN = CSW_FSCM_OFF   // Clock Switching and Monitor (Sw Disabled, Mon Disabled)
 
 // FWDT
 #pragma config FWPSB = WDTPSB_16        // WDT Prescaler B (1:16)
 #pragma config FWPSA = WDTPSA_512       // WDT Prescaler A (1:512)
-#pragma config WDT = WDT_ON             // Watchdog Timer (Enabled)
+#pragma config WDT = WDT_OFF            // Watchdog Timer (Disabled)
 
 // FBORPOR
 #pragma config FPWRT = PWRT_64          // POR Timer Value (64ms)

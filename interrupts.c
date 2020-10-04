@@ -14,6 +14,7 @@
 #include <stdint.h>        /* Includes uint16_t definition                    */
 #include <stdbool.h>       /* Includes true/false definition                  */
 
+
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
 /******************************************************************************/
@@ -75,26 +76,40 @@
 /******************************************************************************/
  /* Not interruptible by level 1-7 interrupt requests and safe at any 
  * optimization level.
-  * Save last IPL, set current IPL to level 7, execute instruction, return saved IPL.
+  * Save last SRbits.IPL, set current SRbits.IPL to level 7 which means that
+  * CPU will not be interrupted by any interrupt (source) with any programmed 
+  * priority level, even with priority 7 interrupts.
+  * Then, execute instruction and return previous SRbits.IPL.
  */  
 #define INTERRUPT_PROTECT(x)                                                   \
 {                                                                              \
-    char saved_ipl;                                                            \
+    uint8_t saved_ipl;                                                            \
     SET_AND_SAVE_CPU_IPL(saved_ipl,7);                                         \
     x;                                                                         \
     RESTORE_CPU_IPL(saved_ipl);\                                               \
 }(void) 0;                                                                     
  
+
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
-
+uint8_t u_Counter = 0;
 /* TODO Add interrupt routine code here.                                      */
-
-void __attribute__((interrupt)) MyIRQ(void)
+void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
-  LATBbits.LATB5 ^= 1;    //Toggle light
-  IFS0bits.T1IF   = 1;    //Set the flag
+  LATFbits.LATF0 ^= 1;    //Toggle light
+  IFS0bits.T1IF   = 0;    //Set the flag
 }
 
+void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
+{
+    LATFbits.LATF1 ^= 1;    //Toggle light
+    IFS0bits.T2IF   = 0;    //Set the flag
+}
+
+void __attribute__((interrupt,no_auto_psv)) _T3Interrupt(void)
+{
+    LATFbits.LATF2 ^= 1;    //Toggle light
+    IFS0bits.T3IF   = 0;    //Set the flag
+}
 //INFO: XC16 Compiler User's Guide - Interrupts Section 14.
