@@ -41,7 +41,7 @@ int main(void)
 
     while(1)
     {
-        
+        //ANALITYC BRANCHE
     }//while loop
 }//main loop
 
