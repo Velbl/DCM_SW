@@ -6,6 +6,7 @@
                    projectFiles="true">
       <itemPath>system.h</itemPath>
       <itemPath>user.h</itemPath>
+      <itemPath>README.txt</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"

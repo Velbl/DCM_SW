@@ -31,17 +31,24 @@
 /* available to generate configuration bits source code which the user can    */
 /* then paste into this project.                                              */
 /******************************************************************************/
-
+#include "system.h"
 
 // DSPIC30F4011 Configuration Bit Settings
 
 // 'C' source line config statements
 
 // FOSC
-#pragma config FPR = XT                 // Primary Oscillator Mode (XT)
+#ifdef NO_PLL
+  #pragma config FPR = XT                 // Primary Oscillator Mode (XT)
+#elif  PLL_4
+  #pragma config FPR = XT_PLL4            // Primary Oscillator Mode (XT_4)
+#elif PLL16
+  #pragma config FPR = XT_PLL16           // Primary Oscillator Mode (XT_16)
+#endif
 #pragma config FOS = PRI                // Oscillator Source (Primary Oscillator)
 #pragma config FCKSMEN = CSW_FSCM_OFF   // Clock Switching and Monitor (Sw Disabled, Mon Disabled)
 
+//Same as writing: _FOSC(XT & PRI & CSW_FSCM_OFF);
 // FWDT
 #pragma config FWPSB = WDTPSB_16        // WDT Prescaler B (1:16)
 #pragma config FWPSA = WDTPSA_512       // WDT Prescaler A (1:512)

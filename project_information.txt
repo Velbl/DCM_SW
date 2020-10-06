@@ -3,8 +3,8 @@
 Project Owner(s):   Stefan Velbl
 Author(s):          Stefan Velbl
 Hardware Platform:  dsPIC30F4011
-Debuggers Used:     None
-Programmers Used:   ICD3
+Debuggers Used:     mikroProg Suite For PIC
+Programmers Used:   mikroProg Suite For PIC
 MPLAB Version:      v5.40
 C Compiler Version: XC16
 Final Checksum:     0x590F
@@ -16,6 +16,7 @@ reset source evaluation function prototypes, and non-peripheral
 microcontroller initialization function prototypes.  It also may contain
 system level #define macros and variables.  This file is included
 by system.c
+Here you can set FCY - frequency of one instruction execution, known also as MIPS.
 
 user.h - Contains parameters and function prototypes used in user.c for user
 level functions, for example, InitApp();
