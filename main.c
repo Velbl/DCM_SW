@@ -21,18 +21,20 @@
 /* Global Variable Declaration                                                */
 /******************************************************************************/
 
-/* i.e. uint16_t <variable_name>; */
+uint16_t u_DutyRatio = PWM_PERIOD;                    //Duty cycle = 50%
+uint16_t u_TimerArray[SIZE];
 
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
 int main(void)
 {
+
     /* Configure the oscillator for the device */
     ConfigureOscillator();
 
-    /* Initialize IO ports and peripherals */
-    InitApp();
+    /* Initialize IO ports and peripherals for dsPIC30F4011 */
+    dsPIC30F4011_v_Init();
 
     /* TODO <INSERT USER APPLICATION CODE HERE> */
     /*Another option which can solve sharing memory problems but not for 

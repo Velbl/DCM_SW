@@ -28,6 +28,23 @@
   #define FCY       ((FOSC * PLL16) / 4)  //32MIPS (milion instructions per second)
 #endif
   
+/******************************************************************************/
+/* Sharing Memory problems solution.                                         */
+/******************************************************************************/
+ /**Work flow:
+  * Save last SRbits.IPL, set current SRbits.IPL to level 7 which means that
+  * CPU will not be interrupted by any interrupt (source) with any programmed 
+  * priority level, even with priority 7 interrupts.
+  * Then, execute instruction and return previous SRbits.IPL.
+ */  
+#define INTERRUPT_PROTECT(x)                                                   \
+{                                                                              \
+    uint8_t saved_ipl;                                                         \
+    SET_AND_SAVE_CPU_IPL(saved_ipl,7);                                         \
+    x;                                                                         \
+    RESTORE_CPU_IPL(saved_ipl);\                                               \
+}(void) 0;                                                                     
+ 
 
 /******************************************************************************/
 /* System Function Prototypes                                                 */
