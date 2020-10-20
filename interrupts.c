@@ -1,7 +1,6 @@
 /******************************************************************************/
 /* Files to Include                                                           */
 /******************************************************************************/
-
 /* Device header file */
 #if defined(__XC16__)
     #include <xc.h>
@@ -13,7 +12,7 @@
 
 #include <stdint.h>        /* Includes uint16_t definition                    */
 #include <stdbool.h>       /* Includes true/false definition                  */
-
+#include "user.h"
 
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
@@ -75,21 +74,28 @@
 /* Interrupt Routines                                                         */
 /******************************************************************************/
 /* TODO Add interrupt routine code here.                                      */
+static uint16_t u_DutyRatio = PWM_PERIOD;                    //Duty cycle = 50%
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
-  LATFbits.LATF0 ^= 1;    //Toggle light
+  LATFbits.LATF1 ^= 1;    //Turn on 
+  LATFbits.LATF3 ^= 1;    //Turn on 
   IFS0bits.T1IF   = 0;    //Set the flag
 }
 
 void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 {
-    LATFbits.LATF1 ^= 1;    //Toggle light
-    IFS0bits.T2IF   = 0;    //Set the flag
+  LATFbits.LATF2 ^= 1;    //Turn on 
+  LATFbits.LATF4 ^= 1;    //Turn on 
+  IFS0bits.T2IF   = 0;    //Set the flag
 }
 
-void __attribute__((interrupt,no_auto_psv)) _T3Interrupt(void)
+void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
 {
-    LATFbits.LATF2 ^= 1;    //Toggle light
-    IFS0bits.T3IF   = 0;    //Set the flag
+    /*Update PDC1 register value*/
+    PDC1 = u_DutyRatio;
+    /*Update PDC2 register value*/
+    PDC2 = u_DutyRatio;
+    /*Enable entering to PWM interrupt routine, next time*/
+    IFS2bits.PWMIF = 0;
 }
 //INFO: XC16 Compiler User's Guide - Interrupts Section 14.

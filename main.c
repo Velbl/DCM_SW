@@ -11,18 +11,18 @@
     #endif
 #endif
 
+#include <stdlib.h>
 #include <stdint.h>        /* Includes uint16_t definition                    */
 #include <stdbool.h>       /* Includes true/false definition                  */
 
 #include "system.h"        /* System funct/params, like osc/peripheral config */
 #include "user.h"          /* User funct/params, such as InitApp              */
-
+#define NUMBER_OF_DOTS      100                    //number of dots on x axis
 /******************************************************************************/
 /* Global Variable Declaration                                                */
 /******************************************************************************/
-
-uint16_t u_DutyRatio = PWM_PERIOD;                    //Duty cycle = 50%
-uint16_t u_TimerArray[SIZE];
+uint16_t u_Cycle = 0u;
+uint16_t u_TimerArray[NUMBER_OF_DOTS];
 
 /******************************************************************************/
 /* Main Program                                                               */
@@ -30,21 +30,22 @@ uint16_t u_TimerArray[SIZE];
 int main(void)
 {
 
-    /* Configure the oscillator for the device */
-    ConfigureOscillator();
+  /* Configure the oscillator for the device */
+  ConfigureOscillator();
+  
+  /* Initialize IO ports and peripherals for dsPIC30F4011 */
+  dsPIC30F4011_v_Init();
 
-    /* Initialize IO ports and peripherals for dsPIC30F4011 */
-    dsPIC30F4011_v_Init();
-
-    /* TODO <INSERT USER APPLICATION CODE HERE> */
-    /*Another option which can solve sharing memory problems but not for 
- * interrupts with priority level 7.
- */
-
-    while(1)
+  while(1)
+  {
+    /*Create graphic representation of PTMR register values.*/
+    if (u_Cycle < NUMBER_OF_DOTS)
     {
-
-    }//while loop
+      u_TimerArray[u_Cycle] = (PTMR & 0x7FFF);
+      u_Cycle++;
+      printf("%d \n", u_TimerArray[u_Cycle]);
+    }
+  }//while loop
 }//main loop
 
 

@@ -15,7 +15,6 @@
  */
 #define FOSC      8000000L                //8MHz crystal clock
 
-
 /** FCY = Frequency of one instruction which take more than one instruction cycle.
  *  In dsPIC30F4011 one instruction takes four instruction cycles.
  *  FCY = (SYS_FREQ * PLL MULTIPLIER)/(PROGRAMMABLE POSTSCALER * 4) 
@@ -27,6 +26,7 @@
 #elif  PLL16
   #define FCY       ((FOSC * PLL16) / 4)  //32MIPS (milion instructions per second)
 #endif
+
   
 /******************************************************************************/
 /* Sharing Memory problems solution.                                         */
