@@ -1,6 +1,3 @@
-/******************************************************************************/
-/* System Level #define Macros                                                */
-/******************************************************************************/
 /** Phase Locked Loop macros.
  *  Usage of this macros need to follow Oscillator mode configuration.
  */

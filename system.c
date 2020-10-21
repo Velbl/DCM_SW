@@ -1,7 +1,3 @@
-/******************************************************************************/
-/* Files to Include                                                           */
-/******************************************************************************/
-
 /** Device header file 
  * The MPLAB X IDE generates a Makefile which controls the build process.
  * The C compiler will generate a pre-defined macro __XC16__ and also
@@ -19,25 +15,7 @@
 #include <stdbool.h>         /* For true/false definition                     */
 
 #include "system.h"          /* variables/params used by system.c             */
-/******************************************************************************/
-/* System Level Functions                                                     */
-/*                                                                            */
-/* Custom oscillator configuration funtions, reset source evaluation          */
-/* functions, and other non-peripheral microcontroller initialization         */
-/* functions get placed in system.c                                           */
-/*                                                                            */
-/******************************************************************************/
 
-/* Refer to the device Family Reference Manual Oscillator section for
-information about available oscillator configurations.  Typically
-this would involve configuring the oscillator tuning register or clock
-switching useing the compiler's __builtin_write_OSCCON functions.
-Refer to the C Compiler for PIC24F MCUs and dsPIC DSCs User Guide in the
-compiler installation directory /doc folder for documentation on the
-__builtin functions.  Refer to the XC16 C Compiler User's Guide appendix G
- for a list of the XC16 compiler __builtin functions */
-
-/* TODO Add clock switching code if appropriate.  An example stub is below.   */
 void ConfigureOscillator(void)
 {
 #if 0
@@ -53,6 +31,5 @@ void ConfigureOscillator(void)
         /* Wait for PLL to lock, if PLL is used */
         /* while(OSCCONbits.LOCK != 1); */
 #endif
-
 }
 

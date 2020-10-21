@@ -1,7 +1,3 @@
-/******************************************************************************/
-/* Files to Include                                                           */
-/******************************************************************************/
-
 /* Device header file */
 #if defined(__XC16__)
     #include <xc.h>
@@ -18,9 +14,7 @@
 #include "system.h"        /* System funct/params, like osc/peripheral config */
 #include "user.h"          /* User funct/params, such as InitApp              */
 #define NUMBER_OF_DOTS      100                    //number of dots on x axis
-/******************************************************************************/
-/* Global Variable Declaration                                                */
-/******************************************************************************/
+
 uint16_t u_Cycle = 0u;
 uint16_t u_TimerArray[NUMBER_OF_DOTS];
 

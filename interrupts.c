@@ -1,6 +1,3 @@
-/******************************************************************************/
-/* Files to Include                                                           */
-/******************************************************************************/
 /* Device header file */
 #if defined(__XC16__)
     #include <xc.h>
@@ -73,8 +70,9 @@
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
-/* TODO Add interrupt routine code here.                                      */
-static uint16_t u_DutyRatio = PWM_PERIOD;                    //Duty cycle = 50%
+
+static uint16_t u_DutyCycle = PWM_PERIOD;                     //Duty cycle = 50%
+
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
   LATFbits.LATF1 ^= 1;    //Turn on 
@@ -92,9 +90,9 @@ void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
 {
     /*Update PDC1 register value*/
-    PDC1 = u_DutyRatio;
+    PDC1 = u_DutyCycle;
     /*Update PDC2 register value*/
-    PDC2 = u_DutyRatio;
+    PDC2 = u_DutyCycle;
     /*Enable entering to PWM interrupt routine, next time*/
     IFS2bits.PWMIF = 0;
 }
