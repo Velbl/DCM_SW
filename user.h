@@ -13,7 +13,7 @@ void dsPIC30F4011_v_Init   (void);
 /*Interrupts definitions*/
 void _ISRFAST _T1Interrupt(void); 
 void _ISRFAST _T2Interrupt(void); 
-void __attribute__((interrupt)) _PWMInterrupt(void);
+void _ISRFAST _PWMInterrupt(void);
 #endif //DCM_USER
 
 

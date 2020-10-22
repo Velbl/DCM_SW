@@ -15,15 +15,12 @@
 #include "user.h"          /* User funct/params, such as InitApp              */
 #define NUMBER_OF_DOTS      100                    //number of dots on x axis
 
-uint16_t u_Cycle = 0u;
-uint16_t u_TimerArray[NUMBER_OF_DOTS];
 
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
 int main(void)
 {
-
   /* Configure the oscillator for the device */
   ConfigureOscillator();
   
@@ -32,13 +29,8 @@ int main(void)
 
   while(1)
   {
-    /*Create graphic representation of PTMR register values.*/
-    if (u_Cycle < NUMBER_OF_DOTS)
-    {
-      u_TimerArray[u_Cycle] = (PTMR & 0x7FFF);
-      u_Cycle++;
-      printf("%d \n", u_TimerArray[u_Cycle]);
-    }
+
+    
   }//while loop
 }//main loop
 

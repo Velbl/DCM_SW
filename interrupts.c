@@ -10,7 +10,7 @@
 #include <stdint.h>        /* Includes uint16_t definition                    */
 #include <stdbool.h>       /* Includes true/false definition                  */
 #include "user.h"
-
+#include "pwm.h"
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
 /******************************************************************************/
@@ -71,20 +71,18 @@
 /* Interrupt Routines                                                         */
 /******************************************************************************/
 
-static uint16_t u_DutyCycle = PWM_PERIOD;                     //Duty cycle = 50%
-
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
-  LATFbits.LATF1 ^= 1;    //Turn on 
-  LATFbits.LATF3 ^= 1;    //Turn on 
-  IFS0bits.T1IF   = 0;    //Set the flag
+  LATFbits.LATF0 ^= 1;               //Toggle RF1 pin 
+  LATFbits.LATF2  = !(LATFbits.LATF0);  //Opposite output value than RF1 pin 
+  IFS0bits.T1IF   = 0;               //Set the flag
 }
 
 void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 {
-  LATFbits.LATF2 ^= 1;    //Turn on 
-  LATFbits.LATF4 ^= 1;    //Turn on 
-  IFS0bits.T2IF   = 0;    //Set the flag
+  LATFbits.LATF1 ^= 1;              //Toggle RF2 pin
+  LATFbits.LATF3  = !(LATFbits.LATF1); //Opposite output value to RF2 pin 
+  IFS0bits.T2IF   = 0;              //Set the flag
 }
 
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
