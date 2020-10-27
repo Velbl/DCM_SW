@@ -29,8 +29,8 @@ static void v_InitTimer2()
   T2CONbits.TCS   = 0;      //internal clock FCY
   T2CONbits.TCKPS = 3;      //prescaler 1:256
   PR2 = 7812;               //1s
-  _T2IP = 3;                //Timer 3 interrupt priority level = 3
-  _T2IF = 0;                //Timer 3 interrupt flag status cleared.
+  _T2IP = 3;                //Timer 2 interrupt priority level = 3
+  _T2IF = 0;                //Timer 2 interrupt flag status cleared.
   __write_to_IEC(IEC0bits.T2IE = 1);// proper way to enable/disable wanted interrupt
   T2CONbits.TON   = 1;      //timer 3 on   
 }

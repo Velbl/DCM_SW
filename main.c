@@ -13,7 +13,6 @@
 
 #include "system.h"        /* System funct/params, like osc/peripheral config */
 #include "user.h"          /* User funct/params, such as InitApp              */
-#define NUMBER_OF_DOTS      100                    //number of dots on x axis
 
 
 /******************************************************************************/
