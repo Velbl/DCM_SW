@@ -61,15 +61,15 @@ static void v_SensorPins()
   uint8_t u_NumberOfBits = 8u;
  /**
    * PORT B pins:
-   * RB2 -> DC motor current  (ia_oa)
-   * RB3 -> VDC               (vdc_oa)
-   * RB4 -> Speed             (w_oa)
-   * RB5 -> Potentiometer WP1
-   * RB6 -> Potentiometer WP2
+   * RB1 -> DC motor current  (ia_oa)
+   * RB2 -> VDC               (vdc_oa)
+   * RB3 -> Speed             (w_oa)
+   * RB4 -> Potentiometer WP1
+   * RB5 -> Potentiometer WP2
    */
-  /*Set RB2,RB3,RB4,RB5,RB6 as analog pins.*/
+  /*Set RB0,RB1,RB2,RB3,RB4,RB5,RB6 as analog pins.*/
   //ADPCFG |= ( MASK(2) | MASK(3) | MASK(4) | MASK(5) | MASK(6) );
-  ADPCFG = 0x007C;
+  ADPCFG = 0x007F;
   //for ( u_BitsCnt = 0u; u_BitsCnt < u_NumberOfBits ; u_BitsCnt++ )
   //{
     //TRISB |= MASK(u_BitsCnt);//Set all B pins as inputs. 

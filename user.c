@@ -19,6 +19,17 @@
 #include "pwm.h"
 #include "adc.h"
 
+t_SensorValues SensorValues = 
+{
+  0u,         //Initial current is zero.
+  0u,         //Initial DC voltage is zero.
+  0u,         //Initial speed.
+  PWM_PERIOD, //Initial duty cycle is 50%
+  PWM_PERIOD  //Initial duty cycle is 50%
+};
+
+
+
 /*Initialization of all dsPIC30F4011 peripherals*/
 void dsPIC30F4011_v_Init()
 {

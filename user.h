@@ -8,6 +8,18 @@
 #define PWM_PERIOD          ((FCY/FPWM)*0.5-1)  //49-199-799, depends on configured FCY
 /*Mask for register configuratiion*/
 #define MASK(x)   ((uint16_t)(1<<x))
+
+typedef struct 
+{
+  uint16_t  u_Current;
+  uint16_t  u_VoltageDC;
+  uint16_t  u_Speed;
+  uint16_t  u_DutyCycle1;
+  uint16_t  u_DutyCycle2;
+}t_SensorValues;
+
+extern t_SensorValues SensorValues;
+
 /*Global functions definitions*/
 void dsPIC30F4011_v_Init   (void); 
 
@@ -15,6 +27,8 @@ void dsPIC30F4011_v_Init   (void);
 void _ISRFAST _T1Interrupt(void); 
 void _ISRFAST _T2Interrupt(void); 
 void _ISRFAST _PWMInterrupt(void);
+void _ISRFAST _ADCInterrupt(void);
+
 #endif //DCM_USER
 
 

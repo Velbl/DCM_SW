@@ -37,9 +37,11 @@ static void PWM_v_InterruptConfig()
   IFS2bits.PWMIF   = 0u;
   IFS2bits.FLTAIF  = 0u;
   /*Set priority for the PWM interrupt*/
-  IPC9bits.PWMIP   = 1u;
+  IPC9bits.PWMIP   = 4u;  //We MUST trigger ADC conversion in PWM interrupt.
   /*Set priority for the Fault A interrupt*/
   IPC10bits.FLTAIP = 1u;
+  /*A special event trigger will occur when the PWM time base is counting upwards.*/
+  SEVTCMPbits.SEVTDIR = 0u;
   /*Enable of interrupt PWM*/
   IEC2bits.PWMIE   = 1u;
   /*Disable of interrupt Fault A*/
@@ -72,25 +74,22 @@ static void PWM_v_PWMConfig(uint16_t u_Period)
   PTCONbits.PTCKPS0 = 0u;
   /*Interrupt generated every time when PTMR = 0 (in chosen PTMOD3) 1:1 Postscale*/
   PTCONbits.PTOPS   = 0u;
+  /*PWM Special Event Trigger Output post scale Select bits 1:16*/
+  PWMCON2bits.SEVOPS = 15u;
   /*PWM time base is ON*/
   PTCONbits.PTEN    = 0x01u;
 }
 
 void PWM_v_Init()
-{
-  /**
-   * Clear PWM interrupt flag.
-   * Set PWM interrupt priority to 1.
-   * Enable PWM interrupt.
-   */
-  PWM_v_InterruptConfig();
+{ 
   /**
    * Set PDC1 channel.
    * Set initial duty cycle to 50%.
    * Disable UDIS bit.
    */
   PWM_v_SetDutyCycle(1,u_DutyCycle,0);
-    /**
+  
+  /**
    * Set PDC2 channel.
    * Set initial duty cycle to 50%.
    * Disable UDIS bit.
@@ -104,6 +103,13 @@ void PWM_v_Init()
    * Enable PWM timer.
    */
   PWM_v_PWMConfig(PWM_PERIOD);
+  
+  /**
+   * Clear PWM interrupt flag.
+   * Set PWM interrupt priority to 1.
+   * Enable PWM interrupt.
+   */
+  PWM_v_InterruptConfig();
 }
 
 

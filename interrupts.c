@@ -87,11 +87,19 @@ void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
 {
-    /*Update PDC1 register value*/
-    PDC1 = u_DutyCycle;
-    /*Update PDC2 register value*/
-    PDC2 = u_DutyCycle;
-    /*Enable entering to PWM interrupt routine, next time*/
-    IFS2bits.PWMIF = 0;
+  //uint16_t* p_ADCValue = &(ADCBUF0);
+  /*Update PDC1 register value*/
+  PDC1 = PWM_PERIOD;//*(p_ADCValue);//SensorValues.u_DutyCycle1;
+  /*Update PDC2 register value*/
+  PDC2 = PWM_PERIOD;//*(p_ADCValue);//SensorValues.u_DutyCycle2;
+  /*Enable entering to PWM interrupt routine, next time*/
+  IFS2bits.PWMIF = 0;
 }
+
+void __attribute__((interrupt,no_auto_psv)) _ADCInterrupt(void)
+{
+  /*Enable entering to ADC interrupt routine, next time*/
+  IFS0bits.ADIF = 0u;
+}
+
 //INFO: XC16 Compiler User's Guide - Interrupts Section 14.
