@@ -5,4 +5,5 @@ system.h  \
  IO_ports.h  \
 timers.h  \
 pwm.h  \
-adc.h 
+adc.h  \
+uart.h 

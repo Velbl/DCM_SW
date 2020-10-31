@@ -7,6 +7,7 @@
 
 #ifndef ADC_H
 #define	ADC_H
+#include "system.h"
 
 void ADC_v_Convert(void);
 uint16_t ADC_v_Read(uint8_t);

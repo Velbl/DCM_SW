@@ -73,16 +73,14 @@
 
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
-  LATFbits.LATF0 ^= 1;               //Toggle RF1 pin 
-  LATFbits.LATF2  = !(LATFbits.LATF0);  //Opposite output value than RF1 pin 
-  IFS0bits.T1IF   = 0;               //Set the flag
+  LATFbits.LATF0 ^= 1;               //Toggle RF0 pin 
+  IFS0bits.T1IF   = 0;               //Reset the flag
 }
 
 void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 {
-  LATFbits.LATF1 ^= 1;              //Toggle RF2 pin
-  LATFbits.LATF3  = !(LATFbits.LATF1); //Opposite output value to RF2 pin 
-  IFS0bits.T2IF   = 0;              //Set the flag
+  LATFbits.LATF1 ^= 1;              //Toggle RF1 pin
+  IFS0bits.T2IF   = 0;              //Reset the flag
 }
 
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)

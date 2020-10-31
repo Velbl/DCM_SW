@@ -18,6 +18,7 @@
 #include "timers.h"
 #include "pwm.h"
 #include "adc.h"
+#include "uart.h"
 
 t_SensorValues SensorValues = 
 {
@@ -37,4 +38,5 @@ void dsPIC30F4011_v_Init()
   Timers_v_Init();
   PWM_v_Init();
   ADC_v_Init();
+  UART_v_Init();
 }
