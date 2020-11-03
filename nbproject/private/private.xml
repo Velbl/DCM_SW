@@ -3,12 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/configuration_bits.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/timers.c</file>
             <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/user.c</file>
             <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/adc.h</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/user.h</file>
             <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/uart.c</file>
             <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/system.h</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/interrupts.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/nbproject/Makefile-XC_16_dsPIC30F4011.mk</file>
             <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/adc.c</file>
             <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/main.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/IO_ports.c</file>
         </group>
     </open-files>
 </project-private>

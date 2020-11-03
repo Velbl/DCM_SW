@@ -2,9 +2,9 @@
  *  Usage of this macros need to follow Oscillator mode configuration.
  */
   /*Select wanted MIPS configuration.*/
-  #define   PLL1   (1)                    //2MIPS (milion instructions per second)
-  //#define PLL4   (4)                    //8MIPS (milion instructions per second)
-  //#define PLL16  (16)                  //32MIPS (milion instructions per second)
+  //#define   PLL1   (1)                    //2MIPS (milion instructions per second)
+  #define PLL4     (4)                    //8MIPS (milion instructions per second)
+  //#define PLL16    (16)                  //32MIPS (milion instructions per second)
 
 
 /** Oscillator frequency 

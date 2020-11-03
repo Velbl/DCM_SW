@@ -9,27 +9,22 @@
 
 #include "uart.h"
 
-#define BAUDRATE     9600
-#define BRGVAL       ((FOSC*PLL1)/(4*16*BAUDRATE))-1
-
 void UART_v_Init()
 {
-  //Disable UART.
-  U1MODEbits.UARTEN = 0u; 
-  //Set baud rate register value for wanted baud rate (9600).
-  U1BRG = (uint16_t) BRGVAL;
-  //8-bit data, no parity.
-  U1MODEbits.PDSEL = 0x00u;
-  //1 Stop bit.
-  U1MODEbits.STSEL = 0u;
-  //Baud rate measurement is disabled or complete.
-  U1MODEbits.ABAUD = 0u;
-  //Disable UART TX interrupt.
-  IEC0bits.U1TXIE = 0u; 
-  //Disable UART RX interrupt.
-  IEC0bits.U1RXIE = 0u;
-  //Enable UART.
-  U1MODEbits.UARTEN = 1; 
-  // Enable UART TX.
-  U1STAbits.UTXEN = 1; 
+  U1MODEbits.UARTEN = 0u;      //Disable UART.
+  U1MODEbits.STSEL = 0;        // 1-Stop bit
+  U1MODEbits.PDSEL = 0;        // No Parity, 8-Data bits
+  U1MODEbits.ABAUD = 0;        // Auto-Baud disabled
+
+  //BRGVAL = ((FOSC*PLL1)/(4*16*BAUDRATE))-1
+  //For PLL1 -> BRGVAL = 13
+  //For PLL4 -> BRGVAL = 52
+  U1BRG = 52;                  // Baud Rate set to 9600    
+  U1STAbits.UTXISEL = 0u;      // Interrupt after one TX character is transmitted
+  IEC0bits.U1TXIE = 0;         // Enable UART TX interrupt
+  U1MODEbits.UARTEN = 1;       // Enable UART
+  IPC2bits.U1TXIP = 1u;
+  U1STAbits.UTXEN = 1;         // Enable UART TX
 }
+
+//Maximum U1TXREG size is 255 in decimal.

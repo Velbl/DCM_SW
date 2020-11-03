@@ -38,13 +38,15 @@
 // 'C' source line config statements
 
 // FOSC
-#ifdef NO_PLL
+#ifdef PLL1
   #pragma config FPR = XT                 // Primary Oscillator Mode (XT)
-#elif  PLL_4
+#else
   #pragma config FPR = XT_PLL4            // Primary Oscillator Mode (XT_4)
-#elif PLL16
-  #pragma config FPR = XT_PLL16           // Primary Oscillator Mode (XT_16)
 #endif
+
+//#if PLL16
+// #pragma config FPR = XT_PLL16           // Primary Oscillator Mode (XT_16)
+
 #pragma config FOS = PRI                // Oscillator Source (Primary Oscillator)
 #pragma config FCKSMEN = CSW_FSCM_OFF   // Clock Switching and Monitor (Sw Disabled, Mon Disabled)
 
