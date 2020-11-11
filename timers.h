@@ -9,5 +9,6 @@
 #define	TIMERS_H
 
 void Timers_v_Init(void);
+
 #endif	/* TIMERS_H */
 

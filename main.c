@@ -18,8 +18,9 @@
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
-void v_1sDelay(void);
-void v_500msDelay(void);
+static void v_1sDelay(void);
+static void v_500msDelay(void);
+
 void UART_v_Busy(void);
 
 int main(void)
@@ -35,15 +36,14 @@ int main(void)
   
   while(1)
   {
-    //v_500msDelay();
-    U1TXREG = 220u;
+    U1TXREG = u_ADCValue;
     UART_v_Busy();
 
   }//while loop
 }//main loop
 
 
-void v_500msDelay(void)
+static void v_500msDelay(void)
 {
   //Timer 1 is counting.
   while ( IFS0bits.T1IF != 1u )
@@ -52,22 +52,13 @@ void v_500msDelay(void)
   }
 }
 
-void v_1sDelay(void)
+static void v_1sDelay(void)
 {
   //Timer 2 is counting. 
   while ( IFS0bits.T2IF != 1u )
   {
     //Do nothing.
   }
-}
-
-void UART_v_Busy(void)
-{
-    //Transmission is in progress.
-    while ( U1STAbits.TRMT != 1u )
-    {
-      //Do nothing.
-    }
 }
 
 /**INFO: Another solution for sharing memory problems.

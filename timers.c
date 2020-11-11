@@ -6,10 +6,7 @@
         #include <p30Fxxxx.h>
     #endif
 #endif
-
-static void v_InitTimer1(void);
-static void v_InitTimer2(void);
-
+#include "timers.h"
 
 static void v_InitTimer1()
 {
@@ -24,11 +21,10 @@ static void v_InitTimer1()
 
 static void v_InitTimer2()
 {
-  /*Timer 2*/
   T2CONbits.TCS   = 0;      //internal clock (FOSC/4)
   T2CONbits.TCKPS = 3;      //prescaler 1:256
   // PR = (Wanted Time) / (FOSC / TCS); TCS = FOSC/4 
-  PR2 = 30769;               //1s
+  PR2 = 30769;              //1s
   _T2IP = 2;                //Timer 2 interrupt priority level = 3
   _T2IF = 0;                //Timer 2 interrupt flag status cleared.
   __write_to_IEC(IEC0bits.T2IE = 1);// proper way to enable/disable wanted interrupt
@@ -37,6 +33,6 @@ static void v_InitTimer2()
 
 void Timers_v_Init()
 {
-    v_InitTimer1();
-    v_InitTimer2();
+  v_InitTimer1();
+  v_InitTimer2();
 }

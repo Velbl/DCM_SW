@@ -9,8 +9,10 @@
 #define	ADC_H
 #include "system.h"
 
-void ADC_v_Convert(void);
+//A/D converter interface for reading of the A/D buffer values.
 uint16_t ADC_v_Read(uint8_t);
+
+//A/D converter initialization interface.
 void ADC_v_Init(void);
 
 #endif	/* ADC_H */

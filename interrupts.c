@@ -7,7 +7,7 @@
     #endif
 #endif
 
-#include <stdint.h>        /* Includes uint16_t definition                    */
+#include <stdint.h>        
 #include "user.h"
 #include "pwm.h"
 /******************************************************************************/
@@ -70,7 +70,6 @@
 /* Interrupt Routines                                                         */
 /******************************************************************************/
 
-
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
   LATFbits.LATF0 ^= 1;               //Toggle RF0 pin 
@@ -94,14 +93,8 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
   IFS2bits.PWMIF = 0;
 }
 
-void __attribute__((interrupt,no_auto_psv)) _ADCInterrupt(void)
-{
-  /*Enable entering to ADC interrupt routine, next time*/
-  IFS0bits.ADIF = 0u;
-}
 void __attribute__((interrupt,no_auto_psv)) _U1TXInterrupt(void)
 {
   IFS0bits.U1TXIF = 0; // Clear TX Interrupt flag
-  //U1TXREG = 220u; // Transmit one character
 }
 //INFO: XC16 Compiler User's Guide - Interrupts Section 14.

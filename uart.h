@@ -10,6 +10,10 @@
 
 #include "system.h"
 
+//UART TX line is occupied, transmission is in progress.
+void UART_v_Busy(void);
+
+//UART initialization interface.
 void UART_v_Init();
 
 #endif	/* UART_H */

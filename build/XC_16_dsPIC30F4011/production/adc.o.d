@@ -1,4 +1,5 @@
 build/XC_16_dsPIC30F4011/production/adc.o:  \
 adc.c  \
-user.h  \
-system.h 
+adc.h  \
+system.h  \
+user.h 

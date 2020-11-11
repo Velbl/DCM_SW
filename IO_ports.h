@@ -8,6 +8,8 @@
 #ifndef IO_PORTS_H
 #define	IO_PORTS_H
 
+//I/O peripheral initialization interface.
 void Ports_v_Init(void);
+
 #endif	/* IO_PORTS_H */
 

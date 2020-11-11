@@ -10,61 +10,38 @@
 #include "IO_ports.h"
 #include "user.h"
 
-static void v_GPIOPins(void);
-static void v_ControlPins(void);
-static void v_SensorPins(void);
-
-
-
 static void v_GPIOPins()
 {
-  /**
-   * Test timer interrupts and oscillator configuration via led outputs on PORT F.
-   */
-  /*Set RF0 ... RF5 pins as outputs.*/
-  TRISFbits.TRISF0 = 0u; 
-  TRISFbits.TRISF1 = 0u;
-  TRISFbits.TRISF2 = 0u;
-  TRISFbits.TRISF3 = 0u;
-  TRISFbits.TRISF4 = 0u;
-  TRISFbits.TRISF5 = 0u;
+/****************************TEST PINS*****************************************/
+  TRISFbits.TRISF0 = 0u;  //Set RF0 pin as output.
+  TRISFbits.TRISF1 = 0u;  //Set RF1 pin as output.
+  TRISFbits.TRISF2 = 0u;  //Set RF2 pin as output.
+  TRISFbits.TRISF3 = 0u;  //Set RF3 pin as output.
+  TRISFbits.TRISF4 = 0u;  //Set RF4 pin as output.
+  TRISFbits.TRISF5 = 0u;  //Set RF5 pin as output.
+/******************************************************************************/
 }
+
 static void v_ControlPins()
 {
- /**
-   * PWM:
-   * RE0 -> G1
-   * RE1 -> G2
-   * RE2 -> G3
-   * RE3 -> G4
-   *
-   * MOSFET:
-   * RE4 -> G5 
-   * 
-   * Thyristor:
-   * RE5 -> GT1 
-   */
-  /*Set RE0 ... RE5 pins as outputs.*/
-  TRISE |= ( MASK(0) | MASK(1) | MASK(2) | MASK(3) | MASK(4) | MASK(5));
+/*****************************PWM PINS*****************************************/
+  TRISEbits.TRISE0 = 0u;  //Set RE0 pin as output.(PWM1L)
+  TRISEbits.TRISE1 = 0u;  //Set RE1 pin as output.(PWM1H)
+  TRISEbits.TRISE2 = 0u;  //Set RE2 pin as output.(PWM2L)
+  TRISEbits.TRISE3 = 0u;  //Set RE3 pin as output.(PWM2H)
+/******************************************************************************/
+  
+  TRISEbits.TRISE4 = 0u;  //Set RE4 pin as output.Pin for MOSFET control.
+  TRISEbits.TRISE5 = 0u;  //Set RE5 pin as output.Pin for Thyristor control.
 }
 static void v_SensorPins()
 {
-  uint8_t u_BitsCnt;
-  uint8_t u_NumberOfBits = 8u;
- /**
-   * PORT B pins:
-   * RB1 -> DC motor current  (ia_oa)
-   * RB2 -> VDC               (vdc_oa)
-   * RB3 -> Speed             (w_oa)
-   * RB4 -> Potentiometer WP1
-   * RB5 -> Potentiometer WP2
-   */
-  /*Set RB0,RB1,RB2,RB3,RB4,RB5,RB6 as analog pins.*/
-  ADPCFG |= ( MASK(2) | MASK(3) | MASK(4) | MASK(5) | MASK(6) );
-  for ( u_BitsCnt = 0u; u_BitsCnt < u_NumberOfBits ; u_BitsCnt++ )
-  {
-    TRISB |= MASK(u_BitsCnt);//Set all B pins as inputs. 
-  }
+/*****************************SENSOR PINS**************************************/
+  TRISBbits.TRISB0 = 1u;  //Set RB0 pin as input.(current)
+  TRISBbits.TRISB1 = 1u;  //Set RB1 pin as input.(voltage)
+  TRISBbits.TRISB2 = 1u;  //Set RB2 pin as input.(speed)
+  TRISBbits.TRISB3 = 1u;  //Set RB3 pin as input.(ref current/speed)
+/******************************************************************************/
 }
 
 void Ports_v_Init()

@@ -10,106 +10,71 @@
 #include "user.h"
 #include "adc.h" 
 
-static void PWM_v_SetDutyCycle(uint16_t , uint16_t , uint8_t );
-static void PWM_v_InterruptConfig(void);
-static void PWM_v_PWMConfig(uint16_t);
-
-/*Set duty cycle via potentiometer.*/
+//Set duty cycle via potentiometer.
 uint16_t u_DutyCycle = PWM_PERIOD;
 
-
-static void PWM_v_SetDutyCycle(uint16_t u_PDCx, uint16_t u_DutyRatio, uint8_t u_UpdateDisable)
+void PWM_v_SetDutyCycle(uint16_t u_PDCx, uint16_t u_DutyRatio, uint8_t u_UpdateDisable)
 {
-  PWMCON2bits.UDIS = u_UpdateDisable & 0x01;
-  /*UDIS bit is activated*/
-  if ( PWMCON2bits.UDIS == 0x01u)
-  {
-    /* IUE bit must be disabled*/
-    PWMCON2bits.IUE = 0x00u;     
-  }
-  /*Set wanted duty cycle value in wanted duty cycle register*/
-  *(&PDC1+ u_PDCx - 1) = u_DutyRatio; 
-}
-
-static void PWM_v_InterruptConfig()
-{   
-  /*Clear the interrupt flags*/
-  IFS2bits.PWMIF   = 0u;
-  IFS2bits.FLTAIF  = 0u;
-  /*Set priority for the PWM interrupt*/
-  IPC9bits.PWMIP   = 4u;  //We MUST trigger ADC conversion in PWM interrupt.
-  /*Set priority for the Fault A interrupt*/
-  IPC10bits.FLTAIP = 1u;
-  /*A special event trigger will occur when the PWM time base is counting upwards.*/
-  SEVTCMPbits.SEVTDIR = 0u;
-  /*Enable of interrupt PWM*/
-  IEC2bits.PWMIE   = 1u;
-  /*Disable of interrupt Fault A*/
-  IEC2bits.FLTAIE  = 0u;
+  PWMCON2bits.UDIS = u_UpdateDisable & 0x01; //Updates from duty cycle and period buffer registers are disabled.
+  
+  *(&PDC1+ u_PDCx - 1) = u_DutyRatio;        //Set wanted duty cycle value in wanted duty cycle register.
+  
+  PWMCON2bits.UDIS = 0u;                     //Updates from duty cycle and period buffer registers are enabled.
 }
 
 static void PWM_v_PWMConfig(uint16_t u_Period)
 {
-  /*Set to 20KHz*/
-  PTPER  = u_Period;
-  /*PWM1H pin is enabled for PWM output*/
-  PWMCON1bits.PEN1H = 0x01u;
-  /*PWM1L pin is enabled for PWM output*/
-  PWMCON1bits.PEN1L = 0x01u;
-  /*PWM2H pin is enabled for PWM output*/
-  PWMCON1bits.PEN2H = 0x01u;
-  /*PWM2L pin is enabled for PWM output*/
-  PWMCON1bits.PEN2L = 0x01u;
-  /*PWM3H pin is disabled for PWM output*/
-  PWMCON1bits.PEN3H = 0x00u;
-  /*PWM3L pin is disabled for PWM output*/
-  PWMCON1bits.PEN3L = 0x00u;
-  /*PWM1H & PWM1L pins are in complementary mode*/
-  PWMCON1bits.PMOD1 = 0x00u;
-  /*PWM2H & PWM2L pins are in complementary mode*/
-  PWMCON1bits.PMOD2 = 0x00u;
-  /*PWM time base operates in a continuous up/down (triangular carrier) counting mode*/
-  PTCONbits.PTMOD   = 3u;
-  /*PWM time base input clock period is TCY (1:1 prescale)*/
-  PTCONbits.PTCKPS0 = 0u;
-  /*Interrupt generated every time when PTMR = 0 (in chosen PTMOD3) 1:1 Postscale*/
-  PTCONbits.PTOPS   = 0u;
-  /*PWM Special Event Trigger Output post scale Select bits 1:16*/
-  PWMCON2bits.SEVOPS = 15u;
-  /*PWM time base is ON*/
-  PTCONbits.PTEN    = 0x01u;
+  PTCONbits.PTEN     = 0u;    //PWM time base is OFF.
+  PTPER = u_Period;           //Set PWM frequency to 20KHz.
+
+/*******************************PTCON register*********************************/
+  PTCONbits.PTSIDL   = 1u;    //PWM time base halts in CPU Idle mode.
+  PTCONbits.PTOPS    = 0x00u; //1:1 Postscale.
+  PTCONbits.PTCKPS   = 0x00u; //PWM time bas input clock period is Tcy (1:1 prescale).
+  PTCONbits.PTMOD    = 0x02u; //PWM time base operates in a continuous up/down.
+/******************************************************************************/
+  
+/******************************PWMCON1 register********************************/
+  PWMCON1bits.PMOD1  = 0u;    //PWM I/O pin pair is in the complementary output mode.
+  PWMCON1bits.PMOD2  = 0u;    //PWM I/O pin pair is in the complementary output mode
+  PWMCON1bits.PEN1H  = 1u;    //PWM1H pin is enabled for PWM output.
+  PWMCON1bits.PEN1L  = 1u;    //PWM1L pin is enabled for PWM output.
+  PWMCON1bits.PEN2H  = 1u;    //PWM2H pin is enabled for PWM output.
+  PWMCON1bits.PEN2L  = 1u;    //PWM2L pin is enabled for PWM output.
+/******************************************************************************/
+  
+/*******************************PWMCON2 register*******************************/
+  PWMCON2bits.SEVOPS = 0x01u; //PWM Special Event Trigger Output Postscale bit is set to 1.
+  PWMCON2bits.OSYNC  = 1u;    //Output overrides via the OVDCON register are synchronized to the PWM time base.
+  PWMCON2bits.UDIS   = 0u;    //Updates from duty cycle and period buffer registers are enabled.
+/******************************************************************************/
+  
+  DTCON1bits.DTA    = 0x00u;  //Clock period for Dead Time Unit A is TCY.
+
+/******************************OVDCON register*********************************/
+  OVDCONbits.POVD1H = 1u;     //Output on PWM1H I/O pin is controlled by the PWM generator.
+  OVDCONbits.POVD1L = 1u;     //Output on PWM1L I/O pin is controlled by the PWM generator.
+  OVDCONbits.POVD2H = 1u;     //Output on PWM2H I/O pin is controlled by the PWM generator.
+  OVDCONbits.POVD2L = 1u;     //Output on PWM2l I/O pin is controlled by the PWM generator.
+/******************************************************************************/
+  
+/*******************************PWM INTERRUPT CONFIG***************************/
+  IFS2bits.PWMIF      = 0u;   //Clear the interrupt flags.
+  SEVTCMPbits.SEVTDIR = 1u;   //A special event trigger will occur when the PWM time base is counting downwards.
+  IPC9bits.PWMIP      = 0x05u;//We MUST trigger ADC conversion in PWM interrupt.
+  IEC2bits.PWMIE      = 1u;   //Enable PWM interrupt.
+/******************************************************************************/ 
+  
+  PTCONbits.PTEN    = 1u;     //PWM time base is ON.
 }
 
 void PWM_v_Init()
 { 
-  /**
-   * Set PDC1 channel.
-   * Set initial duty cycle to 50%.
-   * Disable UDIS bit.
-   */
-  PWM_v_SetDutyCycle(1,u_DutyCycle,0);
+  PWM_v_SetDutyCycle(1,u_DutyCycle,0); //Set initial duty cycle in PDC1 register to 50%.
   
-  /**
-   * Set PDC2 channel.
-   * Set initial duty cycle to 50%.
-   * Disable UDIS bit.
-   */
-  PWM_v_SetDutyCycle(2,u_DutyCycle,0);
-  /**
-   * Set PTPER register value.
-   * Enable PWM1H,PWM1L,PWM2H and PWM2L pins.
-   * Set complementary mode for PWM pins.
-   * Set continuous up/down counting mode for PWM timer.
-   * Enable PWM timer.
-   */
+  PWM_v_SetDutyCycle(2,u_DutyCycle,0); //Set initial duty cycle in PDC2 register to 50%.
+
   PWM_v_PWMConfig(PWM_PERIOD);
-  
-  /**
-   * Clear PWM interrupt flag.
-   * Set PWM interrupt priority to 1.
-   * Enable PWM interrupt.
-   */
-  PWM_v_InterruptConfig();
 }
 
 
