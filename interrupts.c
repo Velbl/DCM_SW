@@ -84,17 +84,20 @@ void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
 {
-  //uint16_t* p_ADCValue = &(ADCBUF0);
-  /*Update PDC1 register value*/
-  PDC1 = PWM_PERIOD;//*(p_ADCValue);//SensorValues.u_DutyCycle1;
-  /*Update PDC2 register value*/
-  PDC2 = PWM_PERIOD;//*(p_ADCValue);//SensorValues.u_DutyCycle2;
+  //A/D is currently filling buffer 0x08-0x0F.
+  if ( ADCON2bits.BUFS == 1u )
+  {
+   //Access data in buffer 0x03.
+    PDC1 = ADCBUF3;                //Set duty cycle reference via potentiometer.
+    PDC2 = PDC1;
+  }
+  
   /*Enable entering to PWM interrupt routine, next time*/
   IFS2bits.PWMIF = 0;
 }
 
 void __attribute__((interrupt,no_auto_psv)) _U1TXInterrupt(void)
 {
-  IFS0bits.U1TXIF = 0; // Clear TX Interrupt flag
+
 }
 //INFO: XC16 Compiler User's Guide - Interrupts Section 14.

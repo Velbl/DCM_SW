@@ -16,7 +16,7 @@ static void ADC_v_Config()
   
 /*******************************ADCON1 register********************************/
   ADCON1bits.ADSIDL = 1u;    //Discontinue module operation when device enters Idle mode.
-  ADCON1bits.FORM   = 0x03u; //Signed Fractional (DOUT = sddd dddd dd00 0000).
+  ADCON1bits.FORM   = 0x00u; //Integer (DOUT = 0000 00dd dddd dddd)
   ADCON1bits.SSRC   = 0x03u; //Motor Control PWM interval ends sampling and starts conversion.
   ADCON1bits.SIMSAM = 1u;    //Samples CH0, CH1, CH2, CH3 simultaneously (when CHPS = 1x).
   ADCON1bits.ASAM   = 1u;    //Sampling begins immediately after last conversion completes. SAMP bit is auto set.  

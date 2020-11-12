@@ -8,16 +8,7 @@
 #endif
 
 #include "uart.h"
-
-void UART_v_Busy(void)
-{
-  //Transmission is in progress.
-  while ( U1STAbits.TRMT != 1u )
-  {
-    //Wait until transmission is done.
-  }
-  //Transmission is completed.
-}
+#include <stdbool.h>       /* Includes true/false definition                  */
 
 void UART_v_Init()
 {
@@ -37,7 +28,7 @@ void UART_v_Init()
 /******************************UART INTERRUPT CONFIG***************************/  
   U1STAbits.UTXISEL = 0u;      //Interrupt after one TX character is transmitted from U1TXB to U1TSR.Transmit buffer has at least one empty word.
   IFS0bits.U1TXIF   = 0u;      //Clear interrupt flag.
-  IEC0bits.U1TXIE   = 1u;      //Enable UART TX interrupt
+  IEC0bits.U1TXIE   = 0u;      //Disable UART TX interrupt
   IPC2bits.U1TXIP   = 1u;      //UART interrupt priority.    
 /******************************************************************************/
   

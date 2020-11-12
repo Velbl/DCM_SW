@@ -24,7 +24,7 @@ static void v_InitTimer2()
   T2CONbits.TCS   = 0;      //internal clock (FOSC/4)
   T2CONbits.TCKPS = 3;      //prescaler 1:256
   // PR = (Wanted Time) / (FOSC / TCS); TCS = FOSC/4 
-  PR2 = 30769;              //1s
+  PR2 = 3076;               //100ms
   _T2IP = 2;                //Timer 2 interrupt priority level = 3
   _T2IF = 0;                //Timer 2 interrupt flag status cleared.
   __write_to_IEC(IEC0bits.T2IE = 1);// proper way to enable/disable wanted interrupt

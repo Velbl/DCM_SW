@@ -18,30 +18,45 @@
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
-static void v_1sDelay(void);
+static void v_100msDelay(void);
 static void v_500msDelay(void);
 
 void UART_v_Busy(void);
 
 int main(void)
-{
-  //Pointer to ADC buffer 0.
-  uint16_t* p_ADCBuffer = (uint16_t*) &(ADCBUF0); 
-  uint8_t u_BufferCnt;
-  uint16_t u_ADCValue = 55u;
+{ 
 
   /* Initialize IO ports and peripherals for dsPIC30F4011 */
   dsPIC30F4011_v_Init();
-  v_1sDelay();
   
   while(1)
   {
-    U1TXREG = u_ADCValue;
-    UART_v_Busy();
+/********************************WRITING ON TERMINAL***************************/
 
+    //Start signal.
+    U1TXREG = 255u; 
+    
+    //The last transmission has completed.
+    if ( U1STAbits.TRMT == 1)
+    {
+      //Write Ia measured.
+      U1TXREG = 0;
+
+      //Write Ua measured.
+      U1TXREG = 1;
+
+      //Write measured speed.
+      U1TXREG = 2;
+
+      //Write parameter reference from potentiometer.
+      U1TXREG = (PDC1/2);
+    }
+    v_100msDelay();
+
+
+/******************************************************************************/
   }//while loop
 }//main loop
-
 
 static void v_500msDelay(void)
 {
@@ -52,7 +67,9 @@ static void v_500msDelay(void)
   }
 }
 
-static void v_1sDelay(void)
+
+
+static void v_100msDelay(void)
 {
   //Timer 2 is counting. 
   while ( IFS0bits.T2IF != 1u )
