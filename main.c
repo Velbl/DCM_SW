@@ -25,9 +25,17 @@ void UART_v_Busy(void);
 
 int main(void)
 { 
-
-  /* Initialize IO ports and peripherals for dsPIC30F4011 */
+  //Initialize all peripherals for dsPIC30F4011.
   dsPIC30F4011_v_Init();
+  
+  //Initialize DC machine parameters.
+  DCM_v_Init();
+  
+  //Initialize sensor values.
+  Sensor_v_Init();
+  
+  //Set current & speed PI regulator parameters.
+  PIReg_v_SetParameters();
   
   while(1)
   {

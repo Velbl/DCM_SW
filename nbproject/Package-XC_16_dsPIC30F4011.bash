@@ -10,9 +10,9 @@ CND_CONF=XC_16_dsPIC30F4011
 CND_DISTDIR=dist
 TMPDIR=build/${CND_CONF}/${IMAGE_TYPE}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/DC_machine_control.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-OUTPUT_BASENAME=DC_machine_control.X.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
-PACKAGE_TOP_DIR=dcmachinecontrol.x/
+OUTPUT_PATH=dist/${CND_CONF}/${IMAGE_TYPE}/DCM_SW.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+OUTPUT_BASENAME=DCM_SW.${IMAGE_TYPE}.${OUTPUT_SUFFIX}
+PACKAGE_TOP_DIR=dcmsw/
 
 # Functions
 function checkReturnCode
@@ -57,15 +57,15 @@ mkdir -p ${TMPDIR}
 
 # Copy files and create directories and links
 cd "${TOP}"
-makeDirectory ${TMPDIR}/dcmachinecontrol.x/bin
+makeDirectory ${TMPDIR}/dcmsw/bin
 copyFileToTmpDir "${OUTPUT_PATH}" "${TMPDIR}/${PACKAGE_TOP_DIR}bin/${OUTPUT_BASENAME}" 0755
 
 
 # Generate tar file
 cd "${TOP}"
-rm -f ${CND_DISTDIR}/${CND_CONF}/package/dcmachinecontrol.x.tar
+rm -f ${CND_DISTDIR}/${CND_CONF}/package/dcmsw.tar
 cd ${TMPDIR}
-tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/dcmachinecontrol.x.tar *
+tar -vcf ../../../../${CND_DISTDIR}/${CND_CONF}/package/dcmsw.tar *
 checkReturnCode
 
 # Cleanup

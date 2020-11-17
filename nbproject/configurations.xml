@@ -12,6 +12,7 @@
       <itemPath>timers.h</itemPath>
       <itemPath>adc.h</itemPath>
       <itemPath>uart.h</itemPath>
+      <itemPath>user_cfg.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
