@@ -10,6 +10,7 @@
 #include <stdint.h>        
 #include "user.h"
 #include "pwm.h"
+#include "adc.h"
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
 /******************************************************************************/
@@ -84,11 +85,15 @@ void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
 {
+  uint16_t u_ADCBuffer = 0u;
+  
   //A/D is currently filling buffer 0x08-0x0F.
   if ( ADCON2bits.BUFS == 1u )
   {
    //Access data in buffer 0x03.
-    PDC1 = ADCBUF3;                //Set duty cycle reference via potentiometer.
+    u_ADCBuffer = ADC_v_Read(3u);
+    
+    PDC1 = ((2*PWM_PERIOD/400u) * u_ADCBuffer);                //Set duty cycle reference via potentiometer.
     PDC2 = PDC1;
   }
   

@@ -2,4 +2,6 @@ build/XC_16_dsPIC30F4011/production/main.o:  \
 main.c  \
 system.h  \
 user.h  \
- user_cfg.h 
+ user_cfg.h  \
+uart.h  \
+adc.h 

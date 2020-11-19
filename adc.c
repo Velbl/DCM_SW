@@ -52,7 +52,7 @@ static void ADC_v_Config()
   
   IEC0bits.ADIE    = 0u;  //A/D interrupt disabled.
   
-  ADCON1bits.ADON = 1u;   //Turn on A/D converter.
+  ADCON1bits.ADON  = 1u;   //Turn on A/D converter.
 }
 
 uint16_t ADC_v_Read(uint8_t u_BufferIndex)

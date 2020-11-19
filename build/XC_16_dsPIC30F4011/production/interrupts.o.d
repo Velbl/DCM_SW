@@ -3,4 +3,5 @@ interrupts.c  \
 user.h  \
  system.h  \
 user_cfg.h  \
-pwm.h 
+pwm.h  \
+adc.h 

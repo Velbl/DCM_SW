@@ -33,7 +33,7 @@ void dsPIC30F4011_v_Init()
 //Initialization of all sensor values.
 void Sensor_v_Init()
 {
-  t_SensorValues SensorValues = 
+  t_Sensorvalues Sensorvalues = 
   {
     0u,         //Initial current is zero.
     0u,         //Initial DC voltage is zero.
@@ -81,3 +81,4 @@ void DCM_v_Init()
     {0u} //Reserved bytes.
   };
 }
+

@@ -5,11 +5,19 @@
 #include "user_cfg.h"
 
 //Macro function for setting wanted bit in register.
-#define MASK(x)   ((uint16_t)(1<<x))
+#define MASK(x)                ((uint16_t)(1<<x))
+
 //PWM frequency
-#define FPWM           (20000u)                  //PWM frequency 20KHz
+#define FPWM                   (20000u)                  //PWM frequency 20KHz
+
 //PWM_PERIOD = FCY/(2*FPWM) - 1
-#define PWM_PERIOD          ((FCY/FPWM)*0.5-1)   //49-199-799, depends on configured FCY
+#define PWM_PERIOD             ((FCY/FPWM)*0.5-1)        //49-199-799, depends on configured FCY
+
+//Delay for slower writing of characters in while loop.
+#define NUMBER_OF_COUNTS       (10000u)
+
+//Using four buffers for storing all needed characters for sending via UART.
+#define NUMBER_OF_USED_BUFFERS (4u)
 
 //DC machine informations.
 typedef struct
@@ -35,7 +43,7 @@ typedef struct
   uint16_t  u_Speed;      //Measured speed. (electromotive force in our case)
   uint16_t  u_RefCurrent; //Armature current reference, given by the user.
   uint16_t  u_RefSpeed;   //Reference speed, given by the user.
-}t_SensorValues;
+}t_Sensorvalues;
 
 //Current PI regulator parameters.
 typedef struct
@@ -64,10 +72,12 @@ typedef struct
 extern t_DCMInfo          DCMInfo;
 
 //Measurement and reference values.
-extern t_SensorValues     SensorValues;
+extern t_Sensorvalues     Sensorvalues;
 
 //PI regulators parameters.
 extern t_PIRegulatorData  PIRegulatorData;
+
+//extern uint16_t a_ADCBuffers[NUMBER_OF_USED_BUFFERS];
 
 //Initialization of all dsPIC30F4011 peripherals..
 void dsPIC30F4011_v_Init(void); 

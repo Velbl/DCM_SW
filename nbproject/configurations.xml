@@ -432,7 +432,7 @@
                   value="report"/>
         <property key="warningmessagebreakoptions.W0042_FPU_PRIVILEGED_ACCESS_ONLY"
                   value="report"/>
-        <property key="warningmessagebreakoptions.W0043_FPU_CP_RESERVED_VALUE"
+        <property key="warningmessagebreakoptions.W0043_FPU_CP_RESERVED_value"
                   value="report"/>
         <property key="warningmessagebreakoptions.W0044_FPU_OUT_OF_RANGE"
                   value="report"/>
@@ -440,7 +440,7 @@
                   value="report"/>
         <property key="warningmessagebreakoptions.W0052_INSTRUCTION_DIV_TOO_MANY_REPEAT"
                   value="report"/>
-        <property key="warningmessagebreakoptions.W0053_INVALID_INTCON_VS_FIELD_VALUE"
+        <property key="warningmessagebreakoptions.W0053_INVALID_INTCON_VS_FIELD_value"
                   value="report"/>
         <property key="warningmessagebreakoptions.W0101_SIM_UPDATE_FAILED"
                   value="report"/>
@@ -475,7 +475,7 @@
                   value="report"/>
         <property key="warningmessagebreakoptions.W0117_SIM_STACK_UNDERFLOW"
                   value="report"/>
-        <property key="warningmessagebreakoptions.W0118_SIM_INVALID_FIELD_VALUE"
+        <property key="warningmessagebreakoptions.W0118_SIM_INVALID_FIELD_value"
                   value="report"/>
         <property key="warningmessagebreakoptions.W0119_SIM_SAMPLING_RATE_VIOLATION"
                   value="report"/>
@@ -549,7 +549,7 @@
                   value="report"/>
         <property key="warningmessagebreakoptions.W0237_ADC_UNKNOWN_DATASHEET"
                   value="report"/>
-        <property key="warningmessagebreakoptions.W0238_ADC_INVALID_SFR_FIELD_VALUE"
+        <property key="warningmessagebreakoptions.W0238_ADC_INVALID_SFR_FIELD_value"
                   value="report"/>
         <property key="warningmessagebreakoptions.W0239_ADC_UNSUPPORTED_INPUT"
                   value="report"/>

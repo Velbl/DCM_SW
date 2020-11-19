@@ -13,18 +13,20 @@
 
 #include "system.h"        /* System funct/params, like osc/peripheral config */
 #include "user.h"          /* User funct/params, such as InitApp              */
-#define DELAY_105uS asm volatile ("REPEAT, #4201"); Nop(); // 105uS delay
+#include "uart.h"
+#include "adc.h"
 
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
-static void v_100msDelay(void);
-static void v_500msDelay(void);
+uint16_t a_ADCBuffers[NUMBER_OF_USED_BUFFERS] = {0u};
 
-void UART_v_Busy(void);
+static void v_Delay(uint16_t u_NumberOfCounts);
+static void v_LoadADCBuffers(void);
 
 int main(void)
 { 
+  
   //Initialize all peripherals for dsPIC30F4011.
   dsPIC30F4011_v_Init();
   
@@ -40,52 +42,38 @@ int main(void)
   while(1)
   {
 /********************************WRITING ON TERMINAL***************************/
+  //A/D is currently filling buffer 0x08-0x0F.
+  if ( ADCON2bits.BUFS == 1u )
+  {
+    v_LoadADCBuffers();
 
-    //Start signal.
-    U1TXREG = 255u; 
+		UART_v_Print(a_ADCBuffers[3u]);		
     
-    //The last transmission has completed.
-    if ( U1STAbits.TRMT == 1)
-    {
-      //Write Ia measured.
-      U1TXREG = 0;
-
-      //Write Ua measured.
-      U1TXREG = 1;
-
-      //Write measured speed.
-      U1TXREG = 2;
-
-      //Write parameter reference from potentiometer.
-      U1TXREG = (PDC1/2);
-    }
-    v_100msDelay();
-
-
+    UART_v_NewLine();		
+    
+    v_Delay(NUMBER_OF_COUNTS);
+   }
 /******************************************************************************/
   }//while loop
 }//main loop
 
-static void v_500msDelay(void)
+static void v_Delay(uint16_t u_NumberOfCounts)
 {
-  //Timer 1 is counting.
-  while ( IFS0bits.T1IF != 1u )
-  {
-    //Do nothing.
-  }
+    uint16_t u_Counts = u_NumberOfCounts;
+    while ( u_Counts > 0)
+    {
+      u_Counts--;
+    }
 }
 
-
-
-static void v_100msDelay(void)
-{
-  //Timer 2 is counting. 
-  while ( IFS0bits.T2IF != 1u )
+static void v_LoadADCBuffers()
+{  
+  uint8_t BufferCnt;
+  for ( BufferCnt = 0u; BufferCnt < NUMBER_OF_USED_BUFFERS; BufferCnt++ )
   {
-    //Do nothing.
+    a_ADCBuffers[BufferCnt] = ADC_v_Read(BufferCnt);
   }
 }
-
 /**INFO: Another solution for sharing memory problems.
  *__builtin_disi(0x3FFF);//disable all interrupts, except level 7 interrupts
  *protected code

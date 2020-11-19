@@ -8,6 +8,7 @@
 #endif
 
 #include "uart.h"
+#include <stdint.h> 
 #include <stdbool.h>       /* Includes true/false definition                  */
 
 void UART_v_Init()
@@ -21,7 +22,7 @@ void UART_v_Init()
   U1MODEbits.USIDL  = 1u;      //Discontinue operation when device enters Idle mode.
   U1MODEbits.ALTIO  = 0u;      //UART communicates using UxTX and UxRX I/O pins.
   U1MODEbits.ABAUD  = 0u;      //Auto-Baud disabled
-  U1MODEbits.PDSEL  = 0u;      //No Parity, 8-Data bits.
+  U1MODEbits.PDSEL  = 0x00u;   //No Parity, 8-Data bits.
   U1MODEbits.STSEL  = 0u;      //1-Stop bit.
 /******************************************************************************/
 
@@ -37,4 +38,60 @@ void UART_v_Init()
   U1STAbits.UTXEN   = 1u;      //Enable UART TX.
 }
 
-//Maximum U1TXREG size is 255 in decimal.
+void UART_v_Write(uint16_t data)
+{
+    //9 bit data is configured.
+    if( U1MODEbits.PDSEL == 0x03u )
+        U1TXREG = data;
+    else
+        U1TXREG = data & 0xFF;
+}
+
+uint8_t UART_v_IsBusy(void)
+{  
+    return( !U1STAbits.TRMT );
+}
+
+void UART_v_Print(uint16_t u_Value)
+{
+  t_Number Number = {0u};
+  
+	while( UART_v_IsBusy() );
+	if (u_Value < 0)						
+	{
+		UART_v_Write('-');
+		while(UART_v_IsBusy());
+		u_Value = -u_Value;
+	}
+   
+ 	Number.u_One=u_Value % 10;	
+	u_Value/=10;
+	Number.u_Tenth=u_Value % 10;
+	u_Value/=10;
+	Number.u_Hundredth=u_Value % 10;
+	u_Value/=10;
+	Number.u_Thousandth=u_Value % 10;	
+	u_Value/=10;	
+	Number.u_TenThousandth=u_Value % 10;	
+  
+	while(UART_v_IsBusy());
+	UART_v_Write(Number.u_TenThousandth +'0');
+	while(UART_v_IsBusy());
+	UART_v_Write(Number.u_Thousandth +'0');
+	while(UART_v_IsBusy());
+	UART_v_Write(Number.u_Hundredth +'0');
+	while(UART_v_IsBusy());
+	UART_v_Write(Number.u_Tenth +'0');
+	while(UART_v_IsBusy());
+	UART_v_Write(Number.u_One +'0'); 
+  while(UART_v_IsBusy());
+}
+
+void UART_v_NewLine()
+{
+	while(UART_v_IsBusy());					// CR
+	UART_v_Write(13);
+	while(UART_v_IsBusy());					// LF
+	UART_v_Write(10);
+	while(UART_v_IsBusy());
+}

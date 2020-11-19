@@ -10,7 +10,7 @@
 #include "user.h"
 #include "adc.h" 
 
-//Set duty cycle via potentiometer.
+//Set initial duty cycle via potentiometer.
 uint16_t u_DutyCycle = PWM_PERIOD;
 
 void PWM_v_SetDutyCycle(uint16_t u_PDCx, uint16_t u_DutyRatio, uint8_t u_UpdateDisable)

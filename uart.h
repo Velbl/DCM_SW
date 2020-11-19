@@ -10,11 +10,25 @@
 
 #include "system.h"
 
-//UART TX line is occupied, transmission is in progress.
-void UART_v_Busy(void);
+ typedef struct
+ {
+   uint16_t u_One;
+   uint16_t u_Tenth;
+   uint16_t u_Hundredth;
+   uint16_t u_Thousandth;
+   uint16_t u_TenThousandth;
+ }t_Number;
+ 
+void UART_v_Write(uint16_t data);
+ 
+uint8_t UART_v_IsBusy(void);
+
+void UART_v_Print(uint16_t u_Value);
+
+void UART_v_NewLine();
 
 //UART initialization interface.
-void UART_v_Init();
+void UART_v_Init(void);
 
 #endif	/* UART_H */
 
