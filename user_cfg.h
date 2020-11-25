@@ -8,11 +8,14 @@
 #ifndef USER_CFG_H
 #define	USER_CFG_H
 
+#define MAX_VALUE                 (1023)
+#define MIN_VALUE                 (-1023)
+
 //DC machine parameters.
 #define NOMINAL_VOLTAGE           (260u)
 #define NOMINAL_CURRENT           (17.6f)
 #define NOMINAL_ANGULAR_FREQUENCY (353u)
-#define NOMINAL_SPEED             (3370u)
+#define NOMINAL_SPEED             (3370.0f)
 #define NOMINAL_FLUX              (0.7f)
 #define ARMATURE_RESISTANCE       (0.75f)
 #define ARMATURE_INDUCTANCE       (0.00332f)

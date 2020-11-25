@@ -43,22 +43,30 @@ void Sensor_v_Init()
   };
 }
 
-//Setup of current & speed PI regulator parameters.
-void PIReg_v_SetParameters()
+//Initialization of current & speed PI regulator parameters.
+void PIReg_v_Init()
 {
- t_PIRegulatorData  PIRegulatorData =
+ t_PIRegulatorData  PIReg =
  {
    //Current PI regulator parameters.
    {
-     CURRENT_LOOP_TIME_CONSTANT,  
+     0,
+     0,
+     0,
+     0,
      CURRENT_PROPORTIONAL_GAIN, 
-     CUREENT_INTEGRAL_GAIN
+     CUREENT_INTEGRAL_GAIN,
+     CURRENT_LOOP_TIME_CONSTANT
    },
    //Speed PI regulator parameters.
    {
-     SPEED_LOOP_TIME_CONSTANT,  
+     0,
+     0,
+     0,
+     0,
      SPEED_PROPORTIONAL_GAIN, 
-     SPEED_INTEGRAL_GAIN
+     SPEED_INTEGRAL_GAIN,
+     SPEED_LOOP_TIME_CONSTANT
    }
  };
 }
@@ -82,3 +90,32 @@ void DCM_v_Init()
   };
 }
 
+float f_SetReferentCurrent(float f_ReferentCurrent)
+{
+  float f_ScaledCurrentValue = 0;
+  
+  //Entered value is in the range.
+  if ( (f_ReferentCurrent >= -(NOMINAL_CURRENT) ) && (f_ReferentCurrent <= NOMINAL_CURRENT) )
+  {
+    //Linearly scale the entered current value.
+    // (0 - NOMINAL_CURRENT) -> (0 - 1023)
+    f_ScaledCurrentValue = (MAX_VALUE/NOMINAL_CURRENT)*f_ReferentCurrent;
+  }
+  
+  return f_ScaledCurrentValue;
+};
+
+float f_SetReferentSpeed(int ReferentSpeed)
+{
+  float f_ScaledSpeedValue = 0;
+  
+  //Entered value is in the range.
+  if ( (ReferentSpeed >= -(NOMINAL_SPEED) ) && (ReferentSpeed <= NOMINAL_SPEED) )
+  {
+    //Linearly scale the entered speed value.
+    // (0 - NOMINAL_SPEED) -> (0 - 1023)
+    f_ScaledSpeedValue = (float)((MAX_VALUE/NOMINAL_SPEED)*ReferentSpeed);
+  }
+
+  return f_ScaledSpeedValue;
+};

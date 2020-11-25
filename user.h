@@ -48,17 +48,29 @@ typedef struct
 //Current PI regulator parameters.
 typedef struct
 {
-  float  f_Ti;          //The period in which the current loop is executed.
-  float  f_Kpi;         //Proportional amplification of current loop.
-  float  f_Kii;         //Integral amplification of current loop.
+  float       ReferentCurrent;
+  float       MeasuredCurrent;
+  float       Error;
+  float       MaxOutput;
+  float       MinOutput;
+  float       Output;
+  float       Kpi;         //Proportional amplification of current loop.
+  float       Kii;         //Integral amplification of current loop.
+  float       Ti;          //The period in which the current loop is executed.
 }t_CurrentReg;
 
 //Speed PI regulator parameters.
 typedef struct
 {
-  float  f_Tw;           //The period in which the speed loop is executed.
-  float  f_Kpw;          //Proportional amplification of speed loop.
-  float  f_Kiw;          //Integral amplification of speed loop.
+  float       ReferentSpeed;
+  float       MeasuredSpeed;
+  float       Error;
+  float       MaxOutput;
+  float       MinOutput;
+  float       Output;
+  float       Kpw;          //Proportional amplification of speed loop.
+  float       Kiw;          //Integral amplification of speed loop.
+  float       Tw;           //The period in which the speed loop is executed.
 }t_SpeedReg;
 
 //PI regulators.
@@ -88,8 +100,22 @@ void DCM_v_Init(void);
 //Initialization of sensor parameters.
 void Sensor_v_Init(void);
 
-//Setup of PI regulators.
-void PIReg_v_SetParameters(void);
+//Init of PI regulators.
+void PIReg_v_Init(void);
+
+//Calculation of output for wanted PI regulator.
+//Send character 'i' -> Current PI regulator.
+//Send character 'w' -> Speed PI regulator.
+void v_CalculatePIRegOutput(char Character);
+
+//Set referent current value in Amps.
+float f_SetReferentCurrent(float f_ReferentCurrent);
+
+//Set referent speed value in round per minutes.
+float f_SetReferentSpeed(int ReferentSpeed);
+
+//Interface for getting referent value.
+uint16_t u_GetReferentValue(void);
 
 //Interrupts definitions.
 void _ISRFAST _T1Interrupt(void); 

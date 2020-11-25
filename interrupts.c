@@ -85,18 +85,17 @@ void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
 {
+/******************Set duty cycle reference via potentiometer******************/
   uint16_t u_ADCBuffer = 0u;
   
-  //A/D is currently filling buffer 0x08-0x0F.
-  if ( ADCON2bits.BUFS == 1u )
-  {
-   //Access data in buffer 0x03.
-    u_ADCBuffer = ADC_v_Read(3u);
-    
-    PDC1 = ((2*PWM_PERIOD/400u) * u_ADCBuffer);                //Set duty cycle reference via potentiometer.
-    PDC2 = PDC1;
-  }
+  //Catch value from ADC buffer 1 and save it in local variable.
+  u_ADCBuffer = ADC_v_Read(1u);
   
+  //Set duty cycles.
+  PDC1 = ((2*PWM_PERIOD/1023u) * ADCBUF1);                
+  PDC2 = PDC1;
+  
+  /****************************************************************************/
   /*Enable entering to PWM interrupt routine, next time*/
   IFS2bits.PWMIF = 0;
 }

@@ -52,27 +52,27 @@ uint8_t UART_v_IsBusy(void)
     return( !U1STAbits.TRMT );
 }
 
-void UART_v_Print(uint16_t u_Value)
+void UART_v_Print(int Value)
 {
   t_Number Number = {0u};
   
 	while( UART_v_IsBusy() );
-	if (u_Value < 0)						
+	if (Value < 0)						
 	{
 		UART_v_Write('-');
 		while(UART_v_IsBusy());
-		u_Value = -u_Value;
+		Value = -Value;
 	}
    
- 	Number.u_One=u_Value % 10;	
-	u_Value/=10;
-	Number.u_Tenth=u_Value % 10;
-	u_Value/=10;
-	Number.u_Hundredth=u_Value % 10;
-	u_Value/=10;
-	Number.u_Thousandth=u_Value % 10;	
-	u_Value/=10;	
-	Number.u_TenThousandth=u_Value % 10;	
+ 	Number.u_One=Value % 10;	
+	Value/=10;
+	Number.u_Tenth=Value % 10;
+	Value/=10;
+	Number.u_Hundredth=Value % 10;
+	Value/=10;
+	Number.u_Thousandth=Value % 10;	
+	Value/=10;	
+	Number.u_TenThousandth=Value % 10;	
   
 	while(UART_v_IsBusy());
 	UART_v_Write(Number.u_TenThousandth +'0');

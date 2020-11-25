@@ -23,7 +23,7 @@ void UART_v_Write(uint16_t data);
  
 uint8_t UART_v_IsBusy(void);
 
-void UART_v_Print(uint16_t u_Value);
+void UART_v_Print(int Value);
 
 void UART_v_NewLine();
 
