@@ -97,6 +97,8 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
   
   /****************************************************************************/
   /*Enable entering to PWM interrupt routine, next time*/
+  
+  
   IFS2bits.PWMIF = 0;
 }
 

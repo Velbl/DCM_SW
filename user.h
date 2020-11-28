@@ -13,11 +13,7 @@
 //PWM_PERIOD = FCY/(2*FPWM) - 1
 #define PWM_PERIOD             ((FCY/FPWM)*0.5-1)        //49-199-799, depends on configured FCY
 
-//Delay for slower writing of characters in while loop.
-#define NUMBER_OF_COUNTS       (10000u)
-
-//Using four buffers for storing all needed characters for sending via UART.
-#define NUMBER_OF_USED_BUFFERS (4u)
+#define NUMBER_OF_COUNTS       (20000u)
 
 //DC machine informations.
 typedef struct
@@ -38,12 +34,10 @@ typedef struct
 //Sensor values.
 typedef struct 
 {
-  uint16_t  u_Current;    //Measured armature current.
-  uint16_t  u_VoltageDC;  //Measured DC voltage.
-  uint16_t  u_Speed;      //Measured speed. (electromotive force in our case)
-  uint16_t  u_RefCurrent; //Armature current reference, given by the user.
-  uint16_t  u_RefSpeed;   //Reference speed, given by the user.
-}t_Sensorvalues;
+  float  Current;    //Measured armature current.
+  float  VoltageDC;  //Measured DC voltage.
+  float  Speed;      //Measured speed. (electromotive force in our case)
+}t_MeasuredValues;
 
 //Current PI regulator parameters.
 typedef struct
@@ -51,12 +45,11 @@ typedef struct
   float       ReferentCurrent;
   float       MeasuredCurrent;
   float       Error;
-  float       MaxOutput;
-  float       MinOutput;
   float       Output;
   float       Kpi;         //Proportional amplification of current loop.
   float       Kii;         //Integral amplification of current loop.
-  float       Ti;          //The period in which the current loop is executed.
+  int         MaxOutput;
+  int         MinOutput;
 }t_CurrentReg;
 
 //Speed PI regulator parameters.
@@ -65,12 +58,11 @@ typedef struct
   float       ReferentSpeed;
   float       MeasuredSpeed;
   float       Error;
-  float       MaxOutput;
-  float       MinOutput;
   float       Output;
-  float       Kpw;          //Proportional amplification of speed loop.
-  float       Kiw;          //Integral amplification of speed loop.
-  float       Tw;           //The period in which the speed loop is executed.
+  float       Kpw;        //Proportional amplification of speed loop.
+  float       Kiw;        //Integral amplification of speed loop.
+  int         MaxOutput;
+  int         MinOutput;
 }t_SpeedReg;
 
 //PI regulators.
@@ -84,10 +76,10 @@ typedef struct
 extern t_DCMInfo          DCMInfo;
 
 //Measurement and reference values.
-extern t_Sensorvalues     Sensorvalues;
+extern t_MeasuredValues   Measured;
 
 //PI regulators parameters.
-extern t_PIRegulatorData  PIRegulatorData;
+extern t_PIRegulatorData  PIReg;
 
 //extern uint16_t a_ADCBuffers[NUMBER_OF_USED_BUFFERS];
 
@@ -104,15 +96,13 @@ void Sensor_v_Init(void);
 void PIReg_v_Init(void);
 
 //Calculation of output for wanted PI regulator.
-//Send character 'i' -> Current PI regulator.
-//Send character 'w' -> Speed PI regulator.
-void v_CalculatePIRegOutput(char Character);
+void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType);
 
 //Set referent current value in Amps.
 float f_SetReferentCurrent(float f_ReferentCurrent);
 
 //Set referent speed value in round per minutes.
-float f_SetReferentSpeed(int ReferentSpeed);
+float f_SetReferentSpeed(float ReferentSpeed);
 
 //Interface for getting referent value.
 uint16_t u_GetReferentValue(void);

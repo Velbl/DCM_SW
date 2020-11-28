@@ -19,126 +19,89 @@
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
-//Variable of PI regulator type.
-t_PIRegulatorData PIReg;
 
 static void v_Delay(uint16_t u_NumberOfCounts);
 
 int main(void)
 { 
-  uint16_t u_MeasuredValue = 0u;
   
   //Set current referent value in Amps.
-  float f_ReferentCurrent = f_SetReferentCurrent(NOMINAL_CURRENT);
+  float f_ReferentCurrent = f_SetReferentCurrent(10); //Enter from -17.6 to 17.6 Amphere's.
 
   //Set referent speed value in round per minutes.
-  float f_ReferentSpeed   = f_SetReferentSpeed(NOMINAL_SPEED);
+  float f_ReferentSpeed   = f_SetReferentSpeed(323.0);     //Enter from 0 to 3370 RPM's.
   
   //Initialize all peripherals for dsPIC30F4011.
   dsPIC30F4011_v_Init();
   
-  //Initialize DC machine parameters.
-  DCM_v_Init();
-  
-  //Initialize sensor values.
-  Sensor_v_Init();
-  
-  //Set current & speed PI regulator parameters.
-  PIReg_v_Init();
-  
   while(1)
   {
 /********************************WRITING ON TERMINAL***************************/
-    //Catch measurement value.
-    u_MeasuredValue = ADC_v_Read(1u);
+
+#ifdef CURRENT_REGULATOR_TEST
+    
+    //Catch measurement value. (linear scaling)
+    Measured.Current = ADC_v_Read(1u);//(NOMINAL_CURRENT/1023)*ADC_v_Read(1u);
+    //Update measured current value.
+    PIReg.s_CurrentReg.MeasuredCurrent = Measured.Current;
     
     //Print referent current.
-    UART_v_Print(f_ReferentCurrent);		
+    UART_v_Print(PIReg.s_CurrentReg.ReferentCurrent);		
     //Insert new line.
     UART_v_NewLine();		
     
+    //Print measured current.
+    UART_v_Print(PIReg.s_CurrentReg.MeasuredCurrent);    
+    //Insert new line.
+    UART_v_NewLine();	
+        
+    v_CalculatePIRegOutput(CURRENT_REGULATOR);
+#endif
+    
+#ifdef SPEED_REGULATOR_TEST
+
+    //Catch measurement value. (linear scaling)
+    Measured.Speed = ADC_v_Read(1u);//(NOMINAL_CURRENT/1023)*ADC_v_Read(1u);
+    
+    //Update measured current value.
+    PIReg.s_SpeedReg.MeasuredSpeed = Measured.Speed;
+    
     //Print referent speed.
-    UART_v_Print(f_ReferentSpeed);
+    UART_v_Print(PIReg.s_SpeedReg.ReferentSpeed);		
+    //Insert new line.
+    UART_v_NewLine();		
+    
+    //Print measured current.
+    UART_v_Print(PIReg.s_SpeedReg.MeasuredSpeed);    
     //Insert new line.
     UART_v_NewLine();	
-    
-    //Print measured value.
-    UART_v_Print(u_MeasuredValue);    
-    //Insert new line.
-    UART_v_NewLine();	
-    
+        
+    v_CalculatePIRegOutput(SPEED_REGULATOR);
+#endif
     //Delay writing on terminal.
     v_Delay(NUMBER_OF_COUNTS);
     
 
-/******************************************************************************/
+      
+/******************************************************************************/  
+        
+/******************************TESTS*******************************************/
+/*
+#ifdef CURRENT_REGULATOR_TEST
+    //Testing of CURRENT REGULATOR parameters
+    LATBbits.LATB1 = PIReg.s_CurrentReg.ReferentCurrent;
+    LATBbits.LATB2 = PIReg.s_CurrentReg.MeasuredCurrent;
+#endif
+    
+#ifdef SPEED_REGULATOR_TEST
+    //Testing of SPEED REGULATOR parameters
+    LATBbits.LATB1 = PIReg.s_SpeedReg.ReferentSpeed;
+    LATBbits.LATB2 = PIReg.s_SpeedReg.MeasuredSpeed;
+#endif
+ */
+/******************************************************************************/ 
   }//while loop
 }//main loop
-
-void v_CalculatePIRegOutput(char Character)
-{
- 
-  int LastError,ErrorDiference = 0;
-  float Increment              = 0;
-  
-  //We want to calculate output of current PI regulator.
-  if ( Character == 'i')
-  {
-    //Catch last error value.
-    LastError = PIReg.s_CurrentReg.Error; 
- 
-    //Current error value.
-    PIReg.s_CurrentReg.Error = PIReg.s_CurrentReg.ReferentCurrent - PIReg.s_CurrentReg.MeasuredCurrent; 
- 
-    //Deference between these two errors.
-    ErrorDiference = PIReg.s_CurrentReg.Error - LastError; 
- 
-    //Calculate increment value.
-    Increment = (PIReg.s_CurrentReg.Kpi*ErrorDiference) + (PIReg.s_CurrentReg.Kii*PIReg.s_CurrentReg.Error);
-    
-    //Set regulator output.
-    PIReg.s_CurrentReg.Output += Increment;
- 
-    //Limit regulator output.
-    if (PIReg.s_CurrentReg.Output > MAX_VALUE)
-    {
-      PIReg.s_CurrentReg.Output = MAX_VALUE;
-    }
-    if (PIReg.s_CurrentReg.Output > MIN_VALUE)
-    { 
-      PIReg.s_CurrentReg.Output = MIN_VALUE;
-    }
-  }
-  
-  //We want to calculate output of speed PI regulator.
-  if ( Character == 'w')
-  {
-    //Catch last error value.
-    LastError = PIReg.s_SpeedReg.Error;
-    
-    //Current error value.
-    PIReg.s_SpeedReg.Error = PIReg.s_SpeedReg.ReferentSpeed - PIReg.s_SpeedReg.MeasuredSpeed;
-    
-    //Deference between these two errors.
-    ErrorDiference = LastError - PIReg.s_SpeedReg.Error;
-    
-    //Calculate increment value.
-    Increment = (PIReg.s_SpeedReg.Kpw*ErrorDiference) + (PIReg.s_SpeedReg.Kiw*PIReg.s_SpeedReg.Error);
-    
-    //Set regulator output.
-    PIReg.s_SpeedReg.Output += Increment;
-    
-    //Limit regulator output.
-    if (PIReg.s_SpeedReg.Output > MAX_VALUE)
-    {
-      PIReg.s_SpeedReg.Output = MAX_VALUE;
-    }
-    if (PIReg.s_SpeedReg.Output > MIN_VALUE)
-    { 
-      PIReg.s_SpeedReg.Output = MIN_VALUE;
-    }
-  }
-}
 
 static void v_Delay(uint16_t u_NumberOfCounts)
 {

@@ -59,11 +59,17 @@ void UART_v_Print(int Value)
 	while( UART_v_IsBusy() );
 	if (Value < 0)						
 	{
+    //Write minus prefix.
 		UART_v_Write('-');
+    
+    //Wait until writing is finished.
 		while(UART_v_IsBusy());
+    
+    //Change input value sign.
 		Value = -Value;
 	}
-   
+  
+  //Chop input value and print all parts separately.
  	Number.u_One=Value % 10;	
 	Value/=10;
 	Number.u_Tenth=Value % 10;
