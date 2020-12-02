@@ -21,15 +21,18 @@
 /******************************************************************************/
 
 static void v_Delay(uint16_t u_NumberOfCounts);
+static i_ConvertToFixedPoint(int ADCBuffer, e_FormatTypes FormatType);
 
 int main(void)
 { 
+  // Buffer for holding measured values.
+  int ADCBuffer = 0;
   
-  //Set current referent value in relative units.
-  f_SetReferentCurrent(9);     //Enter from -18A  to 18A.
+  //Set current referent value.
+  f_SetReferentCurrent(9);                        //Enter value between -18[A]  to 18[A].
 
-  //Set referent speed value in relative units.
-  f_SetReferentSpeed(2500);     //Enter from -3370rpm to 3370rpm .
+  //Set referent speed value.
+  f_SetReferentSpeed(2500);                       //Enter value from -3370[rpm] to 3370[rpm] .
   
   //Initialize all peripherals for dsPIC30F4011.
   dsPIC30F4011_v_Init();
@@ -37,21 +40,23 @@ int main(void)
   while(1)
   {
 /********************************WRITING ON TERMINAL***************************/
-
+    //Catch measurement value.
+    ADCBuffer = ADC_v_Read(1u);
+    
 #ifdef CURRENT_REGULATOR_TEST
     
-    //Catch measurement value. (linear scaling to 1.15 format)
-    Measured.Current = (32768/1023)*ADC_v_Read(1u);//(NOMINAL_CURRENT/1023)*ADC_v_Read(1u);
+    Measured.Current = i_ConvertToFixedPoint(ADCBuffer, FORMAT_1_15);
+    
     //Update measured current value.
     PIReg.s_CurrentReg.MeasuredCurrent = Measured.Current;
     
     //Print referent current.
-    UART_v_Print(PIReg.s_CurrentReg.ReferentCurrent);		
+    UART_v_Print( PIReg.s_CurrentReg.ReferentCurrent);		
     //Insert new line.
     UART_v_NewLine();		
     
     //Print measured current.
-    UART_v_Print(PIReg.s_CurrentReg.MeasuredCurrent);    
+    UART_v_Print( PIReg.s_CurrentReg.MeasuredCurrent);    
     //Insert new line.
     UART_v_NewLine();	
         
@@ -60,8 +65,9 @@ int main(void)
     
 #ifdef SPEED_REGULATOR_TEST
 
-    //Catch measurement value. (linear scaling)
-    Measured.Speed =(8192/1023)*ADC_v_Read(1u);//(NOMINAL_CURRENT/1023)*ADC_v_Read(1u);
+    //Measured.Speed =(8192/1023)*ADC_v_Read(1u);
+    
+    Measured.Speed = i_ConvertToFixedPoint(ADCBuffer, FORMAT_3_13);
     
     //Update measured current value.
     PIReg.s_SpeedReg.MeasuredSpeed = Measured.Speed;
@@ -84,6 +90,26 @@ int main(void)
 /******************************************************************************/  
   }//while loop
 }//main loop
+
+static i_ConvertToFixedPoint(int ADCBuffer, e_FormatTypes FormatType)
+{ 
+  int ToReturn = 0;
+  
+  if ( FormatType == FORMAT_1_15 )
+  {
+    // Covert to fixed point format 1.15. 
+    // 0 - 1023 -> 0 - 32768
+    ToReturn = (PII_REG_MAX_OUTPUT/1023)*ADCBuffer;
+  }
+  if ( FormatType == FORMAT_3_13 )
+  {
+    // Convert to fixed point format 3.13. 
+    // 0 - 1023 -> 0 - 8192
+    ToReturn = (PIW_REG_MAX_OUTPUT/1023)*ADCBuffer;
+  }
+  
+  return ToReturn;
+}
 
 static void v_Delay(uint16_t u_NumberOfCounts)
 {

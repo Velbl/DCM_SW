@@ -78,46 +78,46 @@ t_DCMInfo DCMInfo =
     {0u} //Reserved bytes.
   };
 
-// Convert Amps to 1.15 format.
+//Convert Amps to 1.15 format.
 void f_SetReferentCurrent(int ReferentCurrent)
 {
   //Entered value is in the range.
   if ( (ReferentCurrent >= MINIMAL_CURRENT ) && (ReferentCurrent <= MAXIMAL_CURRENT) )
   {
-    //Linearly scale entered current value. 
-    PIReg.s_CurrentReg.ReferentCurrent = (32768/MAXIMAL_CURRENT)*ReferentCurrent;
+    //Linear scale of entered current value. 
+    PIReg.s_CurrentReg.ReferentCurrent = (PII_REG_MAX_OUTPUT/MAXIMAL_CURRENT)*ReferentCurrent;
   }
   else if ( ReferentCurrent >= MAXIMAL_CURRENT )
   { 
-    // Set referent current to maximal current value.
-    PIReg.s_CurrentReg.ReferentCurrent = 32768; 
+    //Set referent current to maximal current value.
+    PIReg.s_CurrentReg.ReferentCurrent = PII_REG_MAX_OUTPUT; 
   }
   else 
   {
-    // Set referent current to minimal current value.
-    PIReg.s_CurrentReg.ReferentCurrent = -32768;
+    //Set referent current to minimal current value.
+    PIReg.s_CurrentReg.ReferentCurrent = PII_REG_MIN_OUTPUT;
   }
 };
 
-// Convert Rpm to 3.13 format.
+//Convert Rpm to 3.13 format.
 void f_SetReferentSpeed(int ReferentSpeed)
 {
   
   //Entered value is in the range.
   if ( (ReferentSpeed >= MINIMAL_SPEED ) && (ReferentSpeed <= MAXIMAL_SPEED) )
   { 
-    // Convert RPM to 3.13 format.
-    PIReg.s_SpeedReg.ReferentSpeed = (8192/3370)*ReferentSpeed;    
+    //Convert RPM to 3.13 format.
+    PIReg.s_SpeedReg.ReferentSpeed = (PIW_REG_MAX_OUTPUT/MAXIMAL_SPEED)*ReferentSpeed;    
   }
   else if ( ReferentSpeed >= MAXIMAL_SPEED )
   { 
-    // Set referent speed to maximal speed value.
-    PIReg.s_SpeedReg.ReferentSpeed = 8192; 
+    //Set referent speed to maximal speed value.
+    PIReg.s_SpeedReg.ReferentSpeed = PIW_REG_MAX_OUTPUT; 
   }
   else 
   {
-    // Set referent speed to minimal speed value.
-    PIReg.s_SpeedReg.ReferentSpeed = -8192;
+    //Set referent speed to minimal speed value.
+    PIReg.s_SpeedReg.ReferentSpeed = PIW_REG_MIN_OUTPUT;
   }
 };
 
@@ -138,11 +138,8 @@ void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
     
     //Deference between these two errors.
     ErrorDiference = PIReg.s_CurrentReg.Error - LastError; 
-    
-    //Calculate increment value.
-    //Increment = (PIReg.s_CurrentReg.Kpi*ErrorDiference + PIReg.s_CurrentReg.Kii*PIReg.s_CurrentReg.Error );
-    
-    //IN FIXED POINT ARITHMETIC (1.15 format)
+
+    //Calculate increment (1.15 format)
     Increment = ( (int)((long)PIReg.s_CurrentReg.Kpi*(long)ErrorDiference           >> 15) + 
                   (int)((long)PIReg.s_CurrentReg.Kii*(long)PIReg.s_CurrentReg.Error >> 15)
                 );
@@ -151,17 +148,17 @@ void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
     PIReg.s_CurrentReg.Output += Increment;
    
     //Limit regulator output.
-    if (PIReg.s_CurrentReg.Output > 32768)
+    if (PIReg.s_CurrentReg.Output      > PII_REG_MAX_OUTPUT)
     {
-      PIReg.s_CurrentReg.Output = 32768;
+      PIReg.s_CurrentReg.Output        = PII_REG_MAX_OUTPUT;
     }
-    else if (PIReg.s_CurrentReg.Output < -32768)
+    else if (PIReg.s_CurrentReg.Output < PII_REG_MIN_OUTPUT)
     { 
-      PIReg.s_CurrentReg.Output = -32768;
+      PIReg.s_CurrentReg.Output        = PII_REG_MIN_OUTPUT;
     }
    
 #ifdef CURRENT_REGULATOR_TEST 
-    
+
     //Print measured current.
     UART_v_Print(PIReg.s_CurrentReg.Output);    
     //Insert new line.
@@ -182,7 +179,7 @@ void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
     //Deference between these two errors.
     ErrorDiference = LastError - PIReg.s_SpeedReg.Error;
     
-    //Calculate increment value.
+    //Calculate increment (3.13 format)
     Increment = ( (int)((long)PIReg.s_SpeedReg.Kpw*(long)ErrorDiference           >> 13) + 
                   (int)((long)PIReg.s_SpeedReg.Kiw*(long)PIReg.s_SpeedReg.Error   >> 13)
                 );
@@ -191,13 +188,13 @@ void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
     PIReg.s_SpeedReg.Output += Increment;
     
     //Limit regulator output.
-    if (PIReg.s_SpeedReg.Output > 8192)
+    if (PIReg.s_SpeedReg.Output > PIW_REG_MAX_OUTPUT)
     {
-      PIReg.s_SpeedReg.Output = 8192;
+      PIReg.s_SpeedReg.Output   = PIW_REG_MAX_OUTPUT;
     }
-    if (PIReg.s_SpeedReg.Output < -8192)
+    if (PIReg.s_SpeedReg.Output < PIW_REG_MIN_OUTPUT)
     { 
-      PIReg.s_SpeedReg.Output = -8192;
+      PIReg.s_SpeedReg.Output   = PIW_REG_MIN_OUTPUT;
     }
     
 #ifdef SPEED_REGULATOR_TEST   
