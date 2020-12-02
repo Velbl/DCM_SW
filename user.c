@@ -78,46 +78,54 @@ t_DCMInfo DCMInfo =
     {0u} //Reserved bytes.
   };
 
-
-float f_SetReferentCurrent(float f_ReferentCurrent)
+// Convert Amps to 1.15 format.
+void f_SetReferentCurrent(int ReferentCurrent)
 {
-  //PIReg.s_CurrentReg.ReferentCurrent = f_ReferentCurrent;
-  
-  float f_ScaledCurrentValue = 0.0f;
-  
   //Entered value is in the range.
-  if ( (f_ReferentCurrent >= -(NOMINAL_CURRENT) ) && (f_ReferentCurrent <= NOMINAL_CURRENT) )
+  if ( (ReferentCurrent >= MINIMAL_CURRENT ) && (ReferentCurrent <= MAXIMAL_CURRENT) )
   {
-    //Linearly scale entered current value.
-    // (0 - NOMINAL_CURRENT) -> (0 - 1023)
-    f_ScaledCurrentValue = ((float)(OUTPUT_MAX_VALUE/NOMINAL_CURRENT)*f_ReferentCurrent);
-    PIReg.s_CurrentReg.ReferentCurrent = f_ScaledCurrentValue;
+    //Linearly scale entered current value. 
+    PIReg.s_CurrentReg.ReferentCurrent = (32768/MAXIMAL_CURRENT)*ReferentCurrent;
   }
-  
-  return f_ScaledCurrentValue;
+  else if ( ReferentCurrent >= MAXIMAL_CURRENT )
+  { 
+    // Set referent current to maximal current value.
+    PIReg.s_CurrentReg.ReferentCurrent = 32768; 
+  }
+  else 
+  {
+    // Set referent current to minimal current value.
+    PIReg.s_CurrentReg.ReferentCurrent = -32768;
+  }
 };
 
-float f_SetReferentSpeed(float ReferentSpeed)
+// Convert Rpm to 3.13 format.
+void f_SetReferentSpeed(int ReferentSpeed)
 {
-  float f_ScaledSpeedValue = 0.0f;
   
   //Entered value is in the range.
-  if ( (ReferentSpeed >= -(NOMINAL_SPEED) ) && (ReferentSpeed <= NOMINAL_SPEED) )
-  {
-    //Linearly scale entered speed value.
-    // (0 - NOMINAL_SPEED) -> (0 - 1023)
-    f_ScaledSpeedValue = (OUTPUT_MAX_VALUE/NOMINAL_SPEED)*ReferentSpeed;
-    PIReg.s_SpeedReg.ReferentSpeed = f_ScaledSpeedValue;
+  if ( (ReferentSpeed >= MINIMAL_SPEED ) && (ReferentSpeed <= MAXIMAL_SPEED) )
+  { 
+    // Convert RPM to 3.13 format.
+    PIReg.s_SpeedReg.ReferentSpeed = (8192/3370)*ReferentSpeed;    
   }
-
-  return f_ScaledSpeedValue;
+  else if ( ReferentSpeed >= MAXIMAL_SPEED )
+  { 
+    // Set referent speed to maximal speed value.
+    PIReg.s_SpeedReg.ReferentSpeed = 8192; 
+  }
+  else 
+  {
+    // Set referent speed to minimal speed value.
+    PIReg.s_SpeedReg.ReferentSpeed = -8192;
+  }
 };
 
 void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
 {
-  float   LastError      = 0.0f;
-  float   ErrorDiference = 0.0f;
-  float   Increment      = 0.0f;
+  int   LastError      = 0;
+  int   ErrorDiference = 0;
+  int   Increment      = 0;
   
   //We want to calculate output of current PI regulator.
   if ( RegulatorType == CURRENT_REGULATOR )
@@ -132,17 +140,26 @@ void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
     ErrorDiference = PIReg.s_CurrentReg.Error - LastError; 
     
     //Calculate increment value.
-    Increment = (PIReg.s_CurrentReg.Kpi*ErrorDiference + PIReg.s_CurrentReg.Kii*PIReg.s_CurrentReg.Error );
+    //Increment = (PIReg.s_CurrentReg.Kpi*ErrorDiference + PIReg.s_CurrentReg.Kii*PIReg.s_CurrentReg.Error );
     
-    /* IN FIXED POINT ARITHMETIC (1.15 format)
-     * Increment = ( (int)((long)PIReg.s_CurrentReg.Kpi*(long)ErrorDiference           >> 15) + 
+    //IN FIXED POINT ARITHMETIC (1.15 format)
+    Increment = ( (int)((long)PIReg.s_CurrentReg.Kpi*(long)ErrorDiference           >> 15) + 
                   (int)((long)PIReg.s_CurrentReg.Kii*(long)PIReg.s_CurrentReg.Error >> 15)
                 );
-    */
     
     //Set regulator output.
     PIReg.s_CurrentReg.Output += Increment;
-    
+   
+    //Limit regulator output.
+    if (PIReg.s_CurrentReg.Output > 32768)
+    {
+      PIReg.s_CurrentReg.Output = 32768;
+    }
+    else if (PIReg.s_CurrentReg.Output < -32768)
+    { 
+      PIReg.s_CurrentReg.Output = -32768;
+    }
+   
 #ifdef CURRENT_REGULATOR_TEST 
     
     //Print measured current.
@@ -150,18 +167,7 @@ void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
     //Insert new line.
     UART_v_NewLine();
     
-    LATBbits.LATB3 = PIReg.s_CurrentReg.MeasuredCurrent;
 #endif
-    
-    //Limit regulator output.
-    if (PIReg.s_CurrentReg.Output > OUTPUT_MAX_VALUE)
-    {
-      PIReg.s_CurrentReg.Output = OUTPUT_MAX_VALUE;
-    }
-    else if (PIReg.s_CurrentReg.Output < OUTPUT_MIN_VALUE)
-    { 
-      PIReg.s_CurrentReg.Output = OUTPUT_MIN_VALUE;
-    }
   }
   
   //We want to calculate output of speed PI regulator.
@@ -177,13 +183,22 @@ void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
     ErrorDiference = LastError - PIReg.s_SpeedReg.Error;
     
     //Calculate increment value.
-    Increment = ( PIReg.s_SpeedReg.Kpw*ErrorDiference + PIReg.s_SpeedReg.Kiw*PIReg.s_SpeedReg.Error );
-    /*Increment = ( (int)((long)PIReg.s_SpeedReg.Kpw*(long)ErrorDiference           >> 13) + 
-                  (int)((long)PIReg.s_SpeedReg.Kiw*(long)PIReg.s_SpeedReg.Error   >> 15)
+    Increment = ( (int)((long)PIReg.s_SpeedReg.Kpw*(long)ErrorDiference           >> 13) + 
+                  (int)((long)PIReg.s_SpeedReg.Kiw*(long)PIReg.s_SpeedReg.Error   >> 13)
                 );
-    */
+    
     //Set regulator output.
     PIReg.s_SpeedReg.Output += Increment;
+    
+    //Limit regulator output.
+    if (PIReg.s_SpeedReg.Output > 8192)
+    {
+      PIReg.s_SpeedReg.Output = 8192;
+    }
+    if (PIReg.s_SpeedReg.Output < -8192)
+    { 
+      PIReg.s_SpeedReg.Output = -8192;
+    }
     
 #ifdef SPEED_REGULATOR_TEST   
     
@@ -192,17 +207,6 @@ void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
     //Insert new line.
     UART_v_NewLine();
 
-    LATBbits.LATB3 = PIReg.s_SpeedReg.Output;
 #endif
-    
-    //Limit regulator output.
-    if (PIReg.s_SpeedReg.Output > OUTPUT_MAX_VALUE)
-    {
-      PIReg.s_SpeedReg.Output = OUTPUT_MAX_VALUE;
-    }
-    if (PIReg.s_SpeedReg.Output < OUTPUT_MIN_VALUE)
-    { 
-      PIReg.s_SpeedReg.Output = OUTPUT_MIN_VALUE;
-    }
   }
 }

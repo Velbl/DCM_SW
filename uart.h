@@ -19,7 +19,7 @@
    uint16_t u_TenThousandth;
  }t_Number;
  
-void UART_v_Write(uint16_t data);
+void UART_v_Write(int data);
  
 uint8_t UART_v_IsBusy(void);
 

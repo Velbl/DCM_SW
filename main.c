@@ -25,11 +25,11 @@ static void v_Delay(uint16_t u_NumberOfCounts);
 int main(void)
 { 
   
-  //Set current referent value in Amps.
-  float f_ReferentCurrent = f_SetReferentCurrent(10); //Enter from -17.6 to 17.6 Amphere's.
+  //Set current referent value in relative units.
+  f_SetReferentCurrent(9);     //Enter from -18A  to 18A.
 
-  //Set referent speed value in round per minutes.
-  float f_ReferentSpeed   = f_SetReferentSpeed(323.0);     //Enter from 0 to 3370 RPM's.
+  //Set referent speed value in relative units.
+  f_SetReferentSpeed(2500);     //Enter from -3370rpm to 3370rpm .
   
   //Initialize all peripherals for dsPIC30F4011.
   dsPIC30F4011_v_Init();
@@ -40,8 +40,8 @@ int main(void)
 
 #ifdef CURRENT_REGULATOR_TEST
     
-    //Catch measurement value. (linear scaling)
-    Measured.Current = ADC_v_Read(1u);//(NOMINAL_CURRENT/1023)*ADC_v_Read(1u);
+    //Catch measurement value. (linear scaling to 1.15 format)
+    Measured.Current = (32768/1023)*ADC_v_Read(1u);//(NOMINAL_CURRENT/1023)*ADC_v_Read(1u);
     //Update measured current value.
     PIReg.s_CurrentReg.MeasuredCurrent = Measured.Current;
     
@@ -61,7 +61,7 @@ int main(void)
 #ifdef SPEED_REGULATOR_TEST
 
     //Catch measurement value. (linear scaling)
-    Measured.Speed = ADC_v_Read(1u);//(NOMINAL_CURRENT/1023)*ADC_v_Read(1u);
+    Measured.Speed =(8192/1023)*ADC_v_Read(1u);//(NOMINAL_CURRENT/1023)*ADC_v_Read(1u);
     
     //Update measured current value.
     PIReg.s_SpeedReg.MeasuredSpeed = Measured.Speed;
@@ -80,26 +80,8 @@ int main(void)
 #endif
     //Delay writing on terminal.
     v_Delay(NUMBER_OF_COUNTS);
-    
-
-      
+     
 /******************************************************************************/  
-        
-/******************************TESTS*******************************************/
-/*
-#ifdef CURRENT_REGULATOR_TEST
-    //Testing of CURRENT REGULATOR parameters
-    LATBbits.LATB1 = PIReg.s_CurrentReg.ReferentCurrent;
-    LATBbits.LATB2 = PIReg.s_CurrentReg.MeasuredCurrent;
-#endif
-    
-#ifdef SPEED_REGULATOR_TEST
-    //Testing of SPEED REGULATOR parameters
-    LATBbits.LATB1 = PIReg.s_SpeedReg.ReferentSpeed;
-    LATBbits.LATB2 = PIReg.s_SpeedReg.MeasuredSpeed;
-#endif
- */
-/******************************************************************************/ 
   }//while loop
 }//main loop
 

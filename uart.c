@@ -38,7 +38,7 @@ void UART_v_Init()
   U1STAbits.UTXEN   = 1u;      //Enable UART TX.
 }
 
-void UART_v_Write(uint16_t data)
+void UART_v_Write(int data)
 {
     //9 bit data is configured.
     if( U1MODEbits.PDSEL == 0x03u )
