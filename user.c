@@ -47,8 +47,8 @@ t_PIRegulatorData  PIReg =
      0,
      CURRENT_PROPORTIONAL_GAIN, 
      CUREENT_INTEGRAL_GAIN,
-     32767,
-     -32767,
+     PII_REG_MAX_OUTPUT,
+     PII_REG_MIN_OUTPUT,
    },
    //Speed PI regulator parameters.
    {
@@ -58,8 +58,8 @@ t_PIRegulatorData  PIReg =
      0,
      SPEED_PROPORTIONAL_GAIN, 
      SPEED_INTEGRAL_GAIN,
-     32767,
-     -32767,
+     PIW_REG_MAX_OUTPUT,
+     PIW_REG_MIN_OUTPUT,
    }
  };
 

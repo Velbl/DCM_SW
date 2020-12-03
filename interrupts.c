@@ -71,14 +71,17 @@
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
-extern int           a_MeasuredCurrents[NUMBER_OF_MEASUREMENTS];
+extern int           a_CurrentMeasurements[NUMBER_OF_MEASUREMENTS];
+extern int           a_SpeedMeasurements[NUMBER_OF_MEASUREMENTS];
 extern unsigned long SystemTime;
 extern unsigned long SystemTimeMs;
 extern int           MeasuredCurrent;
+extern int           MeasuredSpeed;
 extern long          MeasuredCurrentOffset;
-extern int           MeasuredCurrent;
 extern bool          OffsetIsSpecified;
-extern uint16_t      Measurement; 
+extern uint16_t      MeasurementCurrentIdx; 
+extern uint16_t      MeasurementSpeedIdx; 
+
 
 #define CURRENT_START_TIME (2000)
 #define CURRENT_STOP_TIME  (3000)
@@ -107,7 +110,25 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
     SystemTimeMs++;
   }
 /************************************SPEED   LOOP**********************************************/
+  // Read current measurement
+  while (BusyADC1());
+  MeasuredSpeed = ADC_v_Read(1u);
   
+  PIReg.s_SpeedReg.MeasuredSpeed = i_ConvertToFixedPoint(MeasuredSpeed, FORMAT_3_13);
+
+  //Set referent speed value.
+  f_SetReferentSpeed(1685);                       //Enter value from -3370[rpm] to 3370[rpm] .
+      
+  v_CalculatePIRegOutput(SPEED_REGULATOR);
+      
+  PIReg.s_CurrentReg.ReferentCurrent = PIReg.s_SpeedReg.Output;
+  
+      
+  if ( MeasurementSpeedIdx < NUMBER_OF_MEASUREMENTS )
+  {
+     a_SpeedMeasurements[MeasurementSpeedIdx] = PIReg.s_SpeedReg.MeasuredSpeed;
+     MeasurementSpeedIdx++;
+  }
   
 /**********************************************************************************************/
 /************************************CURRENT LOOP**********************************************/
@@ -118,9 +139,6 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
   PIReg.s_CurrentReg.MeasuredCurrent = i_ConvertToFixedPoint(MeasuredCurrent, FORMAT_1_15);
 
   f_SetReferentCurrent(9);
-
-  // Take offset into count.
-  PIReg.s_CurrentReg.MeasuredCurrent = PIReg.s_CurrentReg.MeasuredCurrent;
       
   v_CalculatePIRegOutput(CURRENT_REGULATOR);
       
@@ -131,10 +149,10 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
   PDC1 = ( (int)(PWM_PERIOD >> 1) + (int)(Temp >> 16) ) << 1;
   PDC2 = PDC1;
       
-  if ( Measurement < NUMBER_OF_MEASUREMENTS )
+  if ( MeasurementCurrentIdx < NUMBER_OF_MEASUREMENTS )
   {
-     a_MeasuredCurrents[Measurement] = PIReg.s_CurrentReg.MeasuredCurrent;
-     Measurement++;
+     a_CurrentMeasurements[MeasurementCurrentIdx] = PIReg.s_CurrentReg.MeasuredCurrent;
+     MeasurementCurrentIdx++;
   }
 /**********************************************************************************************/
   IFS2bits.PWMIF = 0;

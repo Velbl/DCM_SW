@@ -20,12 +20,15 @@
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
-int a_MeasuredCurrents[NUMBER_OF_MEASUREMENTS];
+int           a_CurrentMeasurements[NUMBER_OF_MEASUREMENTS];
+int           a_SpeedMeasurements[NUMBER_OF_MEASUREMENTS];
 unsigned long SystemTime            = 0u;  //50us  <- PWM period
 unsigned long SystemTimeMs          = 0u;  //20 -> 1ms
 long          MeasuredCurrentOffset = 0;
 int           MeasuredCurrent       = 0;
-uint16_t      Measurement           = 0u;           
+int           MeasuredSpeed         = 0;
+uint16_t      MeasurementCurrentIdx = 0u;   
+uint16_t      MeasurementSpeedIdx   = 0u; 
 bool          OffsetIsSpecified     = false;
 
 static void v_Delay(long Duration);
@@ -41,8 +44,11 @@ int main(void)
   //Initialize all peripherals for dsPIC30F4011.
   dsPIC30F4011_v_Init();
   
+  //Initialize speed measurement values.
+  memset((void*)&a_SpeedMeasurements[0], 0 , sizeof(a_SpeedMeasurements));
+  
   //Initialize current measurement values.
-  memset((void*)&a_MeasuredCurrents[0], 0 , sizeof(a_MeasuredCurrents));
+  memset((void*)&a_CurrentMeasurements[0], 0 , sizeof(a_CurrentMeasurements));
   
   v_Delay(ONE_SECOND);
   
