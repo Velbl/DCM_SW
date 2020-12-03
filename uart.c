@@ -51,6 +51,17 @@ uint8_t UART_v_IsBusy(void)
 {  
     return( !U1STAbits.TRMT );
 }
+void CloseUART1(void)
+{  
+    U1MODEbits.UARTEN = 0;
+	
+    IEC0bits.U1RXIE = 0;
+    IEC0bits.U1TXIE = 0;
+	
+    IFS0bits.U1RXIF = 0;
+    IFS0bits.U1TXIF = 0;
+}
+
 
 void UART_v_Print(int Value)
 {

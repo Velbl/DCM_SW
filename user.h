@@ -93,6 +93,8 @@ void f_SetReferentCurrent(int ReferentCurrent);
 //Set referent speed value in 1.13 format.
 void f_SetReferentSpeed(int ReferentSpeed);
 
+int i_ConvertToFixedPoint(int ADCBuffer, e_FormatTypes FormatType);
+
 //Interface for getting referent value.
 uint16_t u_GetReferentValue(void);
 

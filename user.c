@@ -207,3 +207,23 @@ void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType)
 #endif
   }
 }
+
+int i_ConvertToFixedPoint(int ADCBuffer, e_FormatTypes FormatType)
+{ 
+  int ToReturn = 0;
+  
+  if ( FormatType == FORMAT_1_15 )
+  {
+    // Covert to fixed point format 1.15. 
+    // 0 - 1023 -> 0 - 32768
+    ToReturn = (PII_REG_MAX_OUTPUT/1023)*ADCBuffer;
+  }
+  if ( FormatType == FORMAT_3_13 )
+  {
+    // Convert to fixed point format 3.13. 
+    // 0 - 1023 -> 0 - 8192
+    ToReturn = (PIW_REG_MAX_OUTPUT/1023)*ADCBuffer;
+  }
+  
+  return ToReturn;
+}

@@ -14,13 +14,13 @@
  *  FCY = (SYS_FREQ * PLL MULTIPLIER)/(PROGRAMMABLE POSTSCALER * 4) 
  */
 #ifdef PLL1
-  #define FCY       ((FOSC * PLL1) / 4)   //2MIPS (milion instructions per second)
+  #define FCY       ((FOSC * PLL1)  / 4 )   //2MIPS (milion instructions per second)
 #elif  PLL4
-  #define FCY       ((FOSC * PLL4) / 4)   //8MIPS (milion instructions per second)
+  #define FCY       ((FOSC * PLL4)  / 4 )   //8MIPS (milion instructions per second)
 #elif  PLL16
-  #define FCY       ((FOSC * PLL16) / 4)  //32MIPS (milion instructions per second)
+  #define FCY       ((FOSC * PLL16) / 4)    //32MIPS (milion instructions per second)
 #endif
-#define   TCY       (1/FCY)               //Instruction clock
+#define   TCY       (1/FCY)                 //Instruction clock
 /******************************************************************************/
 
 /*******************Sharing Memory problems solution.**************************/

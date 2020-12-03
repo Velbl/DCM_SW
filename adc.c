@@ -30,7 +30,7 @@ static void ADC_v_Config()
 
 /*******************************ADCON3 register********************************/
   ADCON3bits.SAMC  = 0x01u;  //Auto-Sample time = 1Tad.
-  ADCON3bits.ADRC  = 0u;     //Clock derived from system clock (80MHz).
+  ADCON3bits.ADRC  = 0u;     //Clock derived from system clock (8MHz).
   //ADCS = (2*TADmin/Tcy) - 1    = (2*(154ns/125ns)) - 1  = 2
   //TAD = ( Tcy*(ADCS + 1) / 2 ) = ( 125ns*(2+1) / 2 )    = 187ns -> (TAD > TADmin) 
   ADCON3bits.ADCS  = 0x2u;   
@@ -58,6 +58,11 @@ static void ADC_v_Config()
 uint16_t ADC_v_Read(uint8_t u_BufferIndex)
 {
   return(*(&ADCBUF0 + u_BufferIndex));
+}
+
+uint8_t BusyADC1(void)
+{
+    return !(ADCON1bits.DONE);	/* returns the DONE bit status */
 }
 
 void ADC_v_Init()

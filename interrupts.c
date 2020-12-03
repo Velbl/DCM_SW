@@ -7,7 +7,8 @@
     #endif
 #endif
 
-#include <stdint.h>        
+#include <stdint.h> 
+#include <stdbool.h>       /* Includes true/false definition                  */
 #include "user.h"
 #include "pwm.h"
 #include "adc.h"
@@ -70,6 +71,17 @@
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
+extern int           a_MeasuredCurrents[NUMBER_OF_MEASUREMENTS];
+extern unsigned long SystemTime;
+extern unsigned long SystemTimeMs;
+extern int           MeasuredCurrent;
+extern long          MeasuredCurrentOffset;
+extern int           MeasuredCurrent;
+extern bool          OffsetIsSpecified;
+extern uint16_t      Measurement; 
+
+#define CURRENT_START_TIME (2000)
+#define CURRENT_STOP_TIME  (3000)
 
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
@@ -85,20 +97,46 @@ void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
 {
-/******************Set duty cycle reference via potentiometer******************/
-  uint16_t u_ADCBuffer = 0u;
+  long Temp;
+  SystemTime++;
   
-  //Catch value from ADC buffer 1 and save it in local variable.
-  u_ADCBuffer = ADC_v_Read(1u);
+  // One milisecond has passed.
+  if ( (SystemTime % 20u) == 0u)
+  {
+    // Increase system time in miliseconds.
+    SystemTimeMs++;
+  }
+/************************************SPEED   LOOP**********************************************/
   
-  //Set duty cycles.
-  PDC1 = ((2*PWM_PERIOD/1023u) * ADCBUF1);                
+  
+/**********************************************************************************************/
+/************************************CURRENT LOOP**********************************************/
+  // Read current measurement
+  while (BusyADC1());
+  MeasuredCurrent = ADC_v_Read(1u);
+  
+  PIReg.s_CurrentReg.MeasuredCurrent = i_ConvertToFixedPoint(MeasuredCurrent, FORMAT_1_15);
+
+  f_SetReferentCurrent(9);
+
+  // Take offset into count.
+  PIReg.s_CurrentReg.MeasuredCurrent = PIReg.s_CurrentReg.MeasuredCurrent;
+      
+  v_CalculatePIRegOutput(CURRENT_REGULATOR);
+      
+  // Scale output value to PERIOD register value.
+  Temp = (long)PWM_PERIOD*(long)PIReg.s_CurrentReg.Output;
+      
+  // Update duty cycle value.
+  PDC1 = ( (int)(PWM_PERIOD >> 1) + (int)(Temp >> 16) ) << 1;
   PDC2 = PDC1;
-  
-  /****************************************************************************/
-  /*Enable entering to PWM interrupt routine, next time*/
-  
-  
+      
+  if ( Measurement < NUMBER_OF_MEASUREMENTS )
+  {
+     a_MeasuredCurrents[Measurement] = PIReg.s_CurrentReg.MeasuredCurrent;
+     Measurement++;
+  }
+/**********************************************************************************************/
   IFS2bits.PWMIF = 0;
 }
 

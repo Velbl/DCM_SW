@@ -10,6 +10,7 @@
 #include <stdlib.h>
 #include <stdint.h>        /* Includes uint16_t definition                    */
 #include <stdbool.h>       /* Includes true/false definition                  */
+#include <string.h>
 
 #include "system.h"        /* System funct/params, like osc/peripheral config */
 #include "user.h"          /* User funct/params, such as InitApp              */
@@ -19,36 +20,44 @@
 /******************************************************************************/
 /* Main Program                                                               */
 /******************************************************************************/
+int a_MeasuredCurrents[NUMBER_OF_MEASUREMENTS];
+unsigned long SystemTime            = 0u;  //50us  <- PWM period
+unsigned long SystemTimeMs          = 0u;  //20 -> 1ms
+long          MeasuredCurrentOffset = 0;
+int           MeasuredCurrent       = 0;
+uint16_t      Measurement           = 0u;           
+bool          OffsetIsSpecified     = false;
 
-static void v_Delay(uint16_t u_NumberOfCounts);
-static i_ConvertToFixedPoint(int ADCBuffer, e_FormatTypes FormatType);
-
+static void v_Delay(long Duration);
+  
 int main(void)
 { 
-  // Buffer for holding measured values.
-  int ADCBuffer = 0;
-  
   //Set current referent value.
-  f_SetReferentCurrent(9);                        //Enter value between -18[A]  to 18[A].
+  //f_SetReferentCurrent(9);                        //Enter value between -18[A]  to 18[A].
 
   //Set referent speed value.
-  f_SetReferentSpeed(2500);                       //Enter value from -3370[rpm] to 3370[rpm] .
+  //f_SetReferentSpeed(2500);                       //Enter value from -3370[rpm] to 3370[rpm] .
   
   //Initialize all peripherals for dsPIC30F4011.
   dsPIC30F4011_v_Init();
   
+  //Initialize current measurement values.
+  memset((void*)&a_MeasuredCurrents[0], 0 , sizeof(a_MeasuredCurrents));
+  
+  v_Delay(ONE_SECOND);
+  
   while(1)
   {
 /********************************WRITING ON TERMINAL***************************/
-    //Catch measurement value.
-    ADCBuffer = ADC_v_Read(1u);
+   //Catch measurement value.
+    //MeasuredCurrent = ADC_v_Read(1u);
     
-#ifdef CURRENT_REGULATOR_TEST
+#ifndef CURRENT_REGULATOR_TEST
     
-    Measured.Current = i_ConvertToFixedPoint(ADCBuffer, FORMAT_1_15);
+    //Measured.Current = i_ConvertToFixedPoint(MeasuredCurrent, FORMAT_1_15);
     
     //Update measured current value.
-    PIReg.s_CurrentReg.MeasuredCurrent = Measured.Current;
+    //PIReg.s_CurrentReg.MeasuredCurrent = Measured.Current;
     
     //Print referent current.
     UART_v_Print( PIReg.s_CurrentReg.ReferentCurrent);		
@@ -59,8 +68,18 @@ int main(void)
     UART_v_Print( PIReg.s_CurrentReg.MeasuredCurrent);    
     //Insert new line.
     UART_v_NewLine();	
+    
+    //Print measured current.
+    UART_v_Print( PIReg.s_CurrentReg.Output);    
+    //Insert new line.
+    UART_v_NewLine();	
+    
+    //Print measured current.
+    UART_v_Print( PDC1 );    
+    //Insert new line.
+    UART_v_NewLine();	
         
-    v_CalculatePIRegOutput(CURRENT_REGULATOR);
+    //v_CalculatePIRegOutput(CURRENT_REGULATOR);
 #endif
     
 #ifdef SPEED_REGULATOR_TEST
@@ -85,39 +104,28 @@ int main(void)
     v_CalculatePIRegOutput(SPEED_REGULATOR);
 #endif
     //Delay writing on terminal.
-    v_Delay(NUMBER_OF_COUNTS);
-     
-/******************************************************************************/  
+    v_Delay(ONE_SECOND);
+  
+/******************************************************************************/ 
+ /*   if ( SystemTimeMs == SIX_SECONDS)
+    {
+      int MeasurementIndex;
+      for (MeasurementIndex = 0; MeasurementIndex < NUMBER_OF_MEASUREMENTS; MeasurementIndex++)
+      {
+        UART_v_NewLine();
+        UART_v_Print(a_MeasuredCurrents[MeasurementIndex]);     
+      }
+      CloseUART1();
+     }
+  * */
   }//while loop
 }//main loop
 
-static i_ConvertToFixedPoint(int ADCBuffer, e_FormatTypes FormatType)
-{ 
-  int ToReturn = 0;
-  
-  if ( FormatType == FORMAT_1_15 )
-  {
-    // Covert to fixed point format 1.15. 
-    // 0 - 1023 -> 0 - 32768
-    ToReturn = (PII_REG_MAX_OUTPUT/1023)*ADCBuffer;
-  }
-  if ( FormatType == FORMAT_3_13 )
-  {
-    // Convert to fixed point format 3.13. 
-    // 0 - 1023 -> 0 - 8192
-    ToReturn = (PIW_REG_MAX_OUTPUT/1023)*ADCBuffer;
-  }
-  
-  return ToReturn;
-}
-
-static void v_Delay(uint16_t u_NumberOfCounts)
+static void v_Delay(long Duration)
 {
-    uint16_t u_Counts = u_NumberOfCounts;
-    while ( u_Counts > 0)
-    {
-      u_Counts--;
-    }
+  unsigned long StartTime; 
+  StartTime = SystemTimeMs;
+  while ( (SystemTimeMs - StartTime) < Duration);
 }
 /**INFO: Another solution for sharing memory problems.
  *__builtin_disi(0x3FFF);//disable all interrupts, except level 7 interrupts

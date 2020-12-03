@@ -9,16 +9,17 @@
 #define	USER_CFG_H
 
 // TEST SCENARIOS
-#define CURRENT_REGULATOR_TEST
+//#define CURRENT_REGULATOR_TEST
 //#define SPEED_REGULATOR_TEST
 
 //PWM frequency
 #define FPWM                      (20000u)                  //PWM frequency 20KHz
 
 //PWM_PERIOD = FCY/(2*FPWM) - 1
-#define PWM_PERIOD                ((FCY/FPWM)*0.5-1)        //49-199-799, depends on configured FCY
-
-#define NUMBER_OF_COUNTS          (20000u)
+#define PWM_PERIOD                (0x02E2)                     //((FCY/FPWM)*0.5-1)        //49-199-799, depends on configured FCY
+#define SIX_SECONDS               (6000)
+#define ONE_SECOND                (1000)
+#define NUMBER_OF_MEASUREMENTS    (400)
 
 #define SHIFT_AMOUNT_1_15         (15)                      // 2^15 = 32768 -> Base value.
 #define SHIFT_AMOUNT_1_13         (13)                      // 2^13 = 8,192 -> Base value.
