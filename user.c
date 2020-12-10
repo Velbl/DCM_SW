@@ -79,13 +79,15 @@ t_DCMInfo DCMInfo =
   };
 
 //Convert Amps to 1.15 format.
-void f_SetReferentCurrent(int ReferentCurrent)
+void f_SetReferentCurrent(int SpeedOutput)
 {
+  int ReferentCurrent = SpeedOutput;
+  
   //Entered value is in the range.
   if ( (ReferentCurrent >= MINIMAL_CURRENT ) && (ReferentCurrent <= MAXIMAL_CURRENT) )
   {
     //Linear scale of entered current value. 
-    PIReg.s_CurrentReg.ReferentCurrent = (PII_REG_MAX_OUTPUT/MAXIMAL_CURRENT)*ReferentCurrent;
+    PIReg.s_CurrentReg.ReferentCurrent = (int)( (float)PII_REG_MAX_OUTPUT / (float)MAXIMAL_CURRENT ) * ReferentCurrent;
   }
   else if ( ReferentCurrent >= MAXIMAL_CURRENT )
   { 
@@ -107,7 +109,7 @@ void f_SetReferentSpeed(int ReferentSpeed)
   if ( (ReferentSpeed >= MINIMAL_SPEED ) && (ReferentSpeed <= MAXIMAL_SPEED) )
   { 
     //Convert RPM to 3.13 format.
-    PIReg.s_SpeedReg.ReferentSpeed = (PIW_REG_MAX_OUTPUT/MAXIMAL_SPEED)*ReferentSpeed;    
+    PIReg.s_SpeedReg.ReferentSpeed = (int)( PIW_REG_MAX_OUTPUT * ( (float)ReferentSpeed / (float)MAXIMAL_SPEED));    
   }
   else if ( ReferentSpeed >= MAXIMAL_SPEED )
   { 

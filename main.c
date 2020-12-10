@@ -29,9 +29,11 @@ tStates State = NOT_INITIALIZED;
 
 typedef void(* StateFunction)(void);
 
+StateFunction p_State;
 
 void v_InitState(void);
 void v_IdleState(void);
+//void v_TestState
 
 static void v_Delay(long Duration);
   
@@ -40,7 +42,7 @@ int main(void)
  
   v_InitState();
   
-  v_Delay(ONE_SECOND);
+  //v_Delay(ONE_SECOND);
   
   while(1)
   {
@@ -69,7 +71,7 @@ void v_IdleState()
     State = IDLE_STATE;
 
     //Print current data.
-    UART_v_Print( 0x01);		
+    UART_v_Print( 0x01 );		
     //Insert new line.
     UART_v_NewLine();		
     
@@ -87,9 +89,9 @@ void v_IdleState()
     UART_v_Print( PIReg.s_CurrentReg.Output);    
     //Insert new line.
     UART_v_NewLine();	
-
+/*
     //Delay writing on terminal.
-    v_Delay(ONE_SECOND);
+    //v_Delay(ONE_SECOND);
     
     //Print speed data.
     UART_v_Print( 0x02);		
@@ -115,10 +117,9 @@ void v_IdleState()
     UART_v_Print( PDC1 );    
     //Insert new line.
     UART_v_NewLine();
-    
+*/
     //Delay writing on terminal.
-    v_Delay(ONE_SECOND);
-    
+    //v_Delay(ONE_SECOND);
 }
 /**INFO: Another solution for sharing memory problems.
  *__builtin_disi(0x3FFF);//disable all interrupts, except level 7 interrupts

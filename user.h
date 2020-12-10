@@ -51,7 +51,7 @@ typedef struct
 //Speed PI regulator parameters.
 typedef struct
 {
-  int       ReferentSpeed;
+  int     ReferentSpeed;
   int       MeasuredSpeed;
   int       Error;
   int       Output;
@@ -95,7 +95,8 @@ void PIReg_v_Init(void);
 void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType);
 
 //Set referent current value in 1.15 format.
-void f_SetReferentCurrent(int ReferentCurrent);
+//void f_SetReferentCurrent(int ReferentCurrent);
+void f_SetReferentCurrent(int SpeedOutput);
 
 //Set referent speed value in 1.13 format.
 void f_SetReferentSpeed(int ReferentSpeed);

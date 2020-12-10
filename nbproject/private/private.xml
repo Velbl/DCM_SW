@@ -3,19 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/adc.h</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/uart.c</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/main.c</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/timers.c</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/user_cfg.h</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/user.c</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/uart.h</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/pwm.h</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/user.h</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/interrupts.c</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/system.h</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/adc.c</file>
-            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DCM_control/DCM_SW/pwm.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/user.h</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/user.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/uart.h</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/user_cfg.h</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/main.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/uart.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/pwm.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/interrupts.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/timers.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/IO_ports.c</file>
+            <file>file:/C:/Users/Pc/Desktop/Graduate%20Thesis/SW/DC_MACHINE_CONTROL.X/DCM_SW/adc.c</file>
         </group>
     </open-files>
 </project-private>

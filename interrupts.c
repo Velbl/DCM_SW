@@ -109,6 +109,7 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
   }
 
 /************************************SPEED   LOOP**********************************************/
+  
   // Read current measurement
   while (BusyADC1());
   
@@ -117,38 +118,38 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
   PIReg.s_SpeedReg.MeasuredSpeed = i_ConvertToFixedPoint(MeasuredSpeed, FORMAT_3_13);
 
   //Set referent speed value.
-  f_SetReferentSpeed(1685);                       //Enter value from -3370[rpm] to 3370[rpm] .
+  f_SetReferentSpeed(1680);                       //Enter value from -3370[rpm] to 3370[rpm] .
       
   v_CalculatePIRegOutput(SPEED_REGULATOR);
+  
       
-  PIReg.s_CurrentReg.ReferentCurrent = PIReg.s_SpeedReg.Output;
-  
-  
 /**********************************************************************************************/
 /************************************CURRENT LOOP**********************************************/
+  // This is proper way of setting referent current.
+  int SpeedOutput = (int)(( (float)MAXIMAL_CURRENT / (float)PIW_REG_MAX_OUTPUT ) * PIReg.s_SpeedReg.Output ); 
+  
+  // Due inability to test speed and current loop together, ref current is given by software.
+  f_SetReferentCurrent(9);
+  
   // Read current measurement
   while (BusyADC1());
   MeasuredCurrent = ADC_v_Read(1u);
   
   PIReg.s_CurrentReg.MeasuredCurrent = i_ConvertToFixedPoint(MeasuredCurrent, FORMAT_1_15);
 
-  f_SetReferentCurrent(9);
+  //f_SetReferentCurrent(18);
       
   v_CalculatePIRegOutput(CURRENT_REGULATOR);
       
   // Scale output value to PERIOD register value.
   Temp = (long)PWM_PERIOD*(long)PIReg.s_CurrentReg.Output;
-      
+ 
   // Update duty cycle value.
   PDC1 = ( (int)(PWM_PERIOD >> 1) + (int)(Temp >> 16) ) << 1;
   PDC2 = PDC1;
-      
+
 /**********************************************************************************************/
   IFS2bits.PWMIF = 0;
 }
 
-void __attribute__((interrupt,no_auto_psv)) _U1TXInterrupt(void)
-{
-
-}
 //INFO: XC16 Compiler User's Guide - Interrupts Section 14.

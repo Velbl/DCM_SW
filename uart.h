@@ -12,11 +12,11 @@
 
  typedef struct
  {
-   uint16_t u_One;
-   uint16_t u_Tenth;
-   uint16_t u_Hundredth;
-   uint16_t u_Thousandth;
-   uint16_t u_TenThousandth;
+   float u_One;
+   float u_Tenth;
+   float u_Hundredth;
+   float u_Thousandth;
+   float u_TenThousandth;
  }t_Number;
  
 void UART_v_Write(int data);
