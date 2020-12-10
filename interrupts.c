@@ -71,31 +71,29 @@
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
-extern int           a_CurrentMeasurements[NUMBER_OF_MEASUREMENTS];
-extern int           a_SpeedMeasurements[NUMBER_OF_MEASUREMENTS];
 extern unsigned long SystemTime;
 extern unsigned long SystemTimeMs;
 extern int           MeasuredCurrent;
 extern int           MeasuredSpeed;
-extern long          MeasuredCurrentOffset;
-extern bool          OffsetIsSpecified;
-extern uint16_t      MeasurementCurrentIdx; 
-extern uint16_t      MeasurementSpeedIdx; 
-
-
-#define CURRENT_START_TIME (2000)
-#define CURRENT_STOP_TIME  (3000)
+extern tStates       State;
 
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
-  LATFbits.LATF0 ^= 1;               //Toggle RF0 pin 
-  IFS0bits.T1IF   = 0;               //Reset the flag
+  if ( State == INIT_STATE )
+  {
+    LATFbits.LATF0  = 1;               //Toggle RF0 pin 
+  }
+   IFS0bits.T1IF    = 0;               //Reset the flag
 }
+
 
 void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 {
-  LATFbits.LATF1 ^= 1;              //Toggle RF1 pin
-  IFS0bits.T2IF   = 0;              //Reset the flag
+ if ( State == IDLE_STATE )
+ {
+   LATFbits.LATF1 ^= 1;               //Toggle RF0 pin 
+ }
+    IFS0bits.T2IF   = 0;               //Reset the flag  
 }
 
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
@@ -109,9 +107,11 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
     // Increase system time in miliseconds.
     SystemTimeMs++;
   }
+
 /************************************SPEED   LOOP**********************************************/
   // Read current measurement
   while (BusyADC1());
+  
   MeasuredSpeed = ADC_v_Read(1u);
   
   PIReg.s_SpeedReg.MeasuredSpeed = i_ConvertToFixedPoint(MeasuredSpeed, FORMAT_3_13);
@@ -123,12 +123,6 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
       
   PIReg.s_CurrentReg.ReferentCurrent = PIReg.s_SpeedReg.Output;
   
-      
-  if ( MeasurementSpeedIdx < NUMBER_OF_MEASUREMENTS )
-  {
-     a_SpeedMeasurements[MeasurementSpeedIdx] = PIReg.s_SpeedReg.MeasuredSpeed;
-     MeasurementSpeedIdx++;
-  }
   
 /**********************************************************************************************/
 /************************************CURRENT LOOP**********************************************/
@@ -149,11 +143,6 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
   PDC1 = ( (int)(PWM_PERIOD >> 1) + (int)(Temp >> 16) ) << 1;
   PDC2 = PDC1;
       
-  if ( MeasurementCurrentIdx < NUMBER_OF_MEASUREMENTS )
-  {
-     a_CurrentMeasurements[MeasurementCurrentIdx] = PIReg.s_CurrentReg.MeasuredCurrent;
-     MeasurementCurrentIdx++;
-  }
 /**********************************************************************************************/
   IFS2bits.PWMIF = 0;
 }

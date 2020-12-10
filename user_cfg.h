@@ -19,7 +19,7 @@
 #define PWM_PERIOD                (0x02E2)                     //((FCY/FPWM)*0.5-1)        //49-199-799, depends on configured FCY
 #define SIX_SECONDS               (6000)
 #define ONE_SECOND                (1000)
-#define NUMBER_OF_MEASUREMENTS    (400)
+#define NUMBER_OF_MEASUREMENTS    (5)
 
 #define SHIFT_AMOUNT_1_15         (15)                      // 2^15 = 32768 -> Base value.
 #define SHIFT_AMOUNT_1_13         (13)                      // 2^13 = 8,192 -> Base value.

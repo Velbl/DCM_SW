@@ -4,6 +4,13 @@
 #include "system.h"
 #include "user_cfg.h"
 
+typedef enum
+{
+  NOT_INITIALIZED = 0x00,
+  INIT_STATE      = 0x01,
+  IDLE_STATE      = 0x02
+}tStates;
+
 //DC machine informations.
 typedef struct
 {
