@@ -6,15 +6,12 @@
  */
 #ifndef PWM_H
 #define	PWM_H
-#include "user.h"            /* variables/params used by user.c               */
+     
+/// Interface for setting the PWM duty cycle.
+void v_SetDutyCyclePWM_v_SetDutyCycle(uint16_t u_PDCx, uint16_t u_DutyRatio, uint8_t u_UpdateDisable);
 
-extern uint16_t u_DutyCycle;
-
-//PWM interface for setting up of the duty cycle.
-void PWM_v_SetDutyCycle(uint16_t u_PDCx, uint16_t u_DutyRatio, uint8_t u_UpdateDisable);
-
-//PWM initialization interface.
-void PWM_v_Init(void);
+/// Interface for PWM configuration.
+void PWM_v_Config(void);
 
 #endif	/* PWM_H */
 

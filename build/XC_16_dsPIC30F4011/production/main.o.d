@@ -3,5 +3,4 @@ main.c  \
 system.h  \
 user.h  \
  user_cfg.h  \
-uart.h  \
-adc.h 
+uart.h 

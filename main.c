@@ -8,119 +8,136 @@
 #endif
 
 #include <stdlib.h>
-#include <stdint.h>        /* Includes uint16_t definition                    */
-#include <stdbool.h>       /* Includes true/false definition                  */
-#include <string.h>
+#include <stdint.h>      
+#include <stdbool.h>      
 
-#include "system.h"        /* System funct/params, like osc/peripheral config */
-#include "user.h"          /* User funct/params, such as InitApp              */
+#include "system.h" 
+#include "user.h" 
 #include "uart.h"
-#include "adc.h"
 
-/******************************************************************************/
-/* Main Program                                                               */
-/******************************************************************************/
-unsigned long SystemTime            = 0u;  //50us  <- PWM period
-unsigned long SystemTimeMs          = 0u;  //20 -> 1ms
-int           MeasuredCurrent       = 0;
-int           MeasuredSpeed         = 0;
+/// Global variable for storing global system time in microseconds.
+/// In every PWM cycle (50us period) this variable is increased.
+unsigned long SystemTime            = 0u; 
 
-tStates State = NOT_INITIALIZED;
+/// Global variable for storing global system time in milliseconds.
+/// In every 20th PWM cycle (1ms period) this variable is increased.
+unsigned long SystemTimeMs          = 0u;
 
-typedef void(* StateFunction)(void);
+/// Global variable for storing information about current system state.
+volatile tStates State = NOT_INITIALIZED;
 
-StateFunction p_State;
+//PI regulators parameters.
+extern t_PIRegulatorData  PIReg;
 
-void v_InitState(void);
-void v_IdleState(void);
-//void v_TestState
-
+// Delay function.
+// User define delay duration by inserting wanted delay in milliseconds.
 static void v_Delay(long Duration);
   
 int main(void)
 { 
- 
   v_InitState();
   
-  //v_Delay(ONE_SECOND);
+  v_Delay(ONE_SECOND);
   
   while(1)
   {
     v_IdleState();
-  }//while loop
-}//main loop
+  }
+}
 
-static void v_Delay(long Duration)
+void v_Delay(long Duration)
 {
   unsigned long StartTime; 
+  
+  // Catch current system time when function is called.
   StartTime = SystemTimeMs;
+  
+  // While system time, measured from calling this function, is not greater than wanted duration, wait and do nothing.
   while ( (SystemTimeMs - StartTime) < Duration);
 }
 
 void v_InitState()
 {
-  State = INIT_STATE;
+  // Update current active state.
+  SetState(INIT_STATE);
   
-  //Initialize all peripherals for dsPIC30F4011.
-  dsPIC30F4011_v_Init();
- 
+  // Initialize all the peripherals.
+  dsPIC30F4011_v_Config();
 }
 
 void v_IdleState()
-{    
-    State = IDLE_STATE;
+{   
+  // Update current active state.
+  SetState(IDLE_STATE);
+  
+/********************CURRENT PI REGULATOR INFORMATIONS*************************/
+#ifdef CURRENT_REG
+  
+  // Print the magic key which marks the beginning of printing current data.
+  UART_v_Print( 0x01 );		
+  // Insert new line.
+  UART_v_NewLine();		
+    
+  // Print referent current.
+  UART_v_Print( PIReg.s_CurrentReg.ReferentCurrent);		
+  // Insert new line.
+  UART_v_NewLine();		
+    
+  // Print measured current.
+  UART_v_Print( PIReg.s_CurrentReg.MeasuredCurrent);    
+  // Insert new line.
+  UART_v_NewLine();	
+    
+  // Print output current from current PI regulator.
+  UART_v_Print( PIReg.s_CurrentReg.Output);    
+  //Insert new line.
+  UART_v_NewLine();	
+  
+#endif // CURRENT_REG
+/******************************************************************************/
 
-    //Print current data.
-    UART_v_Print( 0x01 );		
-    //Insert new line.
-    UART_v_NewLine();		
+/********************SPEED PI REGULATOR INFORMATIONS***************************/
+#ifdef SPEED_REG
+  
+  // Print the magic key which marks the beginning of printing speed data.
+  UART_v_Print( 0x02 );		
+  //Insert new line.
+  UART_v_NewLine();		
     
-    //Print referent current.
-    UART_v_Print( PIReg.s_CurrentReg.ReferentCurrent);		
-    //Insert new line.
-    UART_v_NewLine();		
+  // Print referent speed.
+  UART_v_Print( PIReg.s_SpeedReg.ReferentSpeed);		
+  // Insert new line.
+  UART_v_NewLine();		
     
-    //Print measured current.
-    UART_v_Print( PIReg.s_CurrentReg.MeasuredCurrent);    
-    //Insert new line.
-    UART_v_NewLine();	
-    
-    //Print measured current.
-    UART_v_Print( PIReg.s_CurrentReg.Output);    
-    //Insert new line.
-    UART_v_NewLine();	
-/*
-    //Delay writing on terminal.
-    //v_Delay(ONE_SECOND);
-    
-    //Print speed data.
-    UART_v_Print( 0x02);		
-    //Insert new line.
-    UART_v_NewLine();	
-    
-    //Print referent current.
-    UART_v_Print( PIReg.s_SpeedReg.ReferentSpeed);		
-    //Insert new line.
-    UART_v_NewLine();		
-    
-    //Print measured current.
-    UART_v_Print( PIReg.s_SpeedReg.MeasuredSpeed);    
-    //Insert new line.
-    UART_v_NewLine();	
-    
-    //Print measured current.
-    UART_v_Print( PIReg.s_SpeedReg.Output);    
-    //Insert new line.
-    UART_v_NewLine();	
-    
-    //Print duty cycle value.
-    UART_v_Print( PDC1 );    
-    //Insert new line.
-    UART_v_NewLine();
-*/
-    //Delay writing on terminal.
-    //v_Delay(ONE_SECOND);
+  // Print measured speed.
+  UART_v_Print( PIReg.s_SpeedReg.MeasuredSpeed);    
+  // Insert new line.
+  UART_v_NewLine();	
+   
+  // Print output speed from speed PI regulator.
+  UART_v_Print( PIReg.s_SpeedReg.Output);    
+  //Insert new line.
+  UART_v_NewLine();
+  
+#endif // SPEED_REG
+/******************************************************************************/
+  
+  // Delay writing on terminal for one second.
+  v_Delay(ONE_SECOND);
 }
+
+void SetState(tStates NewState)
+{
+  // Update current active state.
+  State = NewState;
+}
+
+tStates GetState(void)
+{
+  // Return updated active state.
+  return State;
+}
+
 /**INFO: Another solution for sharing memory problems.
  *__builtin_disi(0x3FFF);//disable all interrupts, except level 7 interrupts
  *protected code

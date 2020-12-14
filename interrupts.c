@@ -8,10 +8,10 @@
 #endif
 
 #include <stdint.h> 
-#include <stdbool.h>       /* Includes true/false definition                  */
+#include <stdbool.h>      
 #include "user.h"
-#include "pwm.h"
 #include "adc.h"
+#include "pwm.h"
 /******************************************************************************/
 /* Interrupt Vector Options                                                   */
 /******************************************************************************/
@@ -71,34 +71,58 @@
 /******************************************************************************/
 /* Interrupt Routines                                                         */
 /******************************************************************************/
+  int ref_speed   = 0;
+  int ref_current = 0;
 extern unsigned long SystemTime;
+
 extern unsigned long SystemTimeMs;
-extern int           MeasuredCurrent;
-extern int           MeasuredSpeed;
-extern tStates       State;
+
+extern t_PIRegulatorData  PIReg;
+
+tStates              StateFlag;
+
+// Initialization of all measured values.
+t_MeasuredValues     Measured = 
+{
+  0u,    // Initial measured current is zero.
+  0u,    // Initial measured DC voltage is zero.
+  0u,    // Initial measured speed.
+};
 
 void __attribute__((interrupt,no_auto_psv)) _T1Interrupt(void)
 {
-  if ( State == INIT_STATE )
+  // Catch current system status.
+  StateFlag = GetState();
+  
+  // System is in initialization state, set proper status flag.
+  if ( StateFlag == INIT_STATE )
   {
-    LATFbits.LATF0  = 1;               //Toggle RF0 pin 
+    // Signal that system is initialized.
+    LATFbits.LATF0  = 1;               // Set RF0 pin to 1. 
   }
-   IFS0bits.T1IF    = 0;               //Reset the flag
+  
+   IFS0bits.T1IF    = 0;               // Reset the timer 1 interrupt flag.
 }
 
 
 void __attribute__((interrupt,no_auto_psv)) _T2Interrupt(void)
 {
- if ( State == IDLE_STATE )
- {
-   LATFbits.LATF1 ^= 1;               //Toggle RF0 pin 
- }
-    IFS0bits.T2IF   = 0;               //Reset the flag  
+  // Catch current system status.
+  StateFlag = GetState();
+  
+  // System is in idle state, set proper status flag.
+  if (   StateFlag == IDLE_STATE )
+  {
+    // Signal that system is in idle state.
+    LATFbits.LATF1 ^= 1;               // Toggle RF1 pin. 
+  }
+    IFS0bits.T2IF   = 0;               // Reset the timer 2 interrupt flag.
 }
 
 void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
 {
   long Temp;
+  
   SystemTime++;
   
   // One milisecond has passed.
@@ -107,48 +131,81 @@ void __attribute__((interrupt,no_auto_psv)) _PWMInterrupt(void)
     // Increase system time in miliseconds.
     SystemTimeMs++;
   }
-
+  
+  
 /************************************SPEED   LOOP**********************************************/
+#ifdef SPEED_REG
   
   // Read current measurement
   while (BusyADC1());
   
-  MeasuredSpeed = ADC_v_Read(1u);
+  // Save measured value in structure for storing of all measured values.
+  Measured.Speed = ADC_v_Read(1u);  // Read ADC value from ADCBUF1.
   
-  PIReg.s_SpeedReg.MeasuredSpeed = i_ConvertToFixedPoint(MeasuredSpeed, FORMAT_3_13);
-
-  //Set referent speed value.
-  f_SetReferentSpeed(1680);                       //Enter value from -3370[rpm] to 3370[rpm] .
+  // Convert saved measured speed to fixed point, 3.13 format.
+  // Update measured speed value in speed PI regulator structure.
+  PIReg.s_SpeedReg.MeasuredSpeed = i_ConvertToFixedPoint(Measured.Speed, FORMAT_3_13);
+  
+  f_SetReferentSpeed(ref_speed);                       //Enter value from -3370[rpm] to 3370[rpm] .
       
   v_CalculatePIRegOutput(SPEED_REGULATOR);
   
-      
+#endif // #ifdef SPEED_REG
 /**********************************************************************************************/
+  
 /************************************CURRENT LOOP**********************************************/
-  // This is proper way of setting referent current.
-  int SpeedOutput = (int)(( (float)MAXIMAL_CURRENT / (float)PIW_REG_MAX_OUTPUT ) * PIReg.s_SpeedReg.Output ); 
+#ifdef CURRENT_REG
   
-  // Due inability to test speed and current loop together, ref current is given by software.
-  f_SetReferentCurrent(9);
+#ifdef REAL_SCENARIO
   
-  // Read current measurement
-  while (BusyADC1());
-  MeasuredCurrent = ADC_v_Read(1u);
+  // Output of the speed regulator is reference for the current regulator.
+  // 0 - 8192    -> 0 - 32768
+  // 0 - (-8192) -> 0 - (-32768)
+  int SpeedOutput = (int)(((float)MAXIMAL_CURRENT / (float)PIW_REG_MAX_OUTPUT) * PIReg.s_SpeedReg.Output); 
   
-  PIReg.s_CurrentReg.MeasuredCurrent = i_ConvertToFixedPoint(MeasuredCurrent, FORMAT_1_15);
+  // Set reference current based on speed regulator output.
+  f_SetReferentCurrent(SpeedOutput);
+  
+  // Read current measurement and save it in global structure.
+  //Measured.Current = ADC_v_Read(2u);  // Read ADC value from ADCBUF2.
+  
+#endif // #ifdef REAL_SCENARIO
 
-  //f_SetReferentCurrent(18);
-      
+#ifndef REAL_SCENARIO
+  
+  // Set reference current manually.
+  f_SetReferentCurrent(5);
+  
+#endif // #ifndef REAL_SCENARIO
+  
+  // Wait ADC conversion to be finished.
+  while (BusyADC1());
+  
+  // Read current measurement and save it in global structure.
+  Measured.Current = ADC_v_Read(1u); // Read ADC value from ADCBUF2. 
+
+  
+  // Convert saved measured current to fixed point, 1.15 format.
+  // Update measured current value in current PI regulator structure.
+  PIReg.s_CurrentReg.MeasuredCurrent = i_ConvertToFixedPoint(Measured.Current, FORMAT_1_15);
+  
+
+  
   v_CalculatePIRegOutput(CURRENT_REGULATOR);
       
   // Scale output value to PERIOD register value.
   Temp = (long)PWM_PERIOD*(long)PIReg.s_CurrentReg.Output;
  
   // Update duty cycle value.
+  // PDC1 = ((PWM/2) * Temp)*2
   PDC1 = ( (int)(PWM_PERIOD >> 1) + (int)(Temp >> 16) ) << 1;
+  
+  // Set PDC2 register value to be equal as PDC1 register value.
   PDC2 = PDC1;
-
+  
+#endif // CURRENT_REG
 /**********************************************************************************************/
+  
   IFS2bits.PWMIF = 0;
 }
 

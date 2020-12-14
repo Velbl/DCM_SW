@@ -62,24 +62,22 @@ c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(data
                               c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o) (__data_init_standard)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
                               (__crt_start_mode_normal)
-c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(addsf3.eo)
-                              build/XC_16_dsPIC30F4011/production/uart.o (___addsf3)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(divsf3.eo)
                               build/XC_16_dsPIC30F4011/production/user.o (___divsf3)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
-                              build/XC_16_dsPIC30F4011/production/interrupts.o (_(float, int, long long, short, float, short, int))
+                              build/XC_16_dsPIC30F4011/production/user.o (_(float, int, long long, short, float, short, int))
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
-                              build/XC_16_dsPIC30F4011/production/interrupts.o (___floatsisf)
+                              build/XC_16_dsPIC30F4011/production/user.o (___floatsisf)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fpack.eo)
-                              c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(addsf3.eo) (__fpack)
+                              c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(divsf3.eo) (__fpack)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack.eo)
                               c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fixsfsi.eo) (__funpack)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack2.eo)
-                              c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(addsf3.eo) (__funpack2)
+                              c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(divsf3.eo) (__funpack2)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(futil.eo)
-                              c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(addsf3.eo) (__fPropagateNaN)
+                              c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(divsf3.eo) (__fPropagateNaN)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
-                              build/XC_16_dsPIC30F4011/production/interrupts.o (___mulsf3)
+                              build/XC_16_dsPIC30F4011/production/user.o (___mulsf3)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
                               build/XC_16_dsPIC30F4011/production/interrupts.o (___umodsi3)
 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
@@ -120,23 +118,21 @@ Default Scalar Model: Small
 
 section                    address   length (PC units)   length (bytes) (dec)
 -------                    -------   -----------------   --------------------
-.text                        0x100               0x53c           0x7da  (2010)
-.text                        0x63c               0x5ba           0x897  (2199)
-.dinit                       0xbf6                0x48            0x6c  (108)
-.text                        0xc3e                0x3e            0x5d  (93)
+.text                        0x100               0x46a           0x69f  (1695)
+.text                        0x56a               0x5d0           0x8b8  (2232)
+.dinit                       0xb3a                0x2a            0x3f  (63)
 
-                 Total "program" memory used (bytes):         0x113a  (4410) 9%
+                 Total "program" memory used (bytes):          0xf96  (3990) 8%
 
 
 "data" Memory  [Origin = 0x800, Length = 0x800]
 
 section                    address      alignment gaps    total length  (dec)
 -------                    -------      --------------    -------------------
-.ndata                       0x800                   0            0x40  (64)
-.nbss                        0x840                   0            0x16  (22)
-.ndata                       0x856                   0             0x2  (2)
+.ndata                       0x800                   0            0x20  (32)
+.nbss                        0x820                   0            0x16  (22)
 
-                 Total "data" memory used (bytes):           0x58  (88) 4%
+                 Total "data" memory used (bytes):           0x36  (54) 2%
 
 
 Dynamic Memory Usage
@@ -144,9 +140,9 @@ Dynamic Memory Usage
 region                     address                      maximum length  (dec)
 ------                     -------                      ---------------------
 heap                             0                                   0  (0)
-stack                        0x858                               0x7a8  (1960)
+stack                        0x836                               0x7ca  (1994)
 
-                 Maximum dynamic memory (bytes):          0x7a8  (1960)
+                 Maximum dynamic memory (bytes):          0x7ca  (1994)
 
 Info: Project is using a large data memory model when small data memory model is sufficient.
 
@@ -154,28 +150,24 @@ Info: Project is using a large data memory model when small data memory model is
 External Symbols in Data Memory (by address):
 
                     0x0800                  _PIReg
-                    0x0820                  _DCMInfo
-                    0x0840                  _SystemTime
-                    0x0844                  _SystemTimeMs
-                    0x0848                  _MeasuredCurrent
-                    0x084a                  _MeasuredSpeed
-                    0x084c                  _State
-                    0x084e                  _p_State
-                    0x0850                  _Measured
-                    0x0856                  _u_DutyCycle
+                    0x0820                  _ref_speed
+                    0x0822                  _ref_current
+                    0x0824                  _StateFlag
+                    0x0826                  _Measured
+                    0x082c                  _SystemTime
+                    0x0830                  _SystemTimeMs
+                    0x0834                  _State
 
 External Symbols in Data Memory (by name):
 
-                    0x0820                  _DCMInfo
-                    0x0850                  _Measured
-                    0x0848                  _MeasuredCurrent
-                    0x084a                  _MeasuredSpeed
+                    0x0826                  _Measured
                     0x0800                  _PIReg
-                    0x084c                  _State
-                    0x0840                  _SystemTime
-                    0x0844                  _SystemTimeMs
-                    0x084e                  _p_State
-                    0x0856                  _u_DutyCycle
+                    0x0834                  _State
+                    0x0824                  _StateFlag
+                    0x082c                  _SystemTime
+                    0x0830                  _SystemTimeMs
+                    0x0822                  _ref_current
+                    0x0820                  _ref_speed
 
 External Symbols in Program Memory (by address):
 
@@ -184,112 +176,112 @@ External Symbols in Program Memory (by address):
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
                   0x0001c8                  __T1Interrupt
-                  0x0001dc                  __T2Interrupt
-                  0x000206                  __PWMInterrupt
-                  0x0002cc                  __OscillatorFail
-                  0x0002d2                  __AddressError
-                  0x0002d8                  __StackError
-                  0x0002de                  __MathError
-                  0x0002e4                  __AltOscillatorFail
-                  0x0002ea                  __AltAddressError
-                  0x0002f0                  __AltStackError
-                  0x0002f6                  __AltMathError
-                  0x0002fc                  __DefaultInterrupt
-                  0x000302                  ___subsf3
-                  0x000304                  ___addsf3
-                  0x0003be                  ___divsf3
-                  0x000442                  ___fixsfsi
-                  0x000484                  ___floatsisf
-                  0x00048a                  __fpack
-                  0x0004d6                  __funpack
-                  0x000500                  __funpack2
-                  0x000510                  __fPropagateNaN
-                  0x000522                  __fbopExit
-                  0x00052a                  __fbopReturnNaN
-                  0x000530                  ___mulsf3
-                  0x000598                  ___umodsi3
-                  0x00059e                  ___floatdisf
-                  0x0005be                  ___floatundisf
-                  0x00061c                  ___udivsi3
-                  0x00063c                  _UART_v_Init
-                  0x00066c                  _UART_v_Write
-                  0x00068a                  _UART_v_IsBusy
-                  0x0006a0                  _CloseUART1
-                  0x0006b0                  _UART_v_Print
-                  0x00080e                  _UART_v_NewLine
-                  0x000834                  _dsPIC30F4011_v_Init
-                  0x000844                  _f_SetReferentCurrent
-                  0x000878                  _f_SetReferentSpeed
-                  0x0008bc                  _v_CalculatePIRegOutput
-                  0x0009cc                  _i_ConvertToFixedPoint
-                  0x0009f4                  _PWM_v_SetDutyCycle
-                  0x000a8c                  _PWM_v_Init
-                  0x000b16                  _ADC_v_Read
-                  0x000b2a                  _BusyADC1
-                  0x000b3e                  _ADC_v_Init
-                  0x000b46                  _main
-                  0x000b72                  _v_InitState
-                  0x000b7e                  _v_IdleState
-                  0x000bec                  _Timers_v_Init
-                  0x000c70                  _Ports_v_Init
+                  0x0001ec                  __T2Interrupt
+                  0x000226                  __PWMInterrupt
+                  0x0002b6                  __OscillatorFail
+                  0x0002bc                  __AddressError
+                  0x0002c2                  __StackError
+                  0x0002c8                  __MathError
+                  0x0002ce                  __AltOscillatorFail
+                  0x0002d4                  __AltAddressError
+                  0x0002da                  __AltStackError
+                  0x0002e0                  __AltMathError
+                  0x0002e6                  __DefaultInterrupt
+                  0x0002ec                  ___divsf3
+                  0x000370                  ___fixsfsi
+                  0x0003b2                  ___floatsisf
+                  0x0003b8                  __fpack
+                  0x000404                  __funpack
+                  0x00042e                  __funpack2
+                  0x00043e                  __fPropagateNaN
+                  0x000450                  __fbopExit
+                  0x000458                  __fbopReturnNaN
+                  0x00045e                  ___mulsf3
+                  0x0004c6                  ___umodsi3
+                  0x0004cc                  ___floatdisf
+                  0x0004ec                  ___floatundisf
+                  0x00054a                  ___udivsi3
+                  0x00056a                  _dsPIC30F4011_v_Config
+                  0x00057a                  _f_SetReferentCurrent
+                  0x0005b6                  _f_SetReferentSpeed
+                  0x0005fa                  _v_CalculatePIRegOutput
+                  0x00070a                  _i_ConvertToFixedPoint
+                  0x000732                  _UART_v_Write
+                  0x000750                  _UART_v_IsBusy
+                  0x000766                  _CloseUART1
+                  0x000776                  _UART_v_Print
+                  0x000888                  _UART_v_NewLine
+                  0x0008ae                  _UART_v_Config
+                  0x0008de                  _PWM_v_SetDutyCycle
+                  0x000976                  _PWM_v_Config
+                  0x0009fc                  _ADC_v_Read
+                  0x000a10                  _BusyADC1
+                  0x000a24                  _ADC_v_Config
+                  0x000a2c                  _main
+                  0x000a5e                  _v_InitState
+                  0x000a6a                  _v_IdleState
+                  0x000a92                  _SetState
+                  0x000a9e                  _GetState
+                  0x000af2                  _Timers_v_Config
+                  0x000b2e                  _Ports_v_Config
                   0xf8000a                  __FGS.sec
 
 External Symbols in Program Memory (by name):
 
-                  0x000b3e                  _ADC_v_Init
-                  0x000b16                  _ADC_v_Read
-                  0x000b2a                  _BusyADC1
-                  0x0006a0                  _CloseUART1
-                  0x000a8c                  _PWM_v_Init
-                  0x0009f4                  _PWM_v_SetDutyCycle
-                  0x000c70                  _Ports_v_Init
-                  0x000bec                  _Timers_v_Init
-                  0x00063c                  _UART_v_Init
-                  0x00068a                  _UART_v_IsBusy
-                  0x00080e                  _UART_v_NewLine
-                  0x0006b0                  _UART_v_Print
-                  0x00066c                  _UART_v_Write
-                  0x0002d2                  __AddressError
-                  0x0002ea                  __AltAddressError
-                  0x0002f6                  __AltMathError
-                  0x0002e4                  __AltOscillatorFail
-                  0x0002f0                  __AltStackError
-                  0x0002fc                  __DefaultInterrupt
+                  0x000a24                  _ADC_v_Config
+                  0x0009fc                  _ADC_v_Read
+                  0x000a10                  _BusyADC1
+                  0x000766                  _CloseUART1
+                  0x000a9e                  _GetState
+                  0x000976                  _PWM_v_Config
+                  0x0008de                  _PWM_v_SetDutyCycle
+                  0x000b2e                  _Ports_v_Config
+                  0x000a92                  _SetState
+                  0x000af2                  _Timers_v_Config
+                  0x0008ae                  _UART_v_Config
+                  0x000750                  _UART_v_IsBusy
+                  0x000888                  _UART_v_NewLine
+                  0x000776                  _UART_v_Print
+                  0x000732                  _UART_v_Write
+                  0x0002bc                  __AddressError
+                  0x0002d4                  __AltAddressError
+                  0x0002e0                  __AltMathError
+                  0x0002ce                  __AltOscillatorFail
+                  0x0002da                  __AltStackError
+                  0x0002e6                  __DefaultInterrupt
                   0xf8000a                  __FGS.sec
-                  0x0002de                  __MathError
-                  0x0002cc                  __OscillatorFail
-                  0x000206                  __PWMInterrupt
-                  0x0002d8                  __StackError
+                  0x0002c8                  __MathError
+                  0x0002b6                  __OscillatorFail
+                  0x000226                  __PWMInterrupt
+                  0x0002c2                  __StackError
                   0x0001c8                  __T1Interrupt
-                  0x0001dc                  __T2Interrupt
-                  0x000304                  ___addsf3
-                  0x0003be                  ___divsf3
-                  0x000442                  ___fixsfsi
-                  0x00059e                  ___floatdisf
-                  0x000484                  ___floatsisf
-                  0x0005be                  ___floatundisf
-                  0x000530                  ___mulsf3
-                  0x000302                  ___subsf3
-                  0x00061c                  ___udivsi3
-                  0x000598                  ___umodsi3
+                  0x0001ec                  __T2Interrupt
+                  0x0002ec                  ___divsf3
+                  0x000370                  ___fixsfsi
+                  0x0004cc                  ___floatdisf
+                  0x0003b2                  ___floatsisf
+                  0x0004ec                  ___floatundisf
+                  0x00045e                  ___mulsf3
+                  0x00054a                  ___udivsi3
+                  0x0004c6                  ___umodsi3
                   0x000152                  __data_init
                   0x000152                  __data_init_standard
-                  0x000510                  __fPropagateNaN
-                  0x000522                  __fbopExit
-                  0x00052a                  __fbopReturnNaN
-                  0x00048a                  __fpack
-                  0x0004d6                  __funpack
-                  0x000500                  __funpack2
+                  0x00043e                  __fPropagateNaN
+                  0x000450                  __fbopExit
+                  0x000458                  __fbopReturnNaN
+                  0x0003b8                  __fpack
+                  0x000404                  __funpack
+                  0x00042e                  __funpack2
                   0x00013c                  __psv_init
                   0x000100                  __resetPRI
-                  0x000834                  _dsPIC30F4011_v_Init
-                  0x000844                  _f_SetReferentCurrent
-                  0x000878                  _f_SetReferentSpeed
-                  0x0009cc                  _i_ConvertToFixedPoint
-                  0x000b46                  _main
-                  0x0008bc                  _v_CalculatePIRegOutput
-                  0x000b7e                  _v_IdleState
-                  0x000b72                  _v_InitState
+                  0x00056a                  _dsPIC30F4011_v_Config
+                  0x00057a                  _f_SetReferentCurrent
+                  0x0005b6                  _f_SetReferentSpeed
+                  0x00070a                  _i_ConvertToFixedPoint
+                  0x000a2c                  _main
+                  0x0005fa                  _v_CalculatePIRegOutput
+                  0x000a6a                  _v_IdleState
+                  0x000a5e                  _v_InitState
 
 Memory Configuration
 
@@ -356,7 +348,7 @@ LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libfx-elf.a
                   0x000002          0x2 SHORT 0x0 ((ABSOLUTE (__reset) >> 0x10) & 0x7f)
                   0x000003          0x2 SHORT 0x0
 
-.text             0x000100        0x53c
+.text             0x000100        0x46a
  *(.init)
  .init            0x000100         0x4c c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
                   0x000100                  __resetPRI
@@ -368,66 +360,63 @@ LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libfx-elf.a
  *(.user_init)
  *(.handle)
  *(.isr*)
- .isr.text        0x0001c8        0x104 build/XC_16_dsPIC30F4011/production/interrupts.o
+ .isr.text        0x0001c8         0xee build/XC_16_dsPIC30F4011/production/interrupts.o
                   0x0001c8                  __T1Interrupt
-                  0x0001dc                  __T2Interrupt
-                  0x000206                  __PWMInterrupt
- .isr.text        0x0002cc         0x34 build/XC_16_dsPIC30F4011/production/traps.o
-                  0x0002cc                  __OscillatorFail
-                  0x0002d2                  __AddressError
-                  0x0002d8                  __StackError
-                  0x0002de                  __MathError
-                  0x0002e4                  __AltOscillatorFail
-                  0x0002ea                  __AltAddressError
-                  0x0002f0                  __AltStackError
-                  0x0002f6                  __AltMathError
-                  0x0002fc                  __DefaultInterrupt
+                  0x0001ec                  __T2Interrupt
+                  0x000226                  __PWMInterrupt
+ .isr.text        0x0002b6         0x34 build/XC_16_dsPIC30F4011/production/traps.o
+                  0x0002b6                  __OscillatorFail
+                  0x0002bc                  __AddressError
+                  0x0002c2                  __StackError
+                  0x0002c8                  __MathError
+                  0x0002ce                  __AltOscillatorFail
+                  0x0002d4                  __AltAddressError
+                  0x0002da                  __AltStackError
+                  0x0002e0                  __AltMathError
+                  0x0002e6                  __DefaultInterrupt
  *(.libc)
  *(.libm)
  *(.libdsp)
  *(.lib*)
  .libpic30_crt_start_mode
-                  0x000300          0x2 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
-                  0x000300                  __crt_start_mode
-                  0x000300                  __crt_start_mode_normal
- .libm.subsf3     0x000302         0xbc c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(addsf3.eo)
-                  0x000302                  ___subsf3
-                  0x000304                  ___addsf3
- .libm.divfs3     0x0003be         0x84 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(divsf3.eo)
-                  0x0003be                  ___divsf3
- .libm.fixsfsi    0x000442         0x42 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
-                  0x000442                  _(float, int, long long, short, float, short, int)
+                  0x0002ea          0x2 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt_start_mode_normal.Leo)
+                  0x0002ea                  __crt_start_mode
+                  0x0002ea                  __crt_start_mode_normal
+ .libm.divfs3     0x0002ec         0x84 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(divsf3.eo)
+                  0x0002ec                  ___divsf3
+ .libm.fixsfsi    0x000370         0x42 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
+                  0x000370                  _(float, int, long long, short, float, short, int)
  .libm.floatsisf
-                  0x000484          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
-                  0x000484                  ___floatsisf
- .libm.fpack      0x00048a         0x4c c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fpack.eo)
-                  0x00048a                  __fpack
- .libm.funpack    0x0004d6         0x2a c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack.eo)
-                  0x0004d6                  __funpack
+                  0x0003b2          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
+                  0x0003b2                  ___floatsisf
+ .libm.fpack      0x0003b8         0x4c c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fpack.eo)
+                  0x0003b8                  __fpack
+ .libm.funpack    0x000404         0x2a c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack.eo)
+                  0x000404                  __funpack
  .libm.funpack2
-                  0x000500         0x10 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack2.eo)
-                  0x000500                  __funpack2
+                  0x00042e         0x10 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack2.eo)
+                  0x00042e                  __funpack2
  .libm.fPropagateNaN
-                  0x000510         0x12 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(futil.eo)
-                  0x000510                  __fPropagateNaN
+                  0x00043e         0x12 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x00043e                  __fPropagateNaN
  .libm.fbobExit
-                  0x000522          0x8 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(futil.eo)
-                  0x000522                  __fbopExit
+                  0x000450          0x8 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x000450                  __fbopExit
  .libm.fbopReturnNaN
-                  0x00052a          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(futil.eo)
-                  0x00052a                  __fbopReturnNaN
- .libm.mulsf3     0x000530         0x68 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
-                  0x000530                  ___mulsf3
- .libm.umodsi3    0x000598          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
-                  0x000598                  ___umodsi3
+                  0x000458          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x000458                  __fbopReturnNaN
+ .libm.mulsf3     0x00045e         0x68 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
+                  0x00045e                  ___mulsf3
+ .libm.umodsi3    0x0004c6          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
+                  0x0004c6                  ___umodsi3
  .libm.floatdisf
-                  0x00059e         0x20 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
-                  0x00059e                  ___floatdisf
+                  0x0004cc         0x20 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
+                  0x0004cc                  ___floatdisf
  .libm.floatundisf
-                  0x0005be         0x5e c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
-                  0x0005be                  ___floatundisf
- .libm.udivsi3    0x00061c         0x20 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
-                  0x00061c                  ___udivsi3
+                  0x0004ec         0x5e c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
+                  0x0004ec                  ___floatundisf
+ .libm.udivsi3    0x00054a         0x20 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
+                  0x00054a                  ___udivsi3
 
 usercode
  *(usercode)
@@ -461,7 +450,7 @@ __RESERVED2
 
 __FGS             0xf8000a          0x2
  *(__FGS.sec*)
- __FGS.sec        0xf8000a          0x2 /CW/_FGSà3Ù
+ __FGS.sec        0xf8000a          0x2 /CW/_FGSàÙ
                   0xf8000a                  __FGS.sec
 
 __FICD
@@ -476,72 +465,72 @@ userdata
 .comment
  *(.comment)
 
-.debug_info       0x000000       0x49ca
+.debug_info       0x000000       0x4881
  *(.debug_info)
  .debug_info      0x000000        0x135 build/XC_16_dsPIC30F4011/production/configuration_bits.o
- .debug_info      0x000135        0x7aa build/XC_16_dsPIC30F4011/production/interrupts.o
- .debug_info      0x0008df        0x470 build/XC_16_dsPIC30F4011/production/main.o
- .debug_info      0x000d4f        0x129 build/XC_16_dsPIC30F4011/production/system.o
- .debug_info      0x000e78        0x33d build/XC_16_dsPIC30F4011/production/traps.o
- .debug_info      0x0011b5        0x666 build/XC_16_dsPIC30F4011/production/user.o
- .debug_info      0x00181b        0xbf7 build/XC_16_dsPIC30F4011/production/pwm.o
- .debug_info      0x002412        0x46e build/XC_16_dsPIC30F4011/production/IO_ports.o
- .debug_info      0x002880        0xa87 build/XC_16_dsPIC30F4011/production/timers.o
- .debug_info      0x003307        0xc06 build/XC_16_dsPIC30F4011/production/adc.o
- .debug_info      0x003f0d        0xabd build/XC_16_dsPIC30F4011/production/uart.o
+ .debug_info      0x000135        0x816 build/XC_16_dsPIC30F4011/production/interrupts.o
+ .debug_info      0x00094b        0x477 build/XC_16_dsPIC30F4011/production/main.o
+ .debug_info      0x000dc2        0x129 build/XC_16_dsPIC30F4011/production/system.o
+ .debug_info      0x000eeb        0x33d build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_info      0x001228        0x4ea build/XC_16_dsPIC30F4011/production/user.o
+ .debug_info      0x001712        0xbca build/XC_16_dsPIC30F4011/production/pwm.o
+ .debug_info      0x0022dc        0x467 build/XC_16_dsPIC30F4011/production/IO_ports.o
+ .debug_info      0x002743        0xa8d build/XC_16_dsPIC30F4011/production/timers.o
+ .debug_info      0x0031d0        0xbfb build/XC_16_dsPIC30F4011/production/adc.o
+ .debug_info      0x003dcb        0xab6 build/XC_16_dsPIC30F4011/production/uart.o
  *(.gnu.linkonce.wi.*)
 
-.debug_abbrev     0x000000        0x916
+.debug_abbrev     0x000000        0x912
  *(.debug_abbrev)
  .debug_abbrev    0x000000         0x1f build/XC_16_dsPIC30F4011/production/configuration_bits.o
- .debug_abbrev    0x00001f        0x124 build/XC_16_dsPIC30F4011/production/interrupts.o
- .debug_abbrev    0x000143        0x120 build/XC_16_dsPIC30F4011/production/main.o
- .debug_abbrev    0x000263         0x1f build/XC_16_dsPIC30F4011/production/system.o
- .debug_abbrev    0x000282         0x8a build/XC_16_dsPIC30F4011/production/traps.o
- .debug_abbrev    0x00030c        0x122 build/XC_16_dsPIC30F4011/production/user.o
- .debug_abbrev    0x00042e        0x122 build/XC_16_dsPIC30F4011/production/pwm.o
- .debug_abbrev    0x000550         0x9b build/XC_16_dsPIC30F4011/production/IO_ports.o
- .debug_abbrev    0x0005eb         0xd6 build/XC_16_dsPIC30F4011/production/timers.o
- .debug_abbrev    0x0006c1        0x115 build/XC_16_dsPIC30F4011/production/adc.o
- .debug_abbrev    0x0007d6        0x140 build/XC_16_dsPIC30F4011/production/uart.o
+ .debug_abbrev    0x00001f        0x146 build/XC_16_dsPIC30F4011/production/interrupts.o
+ .debug_abbrev    0x000165        0x12e build/XC_16_dsPIC30F4011/production/main.o
+ .debug_abbrev    0x000293         0x1f build/XC_16_dsPIC30F4011/production/system.o
+ .debug_abbrev    0x0002b2         0x8a build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_abbrev    0x00033c        0x110 build/XC_16_dsPIC30F4011/production/user.o
+ .debug_abbrev    0x00044c        0x100 build/XC_16_dsPIC30F4011/production/pwm.o
+ .debug_abbrev    0x00054c         0x9b build/XC_16_dsPIC30F4011/production/IO_ports.o
+ .debug_abbrev    0x0005e7         0xd6 build/XC_16_dsPIC30F4011/production/timers.o
+ .debug_abbrev    0x0006bd        0x115 build/XC_16_dsPIC30F4011/production/adc.o
+ .debug_abbrev    0x0007d2        0x140 build/XC_16_dsPIC30F4011/production/uart.o
 
-.debug_line       0x000000        0x997
+.debug_line       0x000000        0x939
  *(.debug_line)
  .debug_line      0x000000         0x1a build/XC_16_dsPIC30F4011/production/configuration_bits.o
- .debug_line      0x00001a        0x13f build/XC_16_dsPIC30F4011/production/interrupts.o
- .debug_line      0x000159         0x56 build/XC_16_dsPIC30F4011/production/main.o
- .debug_line      0x0001af         0x1a build/XC_16_dsPIC30F4011/production/system.o
- .debug_line      0x0001c9        0x11d build/XC_16_dsPIC30F4011/production/traps.o
- .debug_line      0x0002e6         0xdc build/XC_16_dsPIC30F4011/production/user.o
- .debug_line      0x0003c2        0x12e build/XC_16_dsPIC30F4011/production/pwm.o
- .debug_line      0x0004f0        0x11f build/XC_16_dsPIC30F4011/production/IO_ports.o
- .debug_line      0x00060f        0x118 build/XC_16_dsPIC30F4011/production/timers.o
- .debug_line      0x000727        0x120 build/XC_16_dsPIC30F4011/production/adc.o
- .debug_line      0x000847        0x150 build/XC_16_dsPIC30F4011/production/uart.o
+ .debug_line      0x00001a        0x13d build/XC_16_dsPIC30F4011/production/interrupts.o
+ .debug_line      0x000157         0x5e build/XC_16_dsPIC30F4011/production/main.o
+ .debug_line      0x0001b5         0x1a build/XC_16_dsPIC30F4011/production/system.o
+ .debug_line      0x0001cf        0x11d build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_line      0x0002ec         0x8c build/XC_16_dsPIC30F4011/production/user.o
+ .debug_line      0x000378        0x125 build/XC_16_dsPIC30F4011/production/pwm.o
+ .debug_line      0x00049d        0x11f build/XC_16_dsPIC30F4011/production/IO_ports.o
+ .debug_line      0x0005bc        0x118 build/XC_16_dsPIC30F4011/production/timers.o
+ .debug_line      0x0006d4        0x120 build/XC_16_dsPIC30F4011/production/adc.o
+ .debug_line      0x0007f4        0x145 build/XC_16_dsPIC30F4011/production/uart.o
 
-.debug_frame      0x000000        0x506
+.debug_frame      0x000000        0x55e
  *(.debug_frame)
- .debug_frame     0x000000         0x7e build/XC_16_dsPIC30F4011/production/interrupts.o
- .debug_frame     0x00007e         0x7c build/XC_16_dsPIC30F4011/production/main.o
- .debug_frame     0x0000fa         0xfe build/XC_16_dsPIC30F4011/production/traps.o
- .debug_frame     0x0001f8         0xa2 build/XC_16_dsPIC30F4011/production/user.o
- .debug_frame     0x00029a         0x62 build/XC_16_dsPIC30F4011/production/pwm.o
- .debug_frame     0x0002fc         0x7c build/XC_16_dsPIC30F4011/production/IO_ports.o
- .debug_frame     0x000378         0x62 build/XC_16_dsPIC30F4011/production/timers.o
- .debug_frame     0x0003da         0x7c build/XC_16_dsPIC30F4011/production/adc.o
- .debug_frame     0x000456         0xb0 build/XC_16_dsPIC30F4011/production/uart.o
+ .debug_frame     0x000000         0xa2 build/XC_16_dsPIC30F4011/production/interrupts.o
+ .debug_frame     0x0000a2         0xb0 build/XC_16_dsPIC30F4011/production/main.o
+ .debug_frame     0x000152         0xfe build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_frame     0x000250         0xa2 build/XC_16_dsPIC30F4011/production/user.o
+ .debug_frame     0x0002f2         0x62 build/XC_16_dsPIC30F4011/production/pwm.o
+ .debug_frame     0x000354         0x7c build/XC_16_dsPIC30F4011/production/IO_ports.o
+ .debug_frame     0x0003d0         0x62 build/XC_16_dsPIC30F4011/production/timers.o
+ .debug_frame     0x000432         0x7c build/XC_16_dsPIC30F4011/production/adc.o
+ .debug_frame     0x0004ae         0xb0 build/XC_16_dsPIC30F4011/production/uart.o
 
-.debug_str        0x000000        0x212
+.debug_str        0x000000        0x1dd
  *(.debug_str)
- .debug_str       0x000000         0x65 build/XC_16_dsPIC30F4011/production/interrupts.o
- .debug_str       0x000065         0x3f build/XC_16_dsPIC30F4011/production/main.o
- .debug_str       0x0000a4          0xc build/XC_16_dsPIC30F4011/production/traps.o
- .debug_str       0x0000b0         0x32 build/XC_16_dsPIC30F4011/production/user.o
- .debug_str       0x0000e2         0x6b build/XC_16_dsPIC30F4011/production/pwm.o
- .debug_str       0x00014d         0x1e build/XC_16_dsPIC30F4011/production/IO_ports.o
- .debug_str       0x00016b         0x38 build/XC_16_dsPIC30F4011/production/timers.o
- .debug_str       0x0001a3         0x3f build/XC_16_dsPIC30F4011/production/adc.o
- .debug_str       0x0001e2         0x30 build/XC_16_dsPIC30F4011/production/uart.o
+ .debug_str       0x000000         0x5a build/XC_16_dsPIC30F4011/production/interrupts.o
+ .debug_str       0x00005a         0x21 build/XC_16_dsPIC30F4011/production/main.o
+ .debug_str       0x00007b          0xc build/XC_16_dsPIC30F4011/production/traps.o
+ .debug_str       0x000087         0x32 build/XC_16_dsPIC30F4011/production/user.o
+ .debug_str       0x0000b9         0x5f build/XC_16_dsPIC30F4011/production/pwm.o
+ .debug_str       0x000118         0x1e build/XC_16_dsPIC30F4011/production/IO_ports.o
+ .debug_str       0x000136         0x38 build/XC_16_dsPIC30F4011/production/timers.o
+ .debug_str       0x00016e         0x3f build/XC_16_dsPIC30F4011/production/adc.o
+ .debug_str       0x0001ad         0x30 build/XC_16_dsPIC30F4011/production/uart.o
 
 .debug_loc
  *(.debug_loc)
@@ -550,26 +539,26 @@ userdata
  *(.debug_macinfo)
 
 .debug_pubnames
-                  0x000000        0x391
+                  0x000000        0x395
  *(.debug_pubnames)
  .debug_pubnames
-                  0x000000         0x46 build/XC_16_dsPIC30F4011/production/interrupts.o
+                  0x000000         0x7f build/XC_16_dsPIC30F4011/production/interrupts.o
  .debug_pubnames
-                  0x000046         0x97 build/XC_16_dsPIC30F4011/production/main.o
+                  0x00007f         0x7f build/XC_16_dsPIC30F4011/production/main.o
  .debug_pubnames
-                  0x0000dd         0xbe build/XC_16_dsPIC30F4011/production/traps.o
+                  0x0000fe         0xbe build/XC_16_dsPIC30F4011/production/traps.o
  .debug_pubnames
-                  0x00019b         0xb2 build/XC_16_dsPIC30F4011/production/user.o
+                  0x0001bc         0x9b build/XC_16_dsPIC30F4011/production/user.o
  .debug_pubnames
-                  0x00024d         0x48 build/XC_16_dsPIC30F4011/production/pwm.o
+                  0x000257         0x3a build/XC_16_dsPIC30F4011/production/pwm.o
  .debug_pubnames
-                  0x000295         0x23 build/XC_16_dsPIC30F4011/production/IO_ports.o
+                  0x000291         0x25 build/XC_16_dsPIC30F4011/production/IO_ports.o
  .debug_pubnames
-                  0x0002b8         0x24 build/XC_16_dsPIC30F4011/production/timers.o
+                  0x0002b6         0x26 build/XC_16_dsPIC30F4011/production/timers.o
  .debug_pubnames
-                  0x0002dc         0x3d build/XC_16_dsPIC30F4011/production/adc.o
+                  0x0002dc         0x3f build/XC_16_dsPIC30F4011/production/adc.o
  .debug_pubnames
-                  0x000319         0x78 build/XC_16_dsPIC30F4011/production/uart.o
+                  0x00031b         0x7a build/XC_16_dsPIC30F4011/production/uart.o
 
 .debug_ranges
  *(.debug_ranges)
@@ -1302,108 +1291,101 @@ LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a
 LOAD c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-c-elf.a
 END GROUP
 OUTPUT(dist/XC_16_dsPIC30F4011/production/DCM_SW.production.elf elf32-pic30)
-LOAD /CW/_FGSà3Ù
+LOAD /CW/_FGSàÙ
 LOAD data_init
 
 .debug_pubtypes
-                  0x0000d8        0x682
+                  0x0000d8        0x649
  .debug_pubtypes
                   0x0000d8         0x12 build/XC_16_dsPIC30F4011/production/configuration_bits.o
  .debug_pubtypes
-                  0x0000ea         0xb8 build/XC_16_dsPIC30F4011/production/interrupts.o
+                  0x0000ea         0xcd build/XC_16_dsPIC30F4011/production/interrupts.o
  .debug_pubtypes
-                  0x0001a2         0x66 build/XC_16_dsPIC30F4011/production/main.o
+                  0x0001b7         0x54 build/XC_16_dsPIC30F4011/production/main.o
  .debug_pubtypes
-                  0x000208         0x12 build/XC_16_dsPIC30F4011/production/system.o
+                  0x00020b         0x12 build/XC_16_dsPIC30F4011/production/system.o
  .debug_pubtypes
-                  0x00021a         0x42 build/XC_16_dsPIC30F4011/production/traps.o
+                  0x00021d         0x42 build/XC_16_dsPIC30F4011/production/traps.o
  .debug_pubtypes
-                  0x00025c         0xab build/XC_16_dsPIC30F4011/production/user.o
+                  0x00025f         0x6f build/XC_16_dsPIC30F4011/production/user.o
  .debug_pubtypes
-                  0x000307        0x14c build/XC_16_dsPIC30F4011/production/pwm.o
+                  0x0002ce        0x14c build/XC_16_dsPIC30F4011/production/pwm.o
  .debug_pubtypes
-                  0x000453         0x7c build/XC_16_dsPIC30F4011/production/IO_ports.o
+                  0x00041a         0x7c build/XC_16_dsPIC30F4011/production/IO_ports.o
  .debug_pubtypes
-                  0x0004cf         0xd1 build/XC_16_dsPIC30F4011/production/timers.o
+                  0x000496         0xd1 build/XC_16_dsPIC30F4011/production/timers.o
  .debug_pubtypes
-                  0x0005a0         0xeb build/XC_16_dsPIC30F4011/production/adc.o
+                  0x000567         0xeb build/XC_16_dsPIC30F4011/production/adc.o
  .debug_pubtypes
-                  0x00068b         0xcf build/XC_16_dsPIC30F4011/production/uart.o
+                  0x000652         0xcf build/XC_16_dsPIC30F4011/production/uart.o
 
 __c30_signature
-                  0x00075a         0x9c
+                  0x000721         0x96
  __c30_signature
-                  0x00075a          0x6 build/XC_16_dsPIC30F4011/production/configuration_bits.o
+                  0x000721          0x6 build/XC_16_dsPIC30F4011/production/configuration_bits.o
  __c30_signature
-                  0x000760          0x6 build/XC_16_dsPIC30F4011/production/interrupts.o
+                  0x000727          0x6 build/XC_16_dsPIC30F4011/production/interrupts.o
  __c30_signature
-                  0x000766          0x6 build/XC_16_dsPIC30F4011/production/main.o
+                  0x00072d          0x6 build/XC_16_dsPIC30F4011/production/main.o
  __c30_signature
-                  0x00076c          0x6 build/XC_16_dsPIC30F4011/production/system.o
+                  0x000733          0x6 build/XC_16_dsPIC30F4011/production/system.o
  __c30_signature
-                  0x000772          0x6 build/XC_16_dsPIC30F4011/production/traps.o
+                  0x000739          0x6 build/XC_16_dsPIC30F4011/production/traps.o
  __c30_signature
-                  0x000778          0x6 build/XC_16_dsPIC30F4011/production/user.o
+                  0x00073f          0x6 build/XC_16_dsPIC30F4011/production/user.o
  __c30_signature
-                  0x00077e          0x6 build/XC_16_dsPIC30F4011/production/pwm.o
+                  0x000745          0x6 build/XC_16_dsPIC30F4011/production/pwm.o
  __c30_signature
-                  0x000784          0x6 build/XC_16_dsPIC30F4011/production/IO_ports.o
+                  0x00074b          0x6 build/XC_16_dsPIC30F4011/production/IO_ports.o
  __c30_signature
-                  0x00078a          0x6 build/XC_16_dsPIC30F4011/production/timers.o
+                  0x000751          0x6 build/XC_16_dsPIC30F4011/production/timers.o
  __c30_signature
-                  0x000790          0x6 build/XC_16_dsPIC30F4011/production/adc.o
+                  0x000757          0x6 build/XC_16_dsPIC30F4011/production/adc.o
  __c30_signature
-                  0x000796          0x6 build/XC_16_dsPIC30F4011/production/uart.o
+                  0x00075d          0x6 build/XC_16_dsPIC30F4011/production/uart.o
  __c30_signature
-                  0x00079c          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
+                  0x000763          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(crt0_standard.o)
  __c30_signature
-                  0x0007a2          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
+                  0x000769          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\liblega-pic30-elf.a(data_init_standard.o)
  __c30_signature
-                  0x0007a8          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(addsf3.eo)
+                  0x00076f          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(divsf3.eo)
  __c30_signature
-                  0x0007ae          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(divsf3.eo)
+                  0x000775          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
  __c30_signature
-                  0x0007b4          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fixsfsi.eo)
+                  0x00077b          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
  __c30_signature
-                  0x0007ba          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatsisf.eo)
+                  0x000781          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fpack.eo)
  __c30_signature
-                  0x0007c0          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(fpack.eo)
+                  0x000787          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack.eo)
  __c30_signature
-                  0x0007c6          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack.eo)
+                  0x00078d          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack2.eo)
  __c30_signature
-                  0x0007cc          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(funpack2.eo)
+                  0x000793          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(futil.eo)
  __c30_signature
-                  0x0007d2          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(futil.eo)
+                  0x000799          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
  __c30_signature
-                  0x0007d8          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(mulsf3.eo)
+                  0x00079f          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
  __c30_signature
-                  0x0007de          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(umodsi3.eo)
+                  0x0007a5          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
  __c30_signature
-                  0x0007e4          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatdisf.eo)
+                  0x0007ab          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
  __c30_signature
-                  0x0007ea          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(floatundisf.eo)
- __c30_signature
-                  0x0007f0          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
+                  0x0007b1          0x6 c:/program files/microchip/xc16/v1.60/bin/bin/../../lib\libm-elf.a(udivsi3.eo)
 
-.ndata              0x0800         0x40
- .ndata             0x0800         0x40 build/XC_16_dsPIC30F4011/production/user.o
+.ndata              0x0800         0x20
+ .ndata             0x0800         0x20 build/XC_16_dsPIC30F4011/production/user.o
                     0x0800                  _PIReg
-                    0x0820                  _DCMInfo
 
-.nbss               0x0840         0x16
- .nbss              0x0840         0x10 build/XC_16_dsPIC30F4011/production/main.o
-                    0x0840                  _SystemTime
-                    0x0844                  _SystemTimeMs
-                    0x0848                  _MeasuredCurrent
-                    0x084a                  _MeasuredSpeed
-                    0x084c                  _State
-                    0x084e                  _p_State
- .nbss              0x0850          0x6 build/XC_16_dsPIC30F4011/production/user.o
-                    0x0850                  _Measured
-
-.ndata              0x0856          0x2
- .ndata             0x0856          0x2 build/XC_16_dsPIC30F4011/production/pwm.o
-                    0x0856                  _u_DutyCycle
+.nbss               0x0820         0x16
+ .nbss              0x0820          0xc build/XC_16_dsPIC30F4011/production/interrupts.o
+                    0x0820                  _ref_speed
+                    0x0822                  _ref_current
+                    0x0824                  _StateFlag
+                    0x0826                  _Measured
+ .nbss              0x082c          0xa build/XC_16_dsPIC30F4011/production/main.o
+                    0x082c                  _SystemTime
+                    0x0830                  _SystemTimeMs
+                    0x0834                  _State
 
 .config_ICS       0xf8000c          0x2
  .config_ICS      0xf8000c          0x2 build/XC_16_dsPIC30F4011/production/configuration_bits.o
@@ -1474,37 +1456,37 @@ __c30_signature
  .aivt._AltMathError
                   0x00008c          0x2 build/XC_16_dsPIC30F4011/production/traps.o
 
-.text             0x00063c        0x5ba
- .text            0x00063c        0x1f8 build/XC_16_dsPIC30F4011/production/uart.o
-                  0x00063c                  _UART_v_Init
-                  0x00066c                  _UART_v_Write
-                  0x00068a                  _UART_v_IsBusy
-                  0x0006a0                  _CloseUART1
-                  0x0006b0                  _UART_v_Print
-                  0x00080e                  _UART_v_NewLine
- .text            0x000834        0x1c0 build/XC_16_dsPIC30F4011/production/user.o
-                  0x000834                  _dsPIC30F4011_v_Init
-                  0x000844                  _f_SetReferentCurrent
-                  0x000878                  _f_SetReferentSpeed
-                  0x0008bc                  _v_CalculatePIRegOutput
-                  0x0009cc                  _i_ConvertToFixedPoint
- .text            0x0009f4         0xb6 build/XC_16_dsPIC30F4011/production/pwm.o
-                  0x0009f4                  _PWM_v_SetDutyCycle
-                  0x000a8c                  _PWM_v_Init
- .text            0x000aaa         0x9c build/XC_16_dsPIC30F4011/production/adc.o
-                  0x000b16                  _ADC_v_Read
-                  0x000b2a                  _BusyADC1
-                  0x000b3e                  _ADC_v_Init
- .text            0x000b46         0x5a build/XC_16_dsPIC30F4011/production/main.o
-                  0x000b46                  _main
-                  0x000b72                  _v_InitState
-                  0x000b7e                  _v_IdleState
- .text            0x000ba0         0x56 build/XC_16_dsPIC30F4011/production/timers.o
-                  0x000bec                  _Timers_v_Init
+.text             0x00056a        0x5d0
+ .text            0x00056a        0x1c8 build/XC_16_dsPIC30F4011/production/user.o
+                  0x00056a                  _dsPIC30F4011_v_Config
+                  0x00057a                  _f_SetReferentCurrent
+                  0x0005b6                  _f_SetReferentSpeed
+                  0x0005fa                  _v_CalculatePIRegOutput
+                  0x00070a                  _i_ConvertToFixedPoint
+ .text            0x000732        0x1ac build/XC_16_dsPIC30F4011/production/uart.o
+                  0x000732                  _UART_v_Write
+                  0x000750                  _UART_v_IsBusy
+                  0x000766                  _CloseUART1
+                  0x000776                  _UART_v_Print
+                  0x000888                  _UART_v_NewLine
+                  0x0008ae                  _UART_v_Config
+ .text            0x0008de         0xb2 build/XC_16_dsPIC30F4011/production/pwm.o
+                  0x0008de                  _PWM_v_SetDutyCycle
+                  0x000976                  _PWM_v_Config
+ .text            0x000990         0x9c build/XC_16_dsPIC30F4011/production/adc.o
+                  0x0009fc                  _ADC_v_Read
+                  0x000a10                  _BusyADC1
+                  0x000a24                  _ADC_v_Config
+ .text            0x000a2c         0x7a build/XC_16_dsPIC30F4011/production/main.o
+                  0x000a2c                  _main
+                  0x000a5e                  _v_InitState
+                  0x000a6a                  _v_IdleState
+                  0x000a92                  _SetState
+                  0x000a9e                  _GetState
+ .text            0x000aa6         0x56 build/XC_16_dsPIC30F4011/production/timers.o
+                  0x000af2                  _Timers_v_Config
+ .text            0x000afc         0x3e build/XC_16_dsPIC30F4011/production/IO_ports.o
+                  0x000b2e                  _Ports_v_Config
 
-.dinit            0x000bf6         0x48
- .dinit           0x000bf6         0x48 data_init
-
-.text             0x000c3e         0x3e
- .text            0x000c3e         0x3e build/XC_16_dsPIC30F4011/production/IO_ports.o
-                  0x000c70                  _Ports_v_Init
+.dinit            0x000b3a         0x2a
+ .dinit           0x000b3a         0x2a data_init

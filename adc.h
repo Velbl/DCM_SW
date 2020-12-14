@@ -7,16 +7,17 @@
 
 #ifndef ADC_H
 #define	ADC_H
-#include "system.h"
 
-//A/D converter interface for reading of the A/D buffer values.
+/// A/D convertor interface for reading of the A/D buffer values.
+/// This function reads from one of the 16 ADC Buffers (ADCBUF0 - ADCBUFF).
 uint16_t ADC_v_Read(uint8_t u_BufferIndex);
 
-//ADC convertor is busy, conversion is not done.
+/// A/D convertor interface which returns ADC status register value.
+/// ADC status register value tells us if ADC convertor is busy or not.
 uint8_t BusyADC1(void);
 
-//A/D converter initialization interface.
-void ADC_v_Init(void);
+/// Interface for A/D convertor configuraton.
+void ADC_v_Config(void);
 
 
 #endif	/* ADC_H */

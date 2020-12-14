@@ -50,7 +50,6 @@
 #pragma config FOS = PRI                // Oscillator Source (Primary Oscillator)
 #pragma config FCKSMEN = CSW_FSCM_OFF   // Clock Switching and Monitor (Sw Disabled, Mon Disabled)
 
-//Same as writing: _FOSC(XT & PRI & CSW_FSCM_OFF);
 // FWDT
 #pragma config FWPSB = WDTPSB_16        // WDT Prescaler B (1:16)
 #pragma config FWPSA = WDTPSA_512       // WDT Prescaler A (1:512)

@@ -1,116 +1,112 @@
 #ifndef DCM_USER
 #define DCM_USER
 
-#include "system.h"
 #include "user_cfg.h"
 
+/// Informations about system state.
 typedef enum
 {
+  /// System is not initialized.
   NOT_INITIALIZED = 0x00,
+  /// System is initialized, ready for work.
   INIT_STATE      = 0x01,
+  /// System is in idle state.
+  /// All wanted values from PI regulators (speed and current) are printed on terminal.
   IDLE_STATE      = 0x02
 }tStates;
 
-//DC machine informations.
-typedef struct
-{
-  float    f_Ra;          //Armature resistance.
-  float    f_La;          //Armature inductance.
-  float    f_Ta;          //Time constant of the electrical module.
-  float    f_F;           //Flux.
-  float    f_J;           //Moment of inertia.
-  uint16_t u_wn;          //Nominal angular frequency in rad/s.
-  uint16_t u_nn;          //Nominal angular speed in rpm.
-  uint16_t u_Udc;         //Nominal DC bus voltage.
-  uint16_t u_Uan;         //Nominal armature voltage.
-  uint8_t  u_Ian;         //Nominal armature current.
-  uint8_t  u_Reserved[3]; //Reserved bytes for proper memory alignment.
-}t_DCMInfo;
-
-//Sensor values.
+/// Informations about valuesSensor values.
 typedef struct 
 {
-  int  Current;    //Measured armature current.                        (1.15 format)
+  int  Current;    //Measured armature current. (measured from solder probe)                       
   int  VoltageDC;  //Measured DC voltage.
-  int  Speed;      //Measured speed. (electromotive force in our case) (1.13 format)
+  int  Speed;      //Measured speed. (electromotive force in our case) 
 }t_MeasuredValues;
 
-//Current PI regulator parameters.
+/// Informations about current PI regulator.
 typedef struct
 {
-  int       ReferentCurrent;
-  int       MeasuredCurrent;
-  int       Error;
-  int       Output;
-  int       Kpi;         //Proportional amplification of current loop.
-  int       Kii;         //Integral amplification of current loop.
-  int       MaxOutput;
-  int       MinOutput;
+  int       ReferentCurrent; /// Referent current (speed PI regulator output).
+  int       MeasuredCurrent; /// Measured current (measured value from solder probe).
+  int       Error;           /// Deference between referent and measured current.
+  int       Output;          /// Calculated current PI regulator output.
+  int       Kpi;             /// Proportional amplification of current loop.
+  int       Kii;             /// Integral amplification of current loop.
+  int       MaxOutput;       /// Maximal current output limit.
+  int       MinOutput;       /// Minimal current output limit.
 }t_CurrentReg;
 
-//Speed PI regulator parameters.
+/// Informations about speed PI regulator.
 typedef struct
 {
-  int     ReferentSpeed;
-  int       MeasuredSpeed;
-  int       Error;
-  int       Output;
-  int       Kpw;        //Proportional amplification of speed loop.
-  int       Kiw;        //Integral amplification of speed loop.
-  int       MaxOutput;
-  int       MinOutput;
+  int       ReferentSpeed; /// Referent speed (user defined speed).
+  int       MeasuredSpeed; /// Measured speed (measured electromotive force, no encoder available)
+  int       Error;         /// Deference between referent and measured speed.
+  int       Output;        /// Calculated speed PI regulator output.
+  int       Kpw;           /// Proportional amplification of speed loop.
+  int       Kiw;           /// Integral amplification of speed loop.
+  int       MaxOutput;     /// Maximal speed output limit.
+  int       MinOutput;     /// Minimal speed output limit.
 }t_SpeedReg;
 
-//PI regulators.
+/// Structure holding informations about all PI regulators.
 typedef struct
 {
+  /// Informations about current PI regulator.
   t_CurrentReg s_CurrentReg;
+  /// Informations about speed PI regulator.
   t_SpeedReg   s_SpeedReg;
 }t_PIRegulatorData;
 
-//Informations about direct current machine.
-extern t_DCMInfo          DCMInfo;
+/// Configuration of all dsPIC30F4011 peripherals.
+void dsPIC30F4011_v_Config(void); 
 
-//Measurement and reference values.
-extern t_MeasuredValues   Measured;
+/// Function which perform system init state actions.
+/// Set state to INIT_STATE.
+/// Call dsPIC30F4011_v_Init() function, for peripherals initialization.
+void v_InitState(void);
+  
+/// Function which perform system idle state actions.
+/// Set state to IDLE_STATE.
+/// Write all PI regulators values on terminal.
+void v_IdleState(void);
 
-//PI regulators parameters.
-extern t_PIRegulatorData  PIReg;
-
-//extern uint16_t a_ADCBuffers[NUMBER_OF_USED_BUFFERS];
-
-//Initialization of all dsPIC30F4011 peripherals..
-void dsPIC30F4011_v_Init(void); 
-
-//Initialization of DC machine parameters.
-void DCM_v_Init(void);
-
-//Initialization of sensor parameters.
-void Sensor_v_Init(void);
-
-//Init of PI regulators.
-void PIReg_v_Init(void);
-
-//Calculation of output for wanted PI regulator.
+/// Function which perform calculations for wanted PI regulator.
+/// Based on measured value and referent value,
+/// error value is calculated.
+/// Based on: error value, calculated proportional amplification parameter 
+/// and integral amplification parameter, wanted PI regulator output is calculated.
 void v_CalculatePIRegOutput(e_RegulatorTypes RegulatorType);
 
-//Set referent current value in 1.15 format.
-//void f_SetReferentCurrent(int ReferentCurrent);
-void f_SetReferentCurrent(int SpeedOutput);
+/// Set referent current value in amperes [A].
+/// Insert value from -18A (- nominal current) to 18A (nominal current).
+/// Real current referent value is calculated speed output from speed PI regulator.
+void f_SetReferentCurrent(int SpeedOutput);                            
 
-//Set referent speed value in 1.13 format.
+/// Set referent speed value in round per minutes [rpm].
+/// Insert value from 0rpm to 3370rpm (nominal speed).
+/// Reference speed value is set by potentiometer.
 void f_SetReferentSpeed(int ReferentSpeed);
 
-int i_ConvertToFixedPoint(int ADCBuffer, e_FormatTypes FormatType);
+/// Function which perform transformation of measured value from floating point to proper fixed point format. 
+/// For 1.15 fixed point format, measured input from 0 to 1023 is scaled from 0 to 32768.
+/// For 3.13 fixed point format, measured input from 0 to 1023 is scaled from 0 to 8192.
+int i_ConvertToFixedPoint(int MeasuredValue, e_FormatTypes FormatType);
 
-//Interface for getting referent value.
-uint16_t u_GetReferentValue(void);
+/// Setter function which update active state.
+void SetState(tStates NewState);
 
-//Interrupts definitions.
+/// Getter function which return updated active state.
+tStates GetState(void);
+
+/// Timer 1 interrupt, function definition.
 void _ISRFAST _T1Interrupt(void); 
+
+/// Timer 2 interrupt, function definition.
 void _ISRFAST _T2Interrupt(void); 
+
+/// PWM interrupt, function definition.
 void _ISRFAST _PWMInterrupt(void);
-void _ISRFAST _U1TXInterrupt(void);
 
 #endif //DCM_USER
 

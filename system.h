@@ -9,10 +9,10 @@
 //FOSC = Frequency of one instruction cycle.
 #define FOSC      8000000L                //8MHz crystal clock.
 
-/** FCY = Frequency of one instruction which take more than one instruction cycle.
- *  In dsPIC30F4011 one instruction takes four instruction cycles.
- *  FCY = (SYS_FREQ * PLL MULTIPLIER)/(PROGRAMMABLE POSTSCALER * 4) 
- */
+/// FCY = Frequency of one instruction which take more than one instruction cycle.
+/// In dsPIC30F4011 one instruction takes four instruction cycles.
+/// FCY = (SYS_FREQ * PLL MULTIPLIER)/(PROGRAMMABLE POSTSCALER * 4) 
+
 #ifdef PLL1
   #define FCY       ((FOSC * PLL1)  / 4 )   //2MIPS (milion instructions per second)
 #elif  PLL4

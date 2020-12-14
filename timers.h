@@ -8,7 +8,9 @@
 #ifndef TIMERS_H
 #define	TIMERS_H
 
-void Timers_v_Init(void);
+/// Interface for timers configuration.
+/// Configure Timer 1 and Timer 2 registers.
+void Timers_v_Config(void);
 
 #endif	/* TIMERS_H */
 
